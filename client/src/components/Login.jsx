@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import { auth } from "../services/auth";
+// import { auth } from "../services/auth";
 
 const Login = () => {
     const [user_email, setEmail] = useState("");
@@ -12,14 +12,18 @@ const Login = () => {
         event.preventDefault();
 
         try {
-            await axios.post(`http://localhost:5500/api/login`, {
-                user_email,
-                user_password,
-            });
-            // console.log(res);
-            // res()
-            // console.log(session)
-            // console.log("Login successful. Token:", token, "Email:", email);
+            const res = await axios.post(
+                `http://localhost:5500/api/login`,
+                {
+                    user_email,
+                    user_password,
+                },
+                {
+                    withCredentials: true,
+                }
+            );
+            const authToken = res.data;
+            console.log(authToken);
             navigate("/chat");
         } catch (error) {
             console.error("Login failed:", error);

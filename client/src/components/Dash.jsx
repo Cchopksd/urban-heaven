@@ -4,17 +4,15 @@ import axios from "axios";
 
 const Dash = () => {
     const [data, setData] = useState([]);
+    // console.log(data)
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    "http://localhost:5500/dashboard",
+                    "http://localhost:5500/api/dashboard",
                     {
                         withCredentials: true,
-                        headers: {
-                            "Content-Type": "application/json",
-                            // และ headers อื่น ๆ ที่อาจจะต้องการ
-                        },
                     }
                 );
                 setData(response.data);
@@ -30,7 +28,8 @@ const Dash = () => {
         <div>
             <Navbar />
             <p>Dashboard</p>
-            <p>{`data: ${data}`}</p>
+            <p>{`data: ${data.user}`}</p>
+            <p></p>
         </div>
     );
 };

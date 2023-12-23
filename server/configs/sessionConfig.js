@@ -1,10 +1,6 @@
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
-const crypto = require('crypto');
 const { databaseConfig } = require('./connectDB');
-
-// const secret = crypto.randomBytes(32).toString('hex');
-// console.log(secret);
 
 const sessionConfig = session({
     store: new pgSession({
@@ -12,10 +8,14 @@ const sessionConfig = session({
         tableName: 'session',
         pruneSessionInterval: 300000,
     }),
-    secret: 'asdfsdfadfas',
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 },
+    // cookie: { secure: false },
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        secure: process.env.NODE_ENV === 'production', // Set to true in production (if using HTTPS)
+    },
 });
 
 
