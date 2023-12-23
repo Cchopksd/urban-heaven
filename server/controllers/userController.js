@@ -2,10 +2,8 @@ const { registerModel,
     checkUserExists,
     loginModel
 } = require('../models/userModel')
-// const session = require('../configs/sessionConfig')
 const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 
 exports.registerController = async (req, res) => {
     try {
@@ -58,7 +56,6 @@ exports.registerController = async (req, res) => {
 exports.loginController = async (req, res, next) => {
     try {
         const { user_email, user_password } = req.body;
-        // console.log(next)
 
         if (!user_email) {
             return res.status(404).json({ message: "Enter your email address" });
@@ -72,11 +69,7 @@ exports.loginController = async (req, res, next) => {
             const isPasswordMatch = await bcrypt.compareSync(user_password, userInfo.user_password);
             const { username, user_id } = userInfo
             if (isPasswordMatch) {
-                // console.log(userInfo)
                 req.session.user = { username };
-                // console.log(req.session)
-                // console.log('Session created:', req.session.userInfo);
-                // const token = jwt.sign({ user_email: userInfo.user_email }, 'sdfasdfasf', { expiresIn: '1h' });
 
                 return res.status(200).json({ message: 'Login success', user_email })
             } else {

@@ -7,16 +7,20 @@ require('dotenv').config()
 const { databaseConfig } = require('./configs/connectDB')
 const { sessionConfig } = require('./configs/sessionConfig');
 const userRoute = require('./routes/userRoute')
-const { isAuthenticated } = require('./middlewares/authMiddleware')
+const dashboardRoute = require('./routes/dashboardRoute')
+
 
 PORT = process.env.PORT || 5500
 
 const app = express();
-app.use(cors())
-app.use(sessionConfig);
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
 app.use(express.json());
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: true }))
+app.use(sessionConfig);
 
 const server = createServer(app);
 
@@ -40,7 +44,6 @@ io.on('connection', (socket) => {
     console.log(`⚡: ${socket.id} user just connected!`);
     socket.on('send_message', (data) => {
         socket.broadcast.emit("receive_message", data);
-        // console.log(data)
     });
     socket.on('disconnect', () => {
         console.log('🔥: A user disconnected');
@@ -49,12 +52,7 @@ io.on('connection', (socket) => {
 
 
 app.use('/api', userRoute);
-
-app.get('/dashboard', isAuthenticated, (req, res) => {
-    console.log(req.session.user)
-    const { username, } = req.session.user
-    res.send(`Welcome, ${username}!`);
-});
+app.use('/api', dashboardRoute);
 
 
 server.listen(PORT, () => {
