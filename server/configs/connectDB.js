@@ -6,6 +6,5 @@ exports.databaseConfig = new Pool({
     database: 'chat_app',
     user: 'postgres',
     password: 'password',
-    timezone: 'Asia/Bangkok',
     // connectString
 })
