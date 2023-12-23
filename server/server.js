@@ -7,11 +7,9 @@ require('dotenv').config()
 const { databaseConfig } = require('./configs/connectDB')
 const { sessionConfig } = require('./configs/sessionConfig');
 const userRoute = require('./routes/userRoute')
-const { authMiddleware } = require('./middlewares/authMiddleware')
+const { isAuthenticated } = require('./middlewares/authMiddleware')
 
 PORT = process.env.PORT || 5500
-
-// console.log(databaseConfig)
 
 const app = express();
 app.use(cors())
@@ -30,6 +28,7 @@ databaseConfig.query('SELECT NOW()', (err) => {
     }
 })
 
+
 const io = new Server(server, {
     cors: {
         origin: "*",
@@ -37,12 +36,11 @@ const io = new Server(server, {
     }
 });
 
-//Add this before the app.get() block
 io.on('connection', (socket) => {
     console.log(`⚡: ${socket.id} user just connected!`);
     socket.on('send_message', (data) => {
         socket.broadcast.emit("receive_message", data);
-        console.log(data)
+        // console.log(data)
     });
     socket.on('disconnect', () => {
         console.log('🔥: A user disconnected');
@@ -52,11 +50,15 @@ io.on('connection', (socket) => {
 
 app.use('/api', userRoute);
 
-
-app.use('/protected', authMiddleware);
-
+app.get('/dashboard', isAuthenticated, (req, res) => {
+    console.log(req.session.user)
+    const { username, } = req.session.user
+    res.send(`Welcome, ${username}!`);
+});
 
 
 server.listen(PORT, () => {
     console.log(`listening on port ${PORT}`);
 });
+
+

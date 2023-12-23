@@ -41,3 +41,14 @@ exports.checkUserExists = async (field, value) => {
         throw err;
     }
 };
+
+exports.getAllModel = async () => {
+    try {
+        const result = await databaseConfig.query(
+            `SELECT * FROM users`
+        )
+        return result.rows;
+    } catch (err) {
+        throw err;
+    }
+}

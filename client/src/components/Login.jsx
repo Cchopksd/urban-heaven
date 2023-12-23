@@ -1,6 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./Navbar";
+import { auth } from "../services/auth";
 
 const Login = () => {
     const [user_email, setEmail] = useState("");
@@ -14,6 +16,10 @@ const Login = () => {
                 user_email,
                 user_password,
             });
+            // console.log(res);
+            // res()
+            // console.log(session)
+            // console.log("Login successful. Token:", token, "Email:", email);
             navigate("/chat");
         } catch (error) {
             console.error("Login failed:", error);
@@ -22,6 +28,7 @@ const Login = () => {
 
     return (
         <div>
+            <Navbar />
             <form onSubmit={handleSubmit}>
                 <input
                     type='text'

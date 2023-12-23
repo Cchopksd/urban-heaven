@@ -1,11 +1,12 @@
 import io from "socket.io-client";
-import axios from "axios";
 var socket = io.connect("http://localhost:5500");
+import axios from "axios";
 import { useEffect, useState } from "react";
+import Navbar from "./Navbar";
+import { useNavigate } from "react-router-dom";
 
-// Emitting a message to the server
-
-function ChatPage() {
+const ChatPage = () => {
+    const navigate = useNavigate();
     const [message, setMessage] = useState("");
     const [messageReceived, setMessageReceived] = useState("");
     const sendMessage = () => {
@@ -13,25 +14,33 @@ function ChatPage() {
     };
 
     useEffect(() => {
-        socket.on("receive_message", (data) => {
-            setMessageReceived(data.message);
-        });
-
-        return () => {
-            socket.off("receive_message");
+        const handleReceiveMessage = (data) => {
+            setMessageReceived(...messageReceived, data.message);
+            console.log(...messageReceived);
         };
-    }, []);
+
+        socket.on("receive_message", handleReceiveMessage);
+
+        return async () => {
+            await socket.off("receive_message", handleReceiveMessage);
+        };
+    }, [socket]);
 
     const handleLogout = async () => {
-        try {
-            await axios.post(`http://localhost:5500/api/logout`);
-        } catch (error) {
-            console.error("Logout error:", error);
-        }
+        // try {
+        //     await axios.post(`http://localhost:5500/api/logout`);
+        // } catch (error) {
+        //     console.error("Logout error:", error);
+        // }
+        localStorage.removeItem("token");
+        navigate("/");
     };
+    // console.log("User Data from localStorage:", token);
 
     return (
         <div>
+            <Navbar />
+
             <button onClick={handleLogout}>Logout</button>
             <input
                 placeholder='Message...'
@@ -41,9 +50,9 @@ function ChatPage() {
             />
             <button onClick={sendMessage}>Send message</button>
             <h1>Message :</h1>
-            {messageReceived}
+            <p>{messageReceived}</p>
         </div>
     );
-}
+};
 
 export default ChatPage;

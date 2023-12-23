@@ -70,11 +70,14 @@ exports.loginController = async (req, res, next) => {
         // console.log(userInfo)
         if (userInfo) {
             const isPasswordMatch = await bcrypt.compareSync(user_password, userInfo.user_password);
-            const { user_email } = userInfo
+            const { username, user_id } = userInfo
             if (isPasswordMatch) {
                 // console.log(userInfo)
-                req.session.userInfo = userInfo
-                console.log('Session created:', req.session.cookie);
+                req.session.user = { username };
+                // console.log(req.session)
+                // console.log('Session created:', req.session.userInfo);
+                // const token = jwt.sign({ user_email: userInfo.user_email }, 'sdfasdfasf', { expiresIn: '1h' });
+
                 return res.status(200).json({ message: 'Login success', user_email })
             } else {
                 return res.status(401).json({ message: 'Invalid email or password' })
@@ -95,6 +98,7 @@ exports.logoutController = (req, res) => {
             res.status(500).json({ message: 'Internal server error' });
 
         } else {
+            console.log(req.session)
             res.status(200).json({ success: true, message: 'Logout complete' });
         }
     })
