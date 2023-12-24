@@ -13,10 +13,11 @@ const dashboardRoute = require('./routes/dashboardRoute')
 PORT = process.env.PORT || 5500
 
 const app = express();
-app.use(cors({
+const corsOptions = {
     origin: 'http://localhost:5173',
     credentials: true,
-}));
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: true }))
@@ -58,5 +59,3 @@ app.use('/api', dashboardRoute);
 server.listen(PORT, () => {
     console.log(`listening on port ${PORT}`);
 });
-
-

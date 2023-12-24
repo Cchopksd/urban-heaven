@@ -12,7 +12,7 @@ const Login = () => {
         event.preventDefault();
 
         try {
-            const res = await axios.post(
+            await axios.post(
                 `http://localhost:5500/api/login`,
                 {
                     user_email,
@@ -22,9 +22,8 @@ const Login = () => {
                     withCredentials: true,
                 }
             );
-            const authToken = res.data;
-            console.log(authToken);
             navigate("/chat");
+            window.location.reload();
         } catch (error) {
             console.error("Login failed:", error);
         }

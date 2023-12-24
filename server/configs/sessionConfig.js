@@ -11,10 +11,9 @@ const sessionConfig = session({
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
-    // cookie: { secure: false },
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
-        secure: process.env.NODE_ENV === 'production', // Set to true in production (if using HTTPS)
+        maxAge: 24 * 60 * 60 * 1000, // 1day
+        secure: process.env.NODE_ENV === 'production',
     },
 });
 
