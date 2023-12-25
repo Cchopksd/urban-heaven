@@ -1,35 +1,45 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import "./styles/Navbar.css";
 import { Context } from "../context/Provider";
+import "./styles/Navbar.css";
+import DropdownNav from "./DropdownNav";
+import { TailSpin } from "react-loader-spinner";
 
 const Navbar = () => {
-    const { user, loading, data, } = useContext(Context);
+    const { loading, data } = useContext(Context);
 
     return (
-        <div className='navbar-component'>
-            <ul className='navbar-menu'>
-                <li className='list-menu'>
-                    <Link to='/dash' className='each-menu'>
-                        Dashboard
-                    </Link>
-                </li>
-                <li className='list-menu'>
-                    <Link to='/chat' className='each-menu'>
-                        Chat
-                    </Link>
-                </li>
-            </ul>
-            {loading ? (
-                <p>loading...</p>
-            ) : data ? (
-                <span>{user}</span>
-            ) : (
-                <Link to='/' className='link-login'>
-                    Login
+        <nav className='navbar-component'>
+            <section className='navbar-menu'>
+                <Link to='/dash' className='each-menu'>
+                    Dashboard
                 </Link>
-            )}
-        </div>
+
+                <Link to='/chat' className='each-menu'>
+                    Chat
+                </Link>
+            </section>
+            <section className='navbar-dropdown'>
+                {loading ? (
+                    <TailSpin
+                        visible={true}
+                        height='20'
+                        width='20'
+                        color='#000000'
+                        ariaLabel='tail-spin-loading'
+                        radius='1'
+                        wrapperStyle={{}}
+                        wrapperClass=''
+                    />
+                ) : data ? (
+                    <DropdownNav className='nav-drop' />
+                ) : (
+                    <Link to='/' className='link-login'>
+                        Login
+                    </Link>
+                )}
+            </section>
+        </nav>
     );
 };
 

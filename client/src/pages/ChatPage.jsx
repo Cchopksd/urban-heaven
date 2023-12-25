@@ -1,6 +1,7 @@
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const socket = io.connect("http://localhost:5500");
 
@@ -37,6 +38,7 @@ const ChatPage = () => {
             <button onClick={sendMessage}>Send message</button>
             <h1>Message :</h1>
             <p>{messageReceived}</p>
+            <Footer/>
         </div>
     );
 };

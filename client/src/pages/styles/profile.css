@@ -1,0 +1,29 @@
+.profile-screen{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-container{
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.profile-sec-ops{
+    height: 300px;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-option{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    list-style: none;
+    padding: 0;
+    /* margin: auto; */
+}

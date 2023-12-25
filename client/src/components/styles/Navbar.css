@@ -1,24 +1,41 @@
 .navbar-component {
     display: flex;
-    justify-content: space-between;
-    margin: auto;
+    width: 100%;
+    position: relative;
     align-items: center;
-    padding: 0 50px;
+    justify-content: space-between;
+    height: 90px;
+    background-color: #fff;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+}
 
+.navbar-container{
+    display: flex;
+    justify-content: space-between;
 }
 
 .navbar-menu {
     display: flex;
     list-style: none;
-    gap: 1rem;
+    gap: 3rem;
     text-decoration: none;
+    padding-left: 40px;
+}
+
+.navbar-dropdown {
+    padding-right: 20px;
 }
 
 .each-menu {
-color: black;
+    color: black;
     text-decoration: none;
+    font-size: 20px;
 }
 
+.each-menu:hover {
+    opacity: 0.5;
+    transition: ease-out 0.3s;
+}
 
 
 .link-login {
@@ -28,7 +45,8 @@ color: black;
     align-items: center;
     border-radius: 20px;
     height: 40px;
-    width: 80px;
+    width: 90px;
     color: aliceblue;
     background-color: black;
 }
+

@@ -1,0 +1,14 @@
+.footer-component{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info{
+   
+}
+
+.contact-info-header{
+    text-align: center;
+}
