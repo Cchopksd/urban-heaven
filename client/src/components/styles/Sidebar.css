@@ -1,0 +1,39 @@
+.profile-sec-ops {
+    height: 300px;
+    width: 200px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-option {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 0;
+    gap: 0.5rem;
+}
+
+.profile-line {
+    width: 70%;
+    color: #ccc;
+}
+
+.profile-each-option {
+    display: flex;
+    margin-left: 30px;
+    text-decoration: none;
+    color: black;
+}
+
+.profile-each-option:hover {
+    opacity: 0.5;
+    transition: 0.5s ease-in-out;
+}
+
+.profile-sec-content {
+    height: 500px;
+    width: 1000px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}

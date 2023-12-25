@@ -58,15 +58,17 @@ const DropdownNav = () => {
                 </label>
             </section>
 
-            <section className={`dropdown-menu ${open ? "active" : "inactive"}`}>
+            <section
+                className={`dropdown-menu ${open ? "active" : "inactive"}`}
+            >
                 <ul className='dropdown-group'>
                     <Link
                         className='list-dropdown-link'
                         onClick={handleLinkClick}
-                        to={"/profile"}
+                        to={"/account/edit-profile"}
                     >
                         <RxAvatar />
-                        Profile
+                        Account
                     </Link>
                     <Link
                         className='list-dropdown-link'
