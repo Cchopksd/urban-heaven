@@ -46,7 +46,7 @@ const DropdownNav = () => {
     };
 
     return (
-        <main className='navbar-dropdown' ref={menuRef}>
+        <div className='navbar-dropdown-component' ref={menuRef}>
             <section
                 onClick={() => {
                     setOpen(!open);
@@ -88,7 +88,7 @@ const DropdownNav = () => {
                     </Link>
                 </ul>
             </section>
-        </main>
+        </div>
     );
 };
 
