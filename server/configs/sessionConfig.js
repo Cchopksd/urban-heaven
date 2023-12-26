@@ -9,10 +9,10 @@ const sessionConfig = session({
         pruneSessionInterval: 300000,
     }),
     secret: process.env.SESSION_SECRET,
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
     cookie: {
-        maxAge: 24 * 60 * 60 * 1000, // 1day
+        maxAge: 24 * 60 * 60 * 10000, // 1day
         secure: process.env.NODE_ENV === 'production',
     },
 });

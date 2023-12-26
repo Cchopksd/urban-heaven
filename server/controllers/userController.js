@@ -74,9 +74,8 @@ exports.loginController = async (req, res, next) => {
                 username,
                 user_email,
             }
-            const token = jwt.sign(payload, 'your_jwt_secret', { algorithm: 'HS384' }, { expiresIn: '1d' });
             if (isPasswordMatch) {
-                req.session.user = token;
+                req.session.user = payload;
 
                 return res.status(200).json({ message: 'Login success', user_email })
             } else {
