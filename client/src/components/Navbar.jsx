@@ -1,12 +1,22 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext,useState } from "react";
 import { Context } from "../context/ProviderCenter";
 import "./styles/Navbar.css";
 import DropdownNav from "./DropdownNav";
 import { TailSpin } from "react-loader-spinner";
+import Login from "../pages/Login";
 
 const Navbar = () => {
     const { loading, data } = useContext(Context);
+    const [modalIsOpen, setIsOpen] = useState(false);
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
 
     return (
         <nav className='navbar-component'>
@@ -34,10 +44,17 @@ const Navbar = () => {
                 ) : data ? (
                     <DropdownNav className='nav-drop' />
                 ) : (
-                    <Link to={"/login"} className='link-login'>
+                    <button
+                        onClick={() => setIsOpen(true)}
+                        className='link-login'
+                    >
                         Login
-                    </Link>
+                    </button>
                 )}
+                <Login
+                    modalIsOpen={modalIsOpen}
+                    closeModal={() => setIsOpen(false)}
+                />
             </section>
         </nav>
     );
