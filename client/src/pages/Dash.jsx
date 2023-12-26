@@ -9,7 +9,7 @@ const Dash = () => {
             <Navbar />
 
             <p>Dashboard</p>
-            <p>{`data: ${data.user}`}</p>
+            <p>{`data: ${data.username}`}</p>
             <p></p>
         </div>
     );

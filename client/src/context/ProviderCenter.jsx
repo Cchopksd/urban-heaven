@@ -9,8 +9,8 @@ const Context = createContext();
 const Provider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState("");
-    const { user } = data;
-
+    const { username } = data;
+    // console.log(username);
     const fetchData = async () => {
         try {
             const response = await axios.get(
@@ -32,7 +32,7 @@ const Provider = ({ children }) => {
     }, []);
 
     return (
-        <Context.Provider value={{ user, loading, data, fetchData }}>
+        <Context.Provider value={{ username, loading, data, fetchData }}>
             {children}
         </Context.Provider>
     );

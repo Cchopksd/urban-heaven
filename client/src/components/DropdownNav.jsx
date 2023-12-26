@@ -9,7 +9,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { IoLogOutOutline } from "react-icons/io5";
 
 const DropdownNav = () => {
-    const { user } = useContext(Context);
+    const { username } = useContext(Context);
     const [open, setOpen] = useState(false);
     const menuRef = useRef();
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ const DropdownNav = () => {
         let handleDropdown = (e) => {
             if (!menuRef.current.contains(e.target)) {
                 setOpen(false);
-                console.log(menuRef.current);
+                // console.log(menuRef.current);
             }
         };
 
@@ -53,7 +53,7 @@ const DropdownNav = () => {
                 }}
             >
                 <label className='text-dropdown'>
-                    {user}
+                    {username}
                     <RiArrowDropDownLine className='dropdown-icon' />
                 </label>
             </section>
