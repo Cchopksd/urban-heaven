@@ -12,6 +12,7 @@
     list-style: none;
     padding: 0;
     gap: 0.5rem;
+    transition: 3s ease-in-out;
 }
 
 .profile-line {
@@ -33,7 +34,12 @@
 
 .profile-sec-content {
     height: 500px;
+    max-width: 100%;
     width: 1000px;
     border-radius: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.selected {
+    color: rgb(224, 40, 40);
 }
