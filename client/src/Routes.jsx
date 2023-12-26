@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes,redirect  } from "react-router-dom";
+import { BrowserRouter, Route, Routes  } from "react-router-dom";
 // import PrivateRoute from "./PrivateRoutes";
 import Login from "./pages/Login";
 import ChatPage from "./pages/ChatPage";
@@ -7,6 +7,7 @@ import ProfileMockUp from "./pages/ProfileMockUp";
 import ChangePassword from "./pages/ChangePassword";
 import Address from "./pages/Address";
 import InsteadRoute from "./middlewares/InsteadRoute";
+import NoMatchRoute from "./middlewares/NoMatchRoute";
 
 const App = () => {
     return (
@@ -26,6 +27,7 @@ const App = () => {
                     element={<ChangePassword />}
                 />
                 <Route path='/account/address' element={<Address />} />
+                <Route path='*' element={<NoMatchRoute />} />
             </Routes>
         </BrowserRouter>
     );

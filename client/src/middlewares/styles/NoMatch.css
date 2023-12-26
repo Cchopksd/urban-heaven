@@ -1,0 +1,13 @@
+.no-screen {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.no-container {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    gap: 3rem;
+}

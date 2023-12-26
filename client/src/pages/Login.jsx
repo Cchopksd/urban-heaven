@@ -22,7 +22,7 @@ const Login = () => {
                     withCredentials: true,
                 },
             );
-            navigate("/dash");
+            navigate("/");
             window.location.reload();
         } catch (error) {
             console.error("Login failed:", error);
