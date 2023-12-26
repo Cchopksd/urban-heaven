@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 
 const Context = createContext();
 
+// console.log(Context)
+
 const Provider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState("");

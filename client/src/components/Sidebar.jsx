@@ -16,7 +16,7 @@ const Sidebar = () => {
                             : ""
                     }`}
                 >
-                    <b>Edit profile</b>
+                    <b>Profile</b>
                 </Link>
                 <hr className='profile-line' />
                 <Link

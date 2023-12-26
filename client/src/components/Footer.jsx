@@ -40,12 +40,12 @@ const Footer = () => {
                         </Link>
                     </li>
                     <li>
-                        <aLink
+                        <Link
                             href='https://instagram.com/example'
                             target='blank'
                         >
                             Instagram
-                        </aLink>
+                        </Link>
                     </li>
                 </ul>
             </section>

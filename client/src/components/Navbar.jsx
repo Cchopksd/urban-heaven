@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { Context } from "../context/Provider";
+import { Context } from "../context/ProviderCenter";
 import "./styles/Navbar.css";
 import DropdownNav from "./DropdownNav";
 import { TailSpin } from "react-loader-spinner";
@@ -11,11 +11,11 @@ const Navbar = () => {
     return (
         <nav className='navbar-component'>
             <section className='navbar-menu'>
-                <Link to='/dash' className='each-menu'>
+                <Link to={'/dash'} className='each-menu'>
                     Dashboard
                 </Link>
 
-                <Link to='/chat' className='each-menu'>
+                <Link to={'/chat'} className='each-menu'>
                     Chat
                 </Link>
             </section>
@@ -34,7 +34,7 @@ const Navbar = () => {
                 ) : data ? (
                     <DropdownNav className='nav-drop' />
                 ) : (
-                    <Link to='/' className='link-login'>
+                    <Link to={'/'} className='link-login'>
                         Login
                     </Link>
                 )}

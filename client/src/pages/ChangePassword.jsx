@@ -7,9 +7,11 @@ const ChangePassword = () => {
     return (
         <div className='change-password-screen'>
             <Navbar />
-            <main className='profile-container'>
+            <main className='change-password-container'>
                 <Sidebar />
-                <section className='profile-sec-content'></section>
+                <section className='change-password-sec-content'>
+                    <p>change-password</p>
+                </section>
             </main>
             <Footer />
         </div>

@@ -1,18 +1,18 @@
-.change-password-screen {
+.address-screen{
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.change-password-container {
+.address-container {
     display: flex;
     justify-content: center;
     margin: auto;
     gap: 3rem;
 }
 
-.change-password-sec-content {
+.address-sec-content {
     height: 500px;
     max-width: 100%;
     width: 1000px;

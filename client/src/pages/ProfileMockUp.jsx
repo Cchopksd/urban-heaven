@@ -10,7 +10,7 @@ const Profile = () => {
             <main className='profile-container'>
                 <Sidebar />
                 <section className='profile-sec-content'>
-                    
+                    <p>profile</p>
                 </section>
             </main>
             <Footer />
