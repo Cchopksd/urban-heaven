@@ -1,12 +1,15 @@
 .profile-sec-ops {
-    height: 300px;
-    width: 200px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    max-width: 12.5rem;
+    max-height: 18.75rem;
+    width: 100%;
+    border-radius: 1.25rem;
+    box-shadow: 0px 0.25rem 0.625rem rgba(0, 0, 0, 0.1);
+    margin: 1rem;
 }
 
 .profile-option {
-    margin-top: 20px;
+    margin-top: 1.25rem;
     display: flex;
     flex-direction: column;
     list-style: none;
@@ -22,7 +25,7 @@
 
 .profile-each-option {
     display: flex;
-    margin-left: 30px;
+    margin-left: 15%;
     text-decoration: none;
     color: black;
 }
@@ -30,14 +33,6 @@
 .profile-each-option:hover {
     opacity: 0.5;
     transition: 0.5s ease-in-out;
-}
-
-.profile-sec-content {
-    height: 500px;
-    max-width: 100%;
-    width: 1000px;
-    border-radius: 20px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .selected {

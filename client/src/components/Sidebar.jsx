@@ -20,25 +20,30 @@ const Sidebar = () => {
                 </Link>
                 <hr className='profile-line' />
                 <Link
-                    to={"/account/change-password"}
+                    to={"/account/security"}
                     className={`profile-each-option ${
-                        selectedLink === `/account/change-password`
-                            ? "selected"
-                            : ""
+                        selectedLink === `/account/security` ? "selected" : ""
                     }`}
                 >
-                    <b>Change password</b>
+                    <b>Security</b>
                 </Link>
                 <hr className='profile-line' />
                 <Link
                     to={"/account/address"}
                     className={`profile-each-option ${
-                        selectedLink === `/account/address`
-                        ? "selected"
-                        : ""
+                        selectedLink === `/account/address` ? "selected" : ""
                     }`}
                 >
                     <b>Address</b>
+                </Link>
+                <hr className='profile-line' />
+                <Link
+                    to={"/account/payment"}
+                    className={`profile-each-option ${
+                        selectedLink === `/account/payment` ? "selected" : ""
+                    }`}
+                >
+                    <b>Payment</b>
                 </Link>
                 <hr className='profile-line' />
             </nav>

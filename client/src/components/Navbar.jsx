@@ -20,42 +20,44 @@ const Navbar = () => {
 
     return (
         <nav className='navbar-component'>
-            <section className='navbar-menu'>
-                <Link to={"/"} className='each-menu'>
-                    Dashboard
-                </Link>
+            <main className='navbar-container'>
+                <section className='navbar-menu'>
+                    <Link to={"/"} className='each-menu'>
+                        Dashboard
+                    </Link>
 
-                <Link to={"/chat"} className='each-menu'>
-                    Chat
-                </Link>
-            </section>
-            <section className='navbar-dropdown'>
-                {loading ? (
-                    <TailSpin
-                        visible={true}
-                        height='20'
-                        width='20'
-                        color='#000000'
-                        ariaLabel='tail-spin-loading'
-                        radius='1'
-                        wrapperStyle={{}}
-                        wrapperClass=''
+                    <Link to={"/chat"} className='each-menu'>
+                        Chat
+                    </Link>
+                </section>
+                <section className='navbar-dropdown'>
+                    {loading ? (
+                        <TailSpin
+                            visible={true}
+                            height='20'
+                            width='20'
+                            color='#000000'
+                            ariaLabel='tail-spin-loading'
+                            radius='1'
+                            wrapperStyle={{}}
+                            wrapperClass=''
+                        />
+                    ) : data ? (
+                        <DropdownNav className='nav-drop' />
+                    ) : (
+                        <button
+                            onClick={() => setIsOpen(true)}
+                            className='link-login'
+                        >
+                            Login
+                        </button>
+                    )}
+                    <Login
+                        modalIsOpen={modalIsOpen}
+                        closeModal={() => setIsOpen(false)}
                     />
-                ) : data ? (
-                    <DropdownNav className='nav-drop' />
-                ) : (
-                    <button
-                        onClick={() => setIsOpen(true)}
-                        className='link-login'
-                    >
-                        Login
-                    </button>
-                )}
-                <Login
-                    modalIsOpen={modalIsOpen}
-                    closeModal={() => setIsOpen(false)}
-                />
-            </section>
+                </section>
+            </main>
         </nav>
     );
 };

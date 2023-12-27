@@ -8,16 +8,19 @@ import PropTypes from "prop-types";
 const Login = ({ modalIsOpen, closeModal }) => {
     const [user_email, setEmail] = useState("");
     const [user_password, setPassword] = useState("");
+    const [isChecked, setIsChecked] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        // Set the app element when the component mounts
-        Modal.setAppElement("body");
-        document.body.style.overflow = "hidden";
-        return () => {
-            document.body.style.overflow = "scroll";
-        };
+    const handleChecked = () => {
+        setIsChecked(!isChecked);
+    }
 
+    useEffect(() => {
+        Modal.setAppElement("body");
+        // document.body.style.overflow = "hidden";
+        // return () => {
+        //     document.body.style.overflow = "scroll";
+        // };
     }, []);
 
     const handleSubmit = async (event) => {
@@ -29,6 +32,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
                 {
                     user_email,
                     user_password,
+                    isChecked,
                 },
                 {
                     withCredentials: true,
@@ -86,7 +90,11 @@ const Login = ({ modalIsOpen, closeModal }) => {
                 </form>
                 <section className='login-ops-sec'>
                     <label className='check-remember'>
-                        <input type='checkbox' />
+                        <input
+                            checked={isChecked}
+                            onChange={handleChecked}
+                            type='checkbox'
+                        />
                         <span className='text-remember'>Remember me</span>
                     </label>
                     <Link className='btn-forgot'>Forgot password?</Link>
@@ -114,4 +122,3 @@ Login.propTypes = {
     modalIsOpen: PropTypes.bool,
     closeModal: PropTypes.func,
 };
-

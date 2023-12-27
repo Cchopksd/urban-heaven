@@ -4,8 +4,8 @@ import { Context } from "../context/ProviderCenter";
 import "./styles/DropdownNav.css";
 import { Link, useNavigate } from "react-router-dom";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { RxAvatar } from "react-icons/rx";
-import { IoSettingsOutline } from "react-icons/io5";
+import { IoPersonCircleOutline } from "react-icons/io5";
+import { IoBagHandleOutline } from "react-icons/io5";
 import { IoLogOutOutline } from "react-icons/io5";
 
 const DropdownNav = () => {
@@ -67,17 +67,19 @@ const DropdownNav = () => {
                         onClick={handleLinkClick}
                         to={"/account/edit-profile"}
                     >
-                        <RxAvatar />
+                        <IoPersonCircleOutline />
                         Account
                     </Link>
+                    <hr className='line-list-dropdown-link' />
                     <Link
                         className='list-dropdown-link'
                         onClick={handleLinkClick}
                         to={"/profile"}
                     >
-                        <IoSettingsOutline />
-                        Setting
+                        <IoBagHandleOutline />
+                        My Purchase
                     </Link>
+                    <hr className='line-list-dropdown-link' />
                     <Link
                         className='list-dropdown-link'
                         onClick={handleLogout}

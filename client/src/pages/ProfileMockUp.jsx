@@ -7,8 +7,8 @@ const Profile = () => {
     return (
         <div className='profile-screen'>
             <Navbar />
-            <main className='profile-container'>
-                <Sidebar />
+            <main className='profile-layout'>
+                <Sidebar className="sidebar_pro"/>
                 <section className='profile-sec-content'>
                     <p>profile</p>
                 </section>
