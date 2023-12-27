@@ -1,10 +1,11 @@
 const { registerModel,
     checkUserExists,
-    loginModel
+    checkAllEmail,
+    getAllUsersModel,
+    EditProfileModel,
 } = require('../models/userModel')
 const { v4: uuidv4 } = require('uuid');
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken');
+
 
 exports.registerController = async (req, res) => {
     try {
@@ -15,8 +16,11 @@ exports.registerController = async (req, res) => {
             return emailRegex.test(email);
         };
 
-        if (!userInfo.username || !userInfo.user_email) {
-            return res.status(400).json({ message: 'Username and email are required.' });
+        if (!userInfo.username) {
+            return res.status(400).json({ message: 'Username not empty' });
+        }
+        if (!userInfo.user_email) {
+            return res.status(400).json({ message: 'Username not empty' });
         }
 
         if (!isValidEmail(userInfo.user_email)) {
@@ -35,12 +39,8 @@ exports.registerController = async (req, res) => {
             return res.status(400).json({ message: 'Last name not empty' })
         }
 
-        const usernameExists = await checkUserExists('username', userInfo.username);
         const emailExists = await checkUserExists('user_email', userInfo.user_email);
-
-        if (usernameExists) {
-            return res.status(409).json({ message: 'Username already exists' });
-        } else if (emailExists) {
+        if (emailExists) {
             return res.status(409).json({ message: 'Email already exists' });
         }
 
@@ -54,51 +54,36 @@ exports.registerController = async (req, res) => {
     }
 }
 
-exports.loginController = async (req, res, next) => {
+
+exports.EditProfileController = async (req, res) => {
     try {
-        const {  user_email, user_password } = req.body;
+        const { user_params } = req.params
+        const userInfo = req.body
 
-        if (!user_email) {
-            return res.status(404).json({ message: "Enter your email address" });
-        } else if (!user_password) {
-            return res.status(404).json({ message: "Enter your password" });
+        if (userInfo.fname === "") {
+            return res.status(400).json({ message: 'First name not empty' })
         }
 
-        const userInfo = await loginModel(user_email)
-        // console.log(userInfo)
-        if (userInfo) {
-            const isPasswordMatch = await bcrypt.compareSync(user_password, userInfo.user_password);
-            const { user_id, username, } = userInfo
-            const payload = {
-                user_id,
-                username,
-                user_email,
-            }
-            if (isPasswordMatch) {
-                req.session.user = payload;
+        if (userInfo.lname === "") {
+            return res.status(400).json({ message: 'Last name not empty' })
+        }
 
-                return res.status(200).json({ message: 'Login success', user_email })
-            } else {
-                return res.status(401).json({ message: 'Invalid email or password' })
-            }
-        }
-        else {
-            return res.status(401).json({ message: 'Invalid email or password' })
-        }
+        await EditProfileModel(user_params, { ...userInfo });
+        res.status(200).json({ message: 'Data update successfully' });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Internal Server Error' })
+    }
+}
+
+
+exports.getAllUsersControllers = async (req, res) => {
+    try {
+        const userInfo = await getAllUsersModel()
+        res.status(200).json({ message: 'Get data successfully', userInfo });
     } catch (err) {
         res.status(500).json({ message: 'Internal Server Error' });
         throw err;
     }
-}
-
-exports.logoutController = (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            res.status(500).json({ message: 'Internal server error' });
-
-        } else {
-            console.log(req.session)
-            res.status(200).json({ success: true, message: 'Logout complete' });
-        }
-    })
 }

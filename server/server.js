@@ -6,9 +6,9 @@ const morgan = require('morgan')
 require('dotenv').config()
 const { databaseConfig } = require('./configs/connectDB')
 const { sessionConfig } = require('./configs/sessionConfig');
+const authRoute = require('./routes/authRoute')
 const userRoute = require('./routes/userRoute')
 const dashboardRoute = require('./routes/dashboardRoute')
-
 
 PORT = process.env.PORT || 5500
 
@@ -22,6 +22,7 @@ app.use(express.json());
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: true }))
 app.use(sessionConfig);
+// console.log(app.use(sessionConfig))
 
 const server = createServer(app);
 
@@ -51,7 +52,7 @@ io.on('connection', (socket) => {
     });
 });
 
-
+app.use('/api', authRoute);
 app.use('/api', userRoute);
 app.use('/api', dashboardRoute);
 
