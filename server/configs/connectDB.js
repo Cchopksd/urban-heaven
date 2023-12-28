@@ -6,5 +6,5 @@ exports.databaseConfig = new Pool({
     database: process.env.DB_DATABASE || 'chat_app',
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || 'password',
-    // connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+    // connectionString: process.env.DATABASE_URL,
 })
