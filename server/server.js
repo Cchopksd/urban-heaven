@@ -15,7 +15,7 @@ console.log(process.env.VITE_APP_API)
 
 const app = express();
 const corsOptions = {
-    origin: process.env.PORT,
+    origin: process.env.VITE_APP_API,
     credentials: true,
 };
 app.use(cors(corsOptions));

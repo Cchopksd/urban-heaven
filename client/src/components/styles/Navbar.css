@@ -41,6 +41,12 @@
     transition: ease-out 0.3s;
 }
 
+.navbar-dropdown {
+    width: 100%;
+    max-width: 6.625rem;
+    height: 100%;
+
+}
 
 .link-login {
     text-decoration: none;
@@ -48,8 +54,9 @@
     justify-content: center;
     align-items: center;
     border-radius: 20px;
+    height: 40px;
     width: 100%;
-    max-width: 5.625rem;
+    max-width: 6.625rem;
     color: aliceblue;
     background-color: black;
 }

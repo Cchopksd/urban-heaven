@@ -1,6 +1,6 @@
 const { Pool } = require('pg')
 
-console.log(process.env.DATABASE_URL)
+// console.log(process.env.DATABASE_URL)
 
 exports.databaseConfig = new Pool({
     host: process.env.DB_HOST || 'localhost',
@@ -8,5 +8,5 @@ exports.databaseConfig = new Pool({
     database: process.env.DB_DATABASE || 'chat_app',
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || 'password',
-    connectionString: process.env.DATABASE_URL,
+    // connectionString: process.env.DATABASE_URL,
 })

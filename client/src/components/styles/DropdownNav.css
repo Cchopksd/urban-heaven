@@ -3,7 +3,6 @@
     justify-content: center;
     align-items: center;
     font-size: 20px;
-
 }
 
 .text-dropdown {
@@ -40,8 +39,6 @@
     background: var(--secondary-bg);
     transform: rotate(45deg);
 }
-
-
 
 .dropdown-menu.active {
     opacity: 1;
