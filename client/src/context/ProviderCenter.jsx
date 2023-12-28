@@ -4,17 +4,16 @@ import PropTypes from "prop-types";
 
 const Context = createContext();
 
-// console.log(Context)
 
 const Provider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState("");
     const { username } = data;
-    // console.log(username);
+
     const fetchData = async () => {
         try {
             const response = await axios.get(
-                "http://localhost:5500/api/dashboard",
+                `${import.meta.env.VITE_BASE_URL}/dashboard`,
                 {
                     withCredentials: true,
                 },
@@ -22,7 +21,7 @@ const Provider = ({ children }) => {
             setData(response.data);
             setLoading(false);
         } catch (e) {
-            console.log(e.response.message);
+            console.log(e.message);
             setLoading(false);
         }
     };
