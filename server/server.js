@@ -10,7 +10,7 @@ const authRoute = require('./routes/authRoute')
 const userRoute = require('./routes/userRoute')
 const dashboardRoute = require('./routes/dashboardRoute')
 
-PORT = 5500 || 5500
+PORT = process.env.PORT || 5500
 
 const app = express();
 const corsOptions = {
