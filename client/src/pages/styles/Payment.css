@@ -1,18 +1,18 @@
-.profile-screen {
+.payment-screen {
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.profile-layout {
+.payment-layout {
     display: flex;
     justify-content: center;
     width: 100%;
     margin: auto;
 }
 
-.profile-sec-content {
+.payment-sec-content {
     height: 31.25rem;
     max-width: 1000px;
     width: 100%;

@@ -10,10 +10,12 @@ const Navbar = () => {
     const { loading, data } = useContext(Context);
     const [modalIsOpen, setIsOpen] = useState(false);
 
+    // eslint-disable-next-line no-unused-vars
     function openModal() {
         setIsOpen(true);
     }
 
+    // eslint-disable-next-line no-unused-vars
     function closeModal() {
         setIsOpen(false);
     }

@@ -27,7 +27,8 @@ exports.loginController = async (req, res, next) => {
             if (isPasswordMatch) {
                 req.session.user = payload
                 req.session.cookie.originalMaxAge = expireSessionTime;
-                return res.status(200).json({ message: 'Login success', user_email })
+                res.status(200).json({ message: 'Login success', user_email })
+                // return res.redirect(303, `${process.env.VITE_APP_API}/account/edit-profile`);
             } else {
                 return res.status(401).json({ message: 'Invalid email or password' })
             }

@@ -74,7 +74,7 @@ const DropdownNav = () => {
                     <Link
                         className='list-dropdown-link'
                         onClick={handleLinkClick}
-                        to={"/profile"}
+                        to={"/my-purchase"}
                     >
                         <IoBagHandleOutline />
                         My Purchase

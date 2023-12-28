@@ -38,7 +38,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
                     withCredentials: true,
                 },
             );
-            navigate("/");
+            // navigate("/");
             closeModal();
             window.location.reload();
         } catch (error) {

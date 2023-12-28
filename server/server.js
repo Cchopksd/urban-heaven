@@ -11,10 +11,11 @@ const userRoute = require('./routes/userRoute')
 const dashboardRoute = require('./routes/dashboardRoute')
 
 PORT = process.env.PORT || 5500
+console.log(process.env.VITE_APP_API)
 
 const app = express();
 const corsOptions = {
-    origin: process.env.VITE_APP_API,
+    origin: process.env.PORT,
     credentials: true,
 };
 app.use(cors(corsOptions));
@@ -22,7 +23,6 @@ app.use(express.json());
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: true }))
 app.use(sessionConfig);
-// console.log(app.use(sessionConfig))
 
 const server = createServer(app);
 

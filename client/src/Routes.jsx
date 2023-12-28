@@ -8,6 +8,7 @@ import Security from "./pages/Security";
 import Address from "./pages/Address";
 import InsteadRoute from "./middlewares/InsteadRoute";
 import NoMatchRoute from "./middlewares/NoMatchRoute";
+import Payment from "./pages/Payment";
 
 const App = () => {
     return (
@@ -24,6 +25,7 @@ const App = () => {
                 />
                 <Route path='/account/security' element={<Security />} />
                 <Route path='/account/address' element={<Address />} />
+                <Route path='/account/payment' element={<Payment />} />
 
                 <Route path='*' element={<NoMatchRoute />} />
             </Routes>
