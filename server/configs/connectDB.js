@@ -1,10 +1,10 @@
 const { Pool } = require('pg')
 
 exports.databaseConfig = new Pool({
-    // host: 'localhost',
-    // port: 5432,
-    // database: 'chat_app',
-    // user: 'postgres',
-    // password: 'password',
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 5432,
+    database: process.env.DB_DATABASE || 'chat_app',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD || 'password',
     connectionString: process.env.POSTGRES_URL + "?sslmode=require",
 })
