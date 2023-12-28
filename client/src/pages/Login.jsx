@@ -28,7 +28,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
 
         try {
             await axios.post(
-                `http://localhost:5500/api/login`,
+                `${import.meta.env.VITE_BASE_URL}/login`,
                 {
                     user_email,
                     user_password,
