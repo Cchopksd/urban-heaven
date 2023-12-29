@@ -10,42 +10,45 @@ const { v4: uuidv4 } = require('uuid');
 exports.registerController = async (req, res) => {
     try {
         const userInfo = req.body
+        // console.log(userInfo)
+        const { name, surname, username, email, password, confirmPassword } = userInfo
 
         const isValidEmail = (email) => {
             const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
             return emailRegex.test(email);
         };
 
-        if (!userInfo.username) {
+        if (!username) {
+            console.log(username)
             return res.status(400).json({ message: 'Username not empty' });
         }
-        if (!userInfo.user_email) {
+        if (!email) {
             return res.status(400).json({ message: 'Username not empty' });
         }
 
-        if (!isValidEmail(userInfo.user_email)) {
-            return res.status(400).json({ message: 'Invalid email' });
+        if (!isValidEmail(email)) {
+            return res.status(400).json({ message: 'Invalid email format' });
         }
 
-        if (userInfo.user_password !== userInfo.user_confirmPassword) {
+        if (password !== confirmPassword) {
             return res.status(400).json({ message: 'password not matched' });
         }
 
-        if (userInfo.user_fname === "") {
+        if (name === "") {
             return res.status(400).json({ message: 'First name not empty' })
         }
 
-        if (userInfo.user_lname === "") {
+        if (surname === "") {
             return res.status(400).json({ message: 'Last name not empty' })
         }
 
-        const emailExists = await checkUserExists('user_email', userInfo.user_email);
+        const emailExists = await checkUserExists('user_email', email);
         if (emailExists) {
             return res.status(409).json({ message: 'Email already exists' });
         }
 
-        const userId = uuidv4();
-        await registerModel({ ...userInfo, userId })
+        const userID = uuidv4();
+        await registerModel({ ...userInfo, userID })
         res.status(200).json({ message: 'Data added successfully' });
 
     } catch (err) {

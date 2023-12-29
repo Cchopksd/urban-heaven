@@ -2,12 +2,13 @@ const { databaseConfig } = require('../configs/connectDB');
 const bcrypt = require('bcrypt');
 
 exports.registerModel = async (userInfo) => {
+    console.log(userInfo)
     try {
-        const hashedPassword = await bcrypt.hash(userInfo.user_password, 10);
+        const hashedPassword = await bcrypt.hash(userInfo.password, 10);
         await databaseConfig.query(
             `INSERT INTO users (user_id, user_fname, user_lname, username, user_email, user_password)
             VALUES ($1, $2, $3, $4, $5, $6)`,
-            [userInfo.userId, userInfo.user_fname, userInfo.user_lname, userInfo.username, userInfo.user_email, hashedPassword]
+            [userInfo.userID, userInfo.name, userInfo.surname, userInfo.username, userInfo.email, hashedPassword]
         );
     } catch (err) {
         throw err;
