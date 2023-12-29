@@ -2,47 +2,51 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { isValid, parse } from "date-fns";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { IoEyeOffOutline, IoEyeOutline, IoChevronBack } from "react-icons/io5";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import "./styles/Register.css";
-import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "react-router-dom";
-import "react-datepicker/dist/react-datepicker.css";
 
 const Register = () => {
-    const [formData, setFormData] = useState({
-        step: 2,
+    var [formData, setFormData] = useState({
+        step: 1,
         name: "",
         surname: "",
         username: "",
         email: "",
         password: "",
         confirmPassword: "",
-        tel: "",
+        phone: "",
         gender: "",
-        date: "1",
-        month: "1",
-        year: "1999",
+        date: "",
+        month: "",
+        year: "",
     });
+    // console.log(formData.step);
     // console.log(formData.province);
-    const [errors, setErrors] = useState({
+    var [errors, setErrors] = useState({
         name: "",
         surname: "",
         username: "",
         email: "",
         password: "",
         confirmPassword: "",
+        phone: "",
+        gender: "",
+        date: "",
+        month: "",
+        year: "",
     });
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+    };
     // eslint-disable-next-line no-unused-vars
-    const [receiveMessage, setReceiveMessage] = useState("");
-    const [addressData, setAddressData] = useState([]);
-    const [amphureData, setAmphureData] = useState([]);
-    const [tambonData, setTambonsData] = useState([]);
-    // console.log(amphureData);
+    // const [receiveMessage, setReceiveMessage] = useState("");
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -66,7 +70,7 @@ const Register = () => {
     };
 
     const validateData = () => {
-        const {
+        var {
             step,
             name,
             surname,
@@ -74,9 +78,15 @@ const Register = () => {
             email,
             password,
             confirmPassword,
+            phone,
+            gender,
+            date,
+            month,
+            year,
         } = formData;
 
         const inputErrors = {};
+        // console.log(step);
 
         if (step === 1) {
             if (!name) {
@@ -98,12 +108,32 @@ const Register = () => {
                 inputErrors.confirmPassword = "is required";
             }
             setErrors(inputErrors);
-
+            // console.log(Object.values(inputErrors));
             if (Object.values(inputErrors).some((error) => error !== "")) {
                 return false;
             }
         }
-
+        if (step === 2) {
+            if (!phone) {
+                inputErrors.phone = "is required";
+            }
+            if (!gender) {
+                inputErrors.gender = "is required";
+            }
+            if (!date) {
+                inputErrors.date = "is required";
+            }
+            if (!month) {
+                inputErrors.date = "is required";
+            }
+            if (!year) {
+                inputErrors.date = "is required";
+            }
+            setErrors(inputErrors);
+            if (Object.values(inputErrors).some((error) => error !== "")) {
+                return false;
+            }
+        }
         return true;
     };
 
@@ -144,37 +174,50 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!isDateValid()) {
-            await Swal.fire({
-                title: "Message",
-                text: "Invalid Date",
-                icon: "error",
-            });
-            return;
-        }
-        try {
-            const response = await axios.post(
-                `${import.meta.env.VITE_BASE_URL}/register`,
-                formData,
-                {
-                    withCredentials: true,
-                },
-            );
-            await Swal.fire({
-                title: "Message",
-                text: response.data.message,
-                icon: "success",
-            });
-        } catch (err) {
-            setReceiveMessage(err.response.data.message);
-            await Swal.fire({
-                title: "Error",
-                text: err.response.data.message,
-                icon: "error",
-            });
-            prevStep();
+        if (validateData()) {
+            if (isDateValid()) {
+                Swal.fire({
+                    title: "Message",
+                    text: "Invalid Date",
+                    icon: "error",
+                });
+                return;
+            }
+            const thaiPhoneRegex = /^(\+66|0)-?[1-9]\d{8}$/;
+            if (!thaiPhoneRegex.test(phone)) {
+                Swal.fire({
+                    title: "Error",
+                    text: "Invalid phone format /n (091-234-5678)",
+                    icon: "error",
+                });
+                return false;
+            } else {
+                try {
+                    const response = await axios.post(
+                        `${import.meta.env.VITE_BASE_URL}/register`,
+                        formData,
+                        {
+                            withCredentials: true,
+                        },
+                    );
+                    await Swal.fire({
+                        title: "Message",
+                        text: response.data.message,
+                        icon: "success",
+                    });
+                } catch (err) {
+                    // setReceiveMessage(err.response.data.message);
+                    await Swal.fire({
+                        title: "Error",
+                        text: err.response.data.message,
+                        icon: "error",
+                    });
+                    prevStep();
+                }
+            }
         }
     };
+
     const currentYear = new Date().getFullYear();
     const years = Array.from(
         { length: 100 },
@@ -190,22 +233,6 @@ const Register = () => {
         return isValid(selectedDate);
     };
 
-    useEffect(() => {
-        const fetchAddress = async () => {
-            try {
-                const response = await axios.get(
-                    "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province_with_amphure_tambon.json",
-                );
-                setAddressData(response.data);
-                setAmphureData(response.data.amphure);
-                // console.log(response);
-            } catch (error) {
-                console.error("Error fetching Address:", error);
-            }
-        };
-        fetchAddress();
-    }, []);
-
     return (
         <div className='register-screen'>
             <Navbar />
@@ -217,7 +244,7 @@ const Register = () => {
                             <section className='register-form-container'>
                                 <section className='regis-content'>
                                     <label>
-                                        Full name
+                                        Full name&nbsp;
                                         <span className='regis-err'>
                                             {errors.name || errors.surname}
                                         </span>
@@ -244,7 +271,7 @@ const Register = () => {
                                     </section>
                                     <section className='regis-group-username'>
                                         <label>
-                                            Username
+                                            Username&nbsp;
                                             <span className='regis-err'>
                                                 {errors.username}
                                             </span>
@@ -261,7 +288,7 @@ const Register = () => {
                                     </section>
                                     <section className='regis-group-email'>
                                         <label htmlFor=''>
-                                            Email
+                                            Email&nbsp;
                                             <span className='regis-err'>
                                                 {errors.email}
                                             </span>
@@ -278,7 +305,7 @@ const Register = () => {
                                     </section>
                                     <section className='regis-group-password'>
                                         <label htmlFor=''>
-                                            Create new password
+                                            Create new password&nbsp;
                                             <span className='regis-err'>
                                                 {errors.password}
                                             </span>
@@ -311,7 +338,7 @@ const Register = () => {
                                     </section>
                                     <section className='regis-group-confirm-password'>
                                         <label htmlFor=''>
-                                            Confirm password
+                                            Confirm password&nbsp;
                                             <span className='regis-err'>
                                                 {errors.confirmPassword}
                                             </span>
@@ -353,28 +380,50 @@ const Register = () => {
                         </section>
                     </section>
                 )}
+
                 {formData.step === 2 && (
                     <section className='register-sec-content'>
+                        {/* {formData.step} */}
                         <section className='register-form-layout'>
+                            <button
+                                className='btn-previous-step'
+                                onClick={prevStep}
+                            >
+                                <IoChevronBack /> Previous
+                            </button>
                             <h2 className='register-header'>Register Form</h2>
-                            <section className='register-form-container'>
-                                <section className='regis-content'>
-                                    <section className=''>
-                                        <label>Tel.</label>
+                            <section className='register-form-container-step-2'>
+                                <section className='regis-content-step-2'>
+                                    <section className='regis-group-tel'>
+                                        <label htmlFor='phone'>
+                                            Tel.&nbsp;
+                                            <span className='regis-err'>
+                                                {errors.phone}
+                                            </span>
+                                        </label>
 
                                         <input
                                             type='text'
                                             id='phone'
-                                            className=''
+                                            name='phone'
+                                            className='regis-input'
                                             value={formData.phone}
                                             onChange={handleChange}
                                             placeholder='Enter your phone number'
                                         />
                                     </section>
-                                    <section className=''>
-                                        <label htmlFor=''>Gender</label>
-                                        <section>
-                                            <label htmlFor='male'>
+                                    <section className='regis-group-gender'>
+                                        <label htmlFor='gender'>
+                                            Gender&nbsp;
+                                            <span className='regis-err'>
+                                                {errors.gender}
+                                            </span>
+                                        </label>
+                                        <section className='radio-group-gender'>
+                                            <label
+                                                htmlFor='male'
+                                                className='radio-gender'
+                                            >
                                                 <input
                                                     type='radio'
                                                     id='male'
@@ -388,7 +437,10 @@ const Register = () => {
                                                 />
                                                 male
                                             </label>
-                                            <label htmlFor='female'>
+                                            <label
+                                                htmlFor='female'
+                                                className='radio-gender'
+                                            >
                                                 <input
                                                     type='radio'
                                                     id='female'
@@ -418,105 +470,127 @@ const Register = () => {
                                             </label>
                                         </section>
                                     </section>
-                                    <section className='regis-group-password'>
-                                        <label htmlFor=''>Date of birth</label>
-                                        <select
-                                            name='date'
-                                            value={formData.date}
-                                            onChange={handleChange}
-                                        >
-                                            {Array.from(
-                                                { length: 31 },
-                                                (_, index) => (
-                                                    <option
-                                                        key={index + 1}
-                                                        value={(index + 1)
-                                                            .toString()
-                                                            .padStart(2, "0")}
-                                                    >
-                                                        {index + 1}
-                                                    </option>
-                                                ),
-                                            )}
-                                        </select>
-
-                                        <select
-                                            name='month'
-                                            value={formData.month}
-                                            onChange={handleChange}
-                                        >
-                                            {Array.from(
-                                                { length: 12 },
-                                                (_, index) => (
-                                                    <option
-                                                        key={index + 1}
-                                                        value={(index + 1)
-                                                            .toString()
-                                                            .padStart(2, "0")}
-                                                    >
-                                                        {index + 1}
-                                                    </option>
-                                                ),
-                                            )}
-                                        </select>
-                                        <select
-                                            name='year'
-                                            value={formData.month}
-                                            onChange={handleChange}
-                                        >
-                                            {years.map((year) => (
-                                                <option
-                                                    key={year}
-                                                    value={year.toString()}
-                                                >
-                                                    {year}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </section>
-
-                                    {/* <section>
-                                        <label htmlFor=''>Address</label>
-                                        <section>
-                                            <label>Province</label>
+                                    <section className='regis-group-date'>
+                                        <label htmlFor='date'>
+                                            Date of birth&nbsp;
+                                            <span className='regis-err'>
+                                                {errors.date ||
+                                                    errors.month ||
+                                                    errors.year}
+                                            </span>
+                                        </label>
+                                        <section className='regis-date-layout'>
                                             <select
-                                                id='provinceDropdown'
-                                                name='province'
-                                                value={formData.province}
+                                                name='date'
+                                                value={formData.date}
+                                                onChange={handleChange}
+                                                className='regis-input regis-option-date'
+                                            >
+                                                <option
+                                                    value=''
+                                                    disabled
+                                                    hidden
+                                                >
+                                                    Select Day
+                                                </option>
+                                                {Array.from(
+                                                    { length: 31 },
+                                                    (_, index) => (
+                                                        <option
+                                                            key={index + 1}
+                                                            value={(index + 1)
+                                                                .toString()
+                                                                .padStart(
+                                                                    2,
+                                                                    "0",
+                                                                )}
+                                                        >
+                                                            {index + 1}
+                                                        </option>
+                                                    ),
+                                                )}
+                                            </select>
+                                            <select
+                                                name='month'
+                                                className='regis-input regis-option-date'
+                                                value={formData.month}
                                                 onChange={handleChange}
                                             >
-                                                <option value=''>
-                                                    กรุณาเลือกจังหวัด
+                                                <option
+                                                    value=''
+                                                    disabled
+                                                    hidden
+                                                >
+                                                    Select Month
                                                 </option>
-                                                {addressData.map((province) => (
+                                                {Array.from(
+                                                    { length: 12 },
+                                                    (_, index) => (
+                                                        <option
+                                                            key={index + 1}
+                                                            value={(index + 1)
+                                                                .toString()
+                                                                .padStart(
+                                                                    2,
+                                                                    "0",
+                                                                )}
+                                                        >
+                                                            {index + 1}
+                                                        </option>
+                                                    ),
+                                                )}
+                                            </select>
+                                            <select
+                                                name='year'
+                                                className='regis-input regis-option-date'
+                                                value={formData.year}
+                                                onChange={handleChange}
+                                            >
+                                                <option
+                                                    value=''
+                                                    disabled
+                                                    hidden
+                                                >
+                                                    Select Year
+                                                </option>
+                                                {years.map((year) => (
                                                     <option
-                                                        key={province.id}
-                                                        value={province.name_th}
+                                                        key={year}
+                                                        value={year.toString()}
                                                     >
-                                                        {province.name_th}
+                                                        {year}
                                                     </option>
                                                 ))}
                                             </select>
                                         </section>
-                                    </section> */}
-                                    <section>
-                                        <label htmlFor='privacy'>
-                                            I understand and accept the
-                                            <Link>terms of service</Link>.
-                                        </label>
                                     </section>
                                 </section>
+                                <section className='regis-group-checkbox'>
+                                    <label htmlFor='agree'>
+                                        <input type='checkbox' id='agree' />
+                                        Agree to receive newsletter from our
+                                    </label>
+
+                                    <label htmlFor='privacy'>
+                                        <input
+                                            type='checkbox'
+                                            id='privacy'
+                                            checked={isChecked}
+                                            onChange={handleCheckboxChange}
+                                        />
+                                        I understand and accept the&nbsp;
+                                        <Link>terms of service</Link>.
+                                    </label>
+                                </section>
+
                                 <button
-                                    className='btn-next-step'
-                                    onClick={prevStep}
-                                >
-                                    Previous
-                                </button>
-                                <button
-                                    className='btn-next-step'
+                                    className={
+                                        isChecked ? "btn-next-step" : "disabled"
+                                    }
                                     onClick={handleSubmit}
+                                    disabled={!isChecked}
                                 >
-                                    Button
+                                    Register
                                 </button>
                             </section>
                         </section>

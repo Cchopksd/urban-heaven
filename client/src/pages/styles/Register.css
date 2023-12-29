@@ -15,13 +15,13 @@
 }
 
 .register-sec-content {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     height: 44.25rem;
     max-width: 45rem;
     width: 100%;
-
     border-radius: 1.25rem;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     background-color: #fff;
@@ -33,7 +33,6 @@
     flex-direction: column;
     height: 100%;
     padding: 1rem;
-    /* padding: 2rem ; */
 }
 
 .register-header {
@@ -45,7 +44,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
-    justify-content: space-evenly;
+    justify-content: space-around;
     margin: auto;
     align-items: center;
 
@@ -77,12 +76,27 @@
     gap: 1rem;
 }
 
+
+.regis-group-tel,
 .regis-group-username,
 .regis-group-email,
 .regis-group-pass-content {
     display: flex;
     flex-direction: column;
     width: 100%;
+}
+
+.regis-date-layout {
+    width: 100%;
+    display: flex;
+    height: 2.3rem;
+    gap: 1rem;
+}
+
+.regis-option-date {
+    width: 100%;
+    height: 100%;
+    display: flex;
 }
 
 .regis-group-pass-content {
@@ -104,7 +118,6 @@
 
 .regis-err {
     color: red;
-    padding-left: 1rem;
 }
 
 .btn-next-step {
@@ -115,10 +128,86 @@
     color: #fff;
     background-color: #000;
     border-radius: 0.5rem;
+    transition: 0.5s ease-in;
 }
 
-.btn-next-step:hover{
+.btn-next-step:hover {
     opacity: 0.7;
     transition: 0.5s ease-in-out;
     cursor: pointer;
+}
+
+.register-form-container-step-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    justify-content: space-evenly;
+    transition: 1s ease-in-out;
+
+}
+
+.regis-content-step-2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 30rem;
+}
+
+.radio-gender {
+    align-items: center;
+    justify-content: center;
+}
+
+.radio-group-gender {
+    width: 100%;
+    display: flex;
+    gap: 10%;
+}
+
+.btn-previous-step {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    top: 2.5rem;
+    gap: 0.5rem;
+}
+
+.regis-date-layout {
+
+    max-height: 2.5rem;
+
+}
+
+
+.regis-group-checkbox {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-content: flex-start;
+    /* padding-left: -2rem;  */
+    margin-right: 6rem;
+    margin-bottom: -4rem;
+}
+
+button:disabled,
+button.disabled {
+    /* opacity: 0.5; */
+    cursor: not-allowed;
+    border: 2px solid #000;
+    width: 100%;
+    max-width: 30rem;
+    height: 2.3rem;
+    color: #000;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    transition: 0.5s ease-in;
 }
