@@ -15,6 +15,8 @@ PORT = process.env.PORT || 5500
 // console.log(process.env.VITE_APP_API)
 
 const app = express();
+app.use(sessionConfig);
+app.set('trust proxy', 1)
 const corsOptions = {
     origin: process.env.VITE_APP_API,
     credentials: true,
@@ -23,7 +25,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'))
 app.use(express.urlencoded({ extended: true }))
-app.use(sessionConfig);
+app.use(helmet())
 
 const server = createServer(app);
 

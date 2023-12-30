@@ -10,12 +10,12 @@ const sessionConfig = session({
     }),
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
         // secure: process.env.APP_ENV === 'production',
         secure: true,
         httpOnly: true,
-        sameSite: 'strict',
+        sameSite: 'lax',
     },
 });
 
