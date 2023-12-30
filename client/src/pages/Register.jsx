@@ -173,6 +173,7 @@ const Register = () => {
     };
 
     const handleSubmit = async (e) => {
+        const { phone } = formData;
         e.preventDefault();
         if (validateData()) {
             if (isDateValid()) {
