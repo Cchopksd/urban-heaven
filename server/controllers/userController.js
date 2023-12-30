@@ -23,7 +23,7 @@ exports.registerController = async (req, res) => {
             return res.status(400).json({ message: 'Username not empty' });
         }
         if (!email) {
-            return res.status(400).json({ message: 'Username not empty' });
+            return res.status(400).json({ message: 'Email not empty' });
         }
 
         if (!isValidEmail(email)) {

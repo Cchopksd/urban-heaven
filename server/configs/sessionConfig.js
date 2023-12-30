@@ -12,7 +12,7 @@ const sessionConfig = session({
     resave: true,
     saveUninitialized: false,
     cookie: {
-        secure: process.env.NODE_ENV === 'production',
+        secure: process.env.APP_ENV === 'production',
     },
 });
 
