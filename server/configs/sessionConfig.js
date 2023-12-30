@@ -14,6 +14,8 @@ const sessionConfig = session({
     cookie: {
         // secure: process.env.APP_ENV === 'production',
         secure: true,
+        httpOnly: true,
+        sameSite: 'strict',
     },
 });
 
