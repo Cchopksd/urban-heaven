@@ -3,13 +3,19 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import Swal from "sweetalert2";
-import "./styles/Login.css";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
+import "./styles/Login.css";
 
 const Login = ({ modalIsOpen, closeModal }) => {
     const [user_email, setEmail] = useState("");
     const [user_password, setPassword] = useState("");
     const [isChecked, setIsChecked] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     const handleChecked = () => {
         setIsChecked(!isChecked);
@@ -43,7 +49,12 @@ const Login = ({ modalIsOpen, closeModal }) => {
             closeModal();
             window.location.reload();
         } catch (error) {
-            console.error("Login failed:", error);
+            console.error("Login failed:", error.response.data.message);
+            await Swal.fire({
+                title: "System",
+                text: error.response.data.message,
+                icon: "error",
+            });
         }
     };
 
@@ -59,7 +70,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
             </button>
             <h2 className='login-modal-header'>Log in</h2>
             <main className='login-container'>
-                <form className='form-login'>
+                <section className='form-login'>
                     <section className='login-input-sec'>
                         <label className='form-label'>
                             <b>Email</b>
@@ -78,18 +89,30 @@ const Login = ({ modalIsOpen, closeModal }) => {
                         <label className='form-label'>
                             <b>Password</b>
                         </label>
-                        <input
-                            type='password'
-                            name='password'
-                            className={`login-input ${
-                                user_password && "has-value"
-                            }`}
-                            placeholder='Enter your password'
-                            value={user_password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                        <section className='frame-login-input-password'>
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name='password'
+                                className={`login-input ${
+                                    user_password && "has-value"
+                                }`}
+                                placeholder='Enter your password'
+                                value={user_password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <button
+                                className='btn-eye-login'
+                                onClick={togglePassword}
+                            >
+                                {showPassword ? (
+                                    <IoEyeOutline />
+                                ) : (
+                                    <IoEyeOffOutline />
+                                )}
+                            </button>
+                        </section>
                     </section>
-                </form>
+                </section>
                 <section className='login-ops-sec'>
                     <label className='check-remember'>
                         <input

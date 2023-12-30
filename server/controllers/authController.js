@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 
 exports.loginController = async (req, res, next) => {
     try {
+        console.log(req.body)
         const { user_email, user_password, isChecked } = req.body;
 
         if (!user_email) {
