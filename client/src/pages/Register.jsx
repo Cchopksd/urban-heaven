@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { isValid, parse } from "date-fns";
@@ -9,7 +10,8 @@ import "./styles/Register.css";
 import { Link } from "react-router-dom";
 
 const Register = () => {
-    var [formData, setFormData] = useState({
+    const navigate = useNavigate()
+    const [formData, setFormData] = useState({
         step: 1,
         name: "",
         surname: "",
@@ -23,9 +25,9 @@ const Register = () => {
         month: "",
         year: "",
     });
-    // console.log(formData.step);
+    // console.log(formData.date, formData.month, formData.year);
     // console.log(formData.province);
-    var [errors, setErrors] = useState({
+    const [errors, setErrors] = useState({
         name: "",
         surname: "",
         username: "",
@@ -175,8 +177,14 @@ const Register = () => {
     const handleSubmit = async (e) => {
         const { phone } = formData;
         e.preventDefault();
-        if (validateData()) {
-            if (isDateValid()) {
+
+        try {
+            if (!validateData()) {
+                return;
+            }
+
+            console.log(!isDateValid());
+            if (!isDateValid()) {
                 Swal.fire({
                     title: "Message",
                     text: "Invalid Date",
@@ -184,38 +192,53 @@ const Register = () => {
                 });
                 return;
             }
+
             const thaiPhoneRegex = /^(\+66|0)-?[1-9]\d{8}$/;
             if (!thaiPhoneRegex.test(phone)) {
                 Swal.fire({
                     title: "Error",
-                    text: "Invalid phone format /n (091-234-5678)",
+                    text: "Invalid phone format (091-234-5678)",
                     icon: "error",
                 });
-                return false;
-            } else {
-                try {
-                    const response = await axios.post(
-                        `${import.meta.env.VITE_BASE_URL}/register`,
-                        formData,
-                        {
-                            withCredentials: true,
-                        },
-                    );
-                    await Swal.fire({
-                        title: "Message",
-                        text: response.data.message,
-                        icon: "success",
-                    });
-                } catch (err) {
-                    // setReceiveMessage(err.response.data.message);
-                    await Swal.fire({
-                        title: "Error",
-                        text: err.response.data.message,
-                        icon: "error",
-                    });
-                    prevStep();
-                }
+                return;
             }
+
+            const response = await axios.post(
+                `${import.meta.env.VITE_BASE_URL}/register`,
+                formData,
+                {
+                    withCredentials: true,
+                },
+            );
+
+            await Swal.fire({
+                title: "Message",
+                text: response.data.message,
+                icon: "success",
+            });
+            navigate('/login')
+            setFormData({
+                name: "",
+                surname: "",
+                username: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+                phone: "",
+                gender: "",
+                date: "",
+                month: "",
+                year: "",
+            });
+        } catch (err) {
+            console.error("Error submitting form:", err);
+            await Swal.fire({
+                title: "Error",
+                text:
+                    err.response?.data?.message || "Failed to submit the form",
+                icon: "error",
+            });
+            prevStep();
         }
     };
 
@@ -227,7 +250,7 @@ const Register = () => {
 
     const isDateValid = () => {
         const selectedDate = parse(
-            `${formData.month}-${formData.month}-${formData.date}`,
+            `${formData.year}-${formData.month}-${formData.date}`,
             "yyyy-MM-dd",
             new Date(),
         );

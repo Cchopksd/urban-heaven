@@ -10,8 +10,8 @@ const { v4: uuidv4 } = require('uuid');
 exports.registerController = async (req, res) => {
     try {
         const userInfo = req.body
-        // console.log(userInfo)
-        const { name, surname, username, email, password, confirmPassword } = userInfo
+        console.log(userInfo)
+        const { name, surname, username, email, password, confirmPassword, phone, gender, date, month, year } = userInfo
 
         const isValidEmail = (email) => {
             const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
@@ -42,6 +42,16 @@ exports.registerController = async (req, res) => {
             return res.status(400).json({ message: 'Last name not empty' })
         }
 
+        if (phone === "") {
+            return res.status(400).json({ message: 'Phone number not empty' })
+        }
+        if (gender === "") {
+            return res.status(400).json({ message: 'gender not empty' })
+        }
+        if (!date && !month && !year) {
+            return res.status(400).json({ message: 'Date of birth not empty' })
+        }
+
         const emailExists = await checkUserExists('user_email', email);
         if (emailExists) {
             return res.status(409).json({ message: 'Email already exists' });
@@ -49,7 +59,7 @@ exports.registerController = async (req, res) => {
 
         const userID = uuidv4();
         await registerModel({ ...userInfo, userID })
-        res.status(200).json({ message: 'Data added successfully' });
+        res.status(200).json({ message: 'Register successfully' });
 
     } catch (err) {
         res.status(500).json({ message: 'Internal Server Error' });

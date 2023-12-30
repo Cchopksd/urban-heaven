@@ -6,9 +6,9 @@ exports.registerModel = async (userInfo) => {
     try {
         const hashedPassword = await bcrypt.hash(userInfo.password, 10);
         await databaseConfig.query(
-            `INSERT INTO users (user_id, user_fname, user_lname, username, user_email, user_password)
-            VALUES ($1, $2, $3, $4, $5, $6)`,
-            [userInfo.userID, userInfo.name, userInfo.surname, userInfo.username, userInfo.email, hashedPassword]
+            `INSERT INTO users (user_id, user_fname, user_lname, username, user_email, user_password,user_phone,user_gender,user_date,user_month,user_year)
+            VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11)`,
+            [userInfo.userID, userInfo.name, userInfo.surname, userInfo.username, userInfo.email, hashedPassword, userInfo.phone, userInfo.gender, userInfo.date, userInfo.month, userInfo.year]
         );
     } catch (err) {
         throw err;
