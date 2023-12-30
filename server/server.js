@@ -3,6 +3,7 @@ const { createServer } = require('node:http');
 const { Server } = require('socket.io')
 const cors = require('cors')
 const morgan = require('morgan')
+import helmet from "helmet";
 require('dotenv').config()
 const { databaseConfig } = require('./configs/connectDB')
 const { sessionConfig } = require('./configs/sessionConfig');
