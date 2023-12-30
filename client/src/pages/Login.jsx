@@ -9,7 +9,6 @@ const Login = ({ modalIsOpen, closeModal }) => {
     const [user_email, setEmail] = useState("");
     const [user_password, setPassword] = useState("");
     const [isChecked, setIsChecked] = useState(false);
-    const navigate = useNavigate();
 
     const handleChecked = () => {
         setIsChecked(!isChecked);
@@ -17,10 +16,6 @@ const Login = ({ modalIsOpen, closeModal }) => {
 
     useEffect(() => {
         Modal.setAppElement("body");
-        // document.body.style.overflow = "hidden";
-        // return () => {
-        //     document.body.style.overflow = "scroll";
-        // };
     }, []);
 
     const handleSubmit = async (event) => {
@@ -64,6 +59,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
                             <b>Email</b>
                         </label>
                         <input
+                            className='login-input'
                             type='text'
                             name='email'
                             placeholder='Enter your email'
@@ -79,7 +75,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
                         <input
                             type='password'
                             name='password'
-                            className={`form-input ${
+                            className={`login-input ${
                                 user_password && "has-value"
                             }`}
                             placeholder='Enter your password'

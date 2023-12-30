@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useContext,useState } from "react";
+import { useContext, useState } from "react";
 import { Context } from "../context/ProviderCenter";
 import "./styles/Navbar.css";
 import DropdownNav from "./DropdownNav";
@@ -13,11 +13,16 @@ const Navbar = () => {
     // eslint-disable-next-line no-unused-vars
     function openModal() {
         setIsOpen(true);
+        document.body.style.overflow = "hidden";
+        return () => {
+            document.body.style.overflow = "scroll";
+        };
     }
 
     // eslint-disable-next-line no-unused-vars
     function closeModal() {
         setIsOpen(false);
+        document.body.style.overflow = "auto";
     }
 
     return (

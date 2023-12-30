@@ -9,6 +9,7 @@ const { sessionConfig } = require('./configs/sessionConfig');
 const authRoute = require('./routes/authRoute')
 const userRoute = require('./routes/userRoute')
 const dashboardRoute = require('./routes/dashboardRoute')
+const { createTables } = require('./configs/createTables')
 
 PORT = process.env.PORT || 5500
 console.log(process.env.VITE_APP_API)
@@ -33,6 +34,8 @@ databaseConfig.query('SELECT NOW()', (err) => {
         console.log('Connected to the database.')
     }
 })
+
+createTables();
 
 
 const io = new Server(server, {
