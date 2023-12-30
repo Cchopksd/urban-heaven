@@ -12,11 +12,11 @@ const dashboardRoute = require('./routes/dashboardRoute')
 const { createTables } = require('./configs/createTables')
 
 PORT = process.env.PORT || 5500
-console.log(process.env.VITE_APP_API)
+// console.log(process.env.VITE_APP_API)
 
 const app = express();
 const corsOptions = {
-    origin: process.env.VITE_APP_API,
+    origin: '*',
     credentials: true,
 };
 app.use(cors(corsOptions));
