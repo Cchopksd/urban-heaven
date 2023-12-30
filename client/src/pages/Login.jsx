@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
+import Swal from "sweetalert2";
 import "./styles/Login.css";
 import PropTypes from "prop-types";
 
@@ -12,7 +13,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
 
     const handleChecked = () => {
         setIsChecked(!isChecked);
-    }
+    };
 
     useEffect(() => {
         Modal.setAppElement("body");
@@ -22,7 +23,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
         event.preventDefault();
 
         try {
-            await axios.post(
+            const response = await axios.post(
                 `${import.meta.env.VITE_BASE_URL}/login`,
                 {
                     user_email,
@@ -34,6 +35,11 @@ const Login = ({ modalIsOpen, closeModal }) => {
                 },
             );
             // navigate("/");
+            await Swal.fire({
+                title: "Message",
+                text: response.data.message,
+                icon: "success",
+            });
             closeModal();
             window.location.reload();
         } catch (error) {

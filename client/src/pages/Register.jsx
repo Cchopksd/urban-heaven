@@ -216,7 +216,7 @@ const Register = () => {
                 text: response.data.message,
                 icon: "success",
             });
-            navigate('/login')
+            navigate('/')
             setFormData({
                 name: "",
                 surname: "",
