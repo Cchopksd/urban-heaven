@@ -19,9 +19,10 @@ const Provider = ({ children }) => {
                 },
             );
             setData(response.data);
+            console.log(response.data);
             setLoading(false);
         } catch (e) {
-            console.log(e.message);
+            console.log(e.response.data.message);
             setLoading(false);
         }
     };
