@@ -7,8 +7,8 @@ import Dash from "./pages/Dash";
 import ProfileMockUp from "./pages/ProfileMockUp";
 import Security from "./pages/Security";
 import Address from "./pages/Address";
-import InsteadRoute from "./middlewares/InsteadRoute";
-import NoMatchRoute from "./middlewares/NoMatchRoute";
+import InsteadRoute from "./utils/InsteadRoute";
+import NoMatchRoute from "./utils/NoMatchRoute";
 import Payment from "./pages/Payment";
 
 const App = () => {

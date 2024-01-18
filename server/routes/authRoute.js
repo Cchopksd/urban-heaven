@@ -5,6 +5,6 @@ const { loginController,
 const { isAuthenticated } = require('../middlewares/authMiddleware')
 
 router.post('/login', loginController);
-router.post('/logout', isAuthenticated, logoutController);
+router.post('/logout', logoutController);
 
 module.exports = router;

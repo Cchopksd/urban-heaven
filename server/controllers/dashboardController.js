@@ -1,8 +1,5 @@
-const jwt = require('jsonwebtoken');
-
 exports.showData = async (req, res) => {
     const payload = req.session.user;
-    console.log(payload)
     try {
 
         if (payload) {

@@ -1,4 +1,4 @@
-exports.isAuthenticated = async(req, res, next) => {
+exports.isAuthenticated = async (req, res, next) => {
     if (req.session.user) {
         return next();
     } else {

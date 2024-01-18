@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
-import { Context } from "../context/ProviderCenter";
-import "./styles/Navbar.css";
-import DropdownNav from "./DropdownNav";
+import { useEffect, useState, useContext } from 'react';
 import { TailSpin } from "react-loader-spinner";
+
+import { Context } from '../context/Provider';
+import DropdownNav from './DropdownNav';
 import Login from "../pages/Login";
+import './styles/Navbar.css';
 
 const Navbar = () => {
+
     const { loading, data } = useContext(Context);
     const [modalIsOpen, setIsOpen] = useState(false);
 
