@@ -118,6 +118,11 @@
 
 .regis-err {
     color: red;
+    transition: color 0.5s ease-in-out;
+}
+
+.regis-err{
+    /* opacity: 0; */
 }
 
 .btn-next-step {

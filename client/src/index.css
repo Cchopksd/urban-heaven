@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@300&family=Montserrat:wght@300&family=Noto+Sans+Thai:wght@300&family=Work+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wdth,wght@62.5..100,100..900&display=swap');
 
 * {
-    font-family: 'Mitr', sans-serif;
+    font-family: "Noto Serif Thai",
+        serif;
 }
 
 body,
@@ -14,6 +15,7 @@ html {
     left: 0;
     right: 0;
     bottom: 0;
+    background-color: #f3f5f7;
 }
 
 #root {
