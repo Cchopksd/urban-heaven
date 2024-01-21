@@ -1,3 +1,77 @@
-.text-flash{
-    
+.dash-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+}
+
+.dash-sec-flash {
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dash-sec-head-flash {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.text-flash {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+
+
+.link-see-all {
+    display: flex;
+
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #ff822d;
+}
+
+.dash-sec-product-flash {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.flash-link-to-product {
+    text-decoration: none;
+    color: black;
+    width: 100%;
+    height: 100%;
+    max-width: 150px;
+    max-height: 300px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+
+    transition: box-shadow 0.3s ease-in-out;
+    /* Add transition for the box shadow */
+}
+
+.flash-link-to-product:hover {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
+    /* New box shadow on hover */
+}
+
+.thumbnail-image {
+    width: 100%;
+    height: 100%;
+    max-width: 300px;
+    max-height: 150px;
+}
+
+.thumbnail-description {
+    padding: 10px;
 }

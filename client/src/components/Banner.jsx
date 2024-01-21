@@ -10,7 +10,7 @@ export default function Banner() {
 	const settings = {
 		dots: true,
 		useCSS: true,
-		centerMode:true,
+
 		infinite: true,
 		autoplay: true,
 		speed: 300,
