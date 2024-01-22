@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useState, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TailSpin } from 'react-loader-spinner';
 import { IoCartOutline } from 'react-icons/io5';
 
@@ -9,6 +10,7 @@ import Login from '../pages/Login';
 import './styles/Navbar.css';
 
 const Navbar = () => {
+	const { t } = useTranslation();
 	const { loading, data } = useContext(Context);
 	const [modalIsOpen, setIsOpen] = useState(false);
 
@@ -72,7 +74,7 @@ const Navbar = () => {
 						<button
 							onClick={() => setIsOpen(true)}
 							className='link-login'>
-							Login
+							{t('login')}
 						</button>
 					)}
 					<Login

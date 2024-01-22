@@ -1,18 +1,52 @@
 import { Link } from 'react-router-dom';
+
 import { IoArrowForward } from 'react-icons/io5';
+import shipping from '../assets/images/icons/shipping-truck.png';
+import coupon from '../assets/images/icons/coupon.png';
+import marketPlace from '../assets/images/icons/marketplace.png';
 
 import productsData from '../data/item';
 import Navbar from '../components/Navbar';
 import Banner from '../components/Banner';
+import { useTranslation } from 'react-i18next';
 import './styles/Dash.css';
+import Footer from '../components/Footer';
 
 const Dash = () => {
+	const { t } = useTranslation();
 	return (
 		<div className='dash-screen'>
 			<Navbar />
 			<Banner />
 			<main className='dash-container'>
-				<section className='dash-sec-flash'>
+				<section className='dash-sec-menu'>
+					<Link className='dash-sec-menu-layout menu1'>
+						<img
+							src={shipping}
+							alt=''
+							className='dash-menu-icons'
+						/>
+						<label>{t('freeShipping')}</label>
+					</Link>
+					<Link className='dash-sec-menu-layout menu2'>
+						<img
+							src={coupon}
+							alt=''
+							className='dash-menu-icons'
+						/>
+						<label>{t('discount')}</label>
+					</Link>
+					<Link className='dash-sec-menu-layout menu3'>
+						<img
+							src={marketPlace}
+							alt=''
+							className='dash-menu-icons'
+						/>
+						<label>{t('become')}</label>
+					</Link>
+				</section>
+
+				<section className='dash-sec flash-sale'>
 					<section className='dash-sec-head-flash'>
 						<h1 className='text-flash'>⚡Flash Sale</h1>
 						<h4 className='text-see-all'>
@@ -20,9 +54,6 @@ const Dash = () => {
 								See All <IoArrowForward />
 							</Link>
 						</h4>
-					</section>
-					<section>
-						
 					</section>
 					<section className='dash-sec-product-flash'>
 						{productsData.slice(0, 7).map((index) => (
@@ -44,7 +75,9 @@ const Dash = () => {
 						))}
 					</section>
 				</section>
+				<section className='dash-sec'></section>
 			</main>
+			<Footer/>
 		</div>
 	);
 };

@@ -4,15 +4,63 @@
     margin: auto;
 }
 
-.dash-sec-flash {
+.dash-sec {
     margin-top: 20px;
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
     width: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-around;
+}
+
+
+/* section menu */
+.dash-sec-menu {
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 2rem;
+    justify-content: space-around;
+}
+
+.dash-menu-icons {
+    width: 40px;
+    border: 1px solid #eeeeee;
+    padding: 5px;
+    border-radius: 15px;
+}
+
+.dash-sec-menu-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    margin-top: 0px;
+    transition: margin-top 0.3s ease;
+    text-decoration: none;
+    color: black;
+}
+
+.menu1:hover,
+.menu2:hover,
+.menu3:hover {
+    margin-top: -10px;
+}
+
+
+
+/* section flash-sale */
+.flash-sale {
+    flex-direction: column;
 }
 
 .dash-sec-head-flash {
@@ -29,8 +77,6 @@
     gap: 1.5rem;
 }
 
-
-
 .link-see-all {
     display: flex;
 
@@ -45,6 +91,8 @@
     gap: 2rem;
 }
 
+
+
 .flash-link-to-product {
     text-decoration: none;
     color: black;
@@ -54,15 +102,15 @@
     max-height: 300px;
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    border: 1px solid #eeeeee;
+    /* box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); */
 
     transition: box-shadow 0.3s ease-in-out;
-    /* Add transition for the box shadow */
 }
 
 .flash-link-to-product:hover {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.4);
-    /* New box shadow on hover */
+    margin-top: -1px;
 }
 
 .thumbnail-image {
@@ -70,6 +118,7 @@
     height: 100%;
     max-width: 300px;
     max-height: 150px;
+    object-fit: cover;
 }
 
 .thumbnail-description {

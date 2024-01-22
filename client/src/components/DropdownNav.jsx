@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from 'react-icons/ri';
@@ -11,6 +12,7 @@ import { Context } from "../context/Provider";
 import './styles/DropdownNav.css';
 
 const DropdownNav = () => {
+	const { t } = useTranslation();
 	const { data } = useContext(Context);
 	const [open, setOpen] = useState(false);
 	const menuRef = useRef();
@@ -74,16 +76,14 @@ const DropdownNav = () => {
 			</section>
 
 			<section
-				className={`dropdown-menu ${
-					open ? 'active' : 'inactive'
-				}`}>
+				className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
 				<ul className='dropdown-group'>
 					<Link
 						className='list-dropdown-link'
 						onClick={handleLinkClick}
 						to={'/account/edit-profile'}>
 						<IoPersonCircleOutline />
-						Account
+						{t('account')}
 					</Link>
 					<hr className='line-list-dropdown-link' />
 					<Link
@@ -91,7 +91,7 @@ const DropdownNav = () => {
 						onClick={handleLinkClick}
 						to={'/my-purchase'}>
 						<IoBagHandleOutline />
-						My Purchase
+						{t('purchase')}
 					</Link>
 					<hr className='line-list-dropdown-link' />
 					<Link
@@ -99,7 +99,7 @@ const DropdownNav = () => {
 						onClick={handleLogout}
 						to={'/'}>
 						<IoLogOutOutline />
-						Logout
+						{t('logout')}
 					</Link>
 				</ul>
 			</section>
