@@ -1,4 +1,4 @@
-.footer-component{
+.footer-component {
     width: 100%;
     height: auto;
     display: flex;
@@ -8,9 +8,47 @@
     background-color: #FFF;
 }
 
-.contact-info{
+.contact-info {}
+
+.contact-info-header {
+    text-align: center;
 }
 
-.contact-info-header{
-    text-align: center;
+.footer-sec-1 {
+    display: block;
+    text-overflow: ellipsis;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 21.6rem;
+    line-height: 1.8em;
+}
+
+.footer-link {
+    text-decoration: none;
+    color: #000;
+    transition: 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #2270E2;
+}
+
+.footer-mail {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    color: #FFF;
+    background-color: #141414;
+    transition: 0.3s ease;
+}
+
+.footer-mail:hover {
+    color: #2270E2;
+}
+
+.footer-sec-4-commu {
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    color: #000;
 }
