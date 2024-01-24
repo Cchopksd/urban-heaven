@@ -8,52 +8,40 @@ import { IoPersonCircleOutline } from 'react-icons/io5';
 import { IoBagHandleOutline } from 'react-icons/io5';
 import { IoLogOutOutline } from 'react-icons/io5';
 
-import { Context } from "../context/Provider";
+import { Context } from '../context/Provider';
 import './styles/DropdownNav.css';
 
 const DropdownNav = () => {
 	const { t } = useTranslation();
 	const { data } = useContext(Context);
-	const [open, setOpen] = useState(false);
+	const [openDropdown, setOpenDropdown] = useState(false);
 	const menuRef = useRef();
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		let handleDropdown = (e) => {
 			if (!menuRef.current.contains(e.target)) {
-				setOpen(false);
+				setOpenDropdown(false);
 				// console.log(menuRef.current);
 			}
 		};
 
-		document.addEventListener(
-			'mousedown',
-			handleDropdown,
-		);
+		document.addEventListener('mousedown', handleDropdown);
 
 		return () => {
-			document.removeEventListener(
-				'mousedown',
-				handleDropdown,
-			);
+			document.removeEventListener('mousedown', handleDropdown);
 		};
 	});
 
 	const handleLinkClick = () => {
-		setOpen(false);
+		setOpenDropdown(false);
 	};
 
 	const handleLogout = async () => {
 		try {
-			await axios.post(
-				`${
-					import.meta.env.VITE_BASE_URL
-				}/logout`,
-				null,
-				{
-					withCredentials: true,
-				},
-			);
+			await axios.post(`${import.meta.env.VITE_BASE_URL}/logout`, null, {
+				withCredentials: true,
+			});
 			window.location.reload();
 			navigate('/');
 		} catch (error) {
@@ -67,7 +55,7 @@ const DropdownNav = () => {
 			ref={menuRef}>
 			<section
 				onClick={() => {
-					setOpen(!open);
+					setOpenDropdown(!openDropdown);
 				}}>
 				<label className='text-dropdown'>
 					{data.username}
@@ -76,7 +64,9 @@ const DropdownNav = () => {
 			</section>
 
 			<section
-				className={`dropdown-menu ${open ? 'active' : 'inactive'}`}>
+				className={`dropdown-menu ${
+					openDropdown ? 'active' : 'inactive'
+				}`}>
 				<ul className='dropdown-group'>
 					<Link
 						className='list-dropdown-link'

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import Swal from 'sweetalert2';
@@ -9,6 +10,16 @@ import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import './styles/Login.css';
 
 const Login = ({ modalIsOpen, closeModal }) => {
+	const { t } = useTranslation();
+
+	useEffect(() => {
+		if (modalIsOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	});
+
 	const navigate = useNavigate();
 
 	const [user_email, setEmail] = useState('');

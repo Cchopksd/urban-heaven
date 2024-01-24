@@ -17,7 +17,7 @@ const Provider = ({ children }) => {
 					withCredentials: true,
 				},
 			);
-            setData(response.data);
+			setData(response.data);
 			setLoading(false);
 		} catch (e) {
 			console.log(e.response.message);

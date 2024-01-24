@@ -2,9 +2,13 @@
     "greeting": "Hello!",
     "changeLanguage": "Change Language",
     "currentLanguage": "Current Language",
+    "thai":"Thai",
+    "english": "English",
     "account": "Account",
     "purchase": "My Parches",
-    "login": "login",
+    "register": "register",
+    "login": "Login",
+    "logout": "Logout",
     "freeShipping": "Free Shipping",
     "discount": "Discount",
     "become": "Become a seller",
@@ -17,5 +21,6 @@
     "service": "Service",
     "joinWithUS": "Join with us",
     "support": "Support",
+    "homepage":"Homepage",
     "solution": "Stay up to date with our latest products and services byfollowing us on social media. Join the Urban-Haven community today."
 }

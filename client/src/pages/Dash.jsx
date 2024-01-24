@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-
+import { useEffect } from 'react';
 import { IoArrowForward } from 'react-icons/io5';
+
 import shipping from '../assets/images/icons/shipping-truck.png';
 import coupon from '../assets/images/icons/coupon.png';
 import marketPlace from '../assets/images/icons/marketplace.png';
@@ -14,6 +15,10 @@ import Footer from '../components/Footer';
 
 const Dash = () => {
 	const { t } = useTranslation();
+	useEffect(() => {
+		document.title = t('homepage');
+	}, [t]);
+
 	return (
 		<div className='dash-screen'>
 			<Navbar />

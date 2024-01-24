@@ -10,7 +10,6 @@ import Address from "./pages/Address";
 import InsteadRoute from "./utils/InsteadRoute";
 import NoMatchRoute from "./utils/NoMatchRoute";
 import Payment from "./pages/Payment";
-import Test from "./pages/Test";
 
 const App = () => {
     return (
@@ -30,7 +29,6 @@ const App = () => {
                 <Route path='/account/payment' element={<Payment />} />
 
                 <Route path='*' element={<NoMatchRoute />} />
-                <Route path='/test' element={<Test />} />
             </Routes>
         </BrowserRouter>
     );

@@ -1,0 +1,112 @@
+.button-change-lang {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    gap: 0.5rem;
+}
+
+.change-lang-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.dropdown-menu-lang {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 100px;
+    z-index: 1000;
+}
+
+.dropdown-menu-lang.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: 0.3s ease-in;
+}
+
+.dropdown-menu-lang.inactive {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: 0.3s ease-out;
+}
+
+.button-change-lang {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.change-lang-layout {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dropdown-menu-lang {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    position: absolute;
+    top: 100px;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    max-width: 130px;
+    background-color: #fff;
+    border-radius: 15px;
+    /* max-height: 50px; */
+
+}
+
+.dropdown-menu-lang.activeLang {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: 0.01s ease-in;
+}
+
+.dropdown-menu-lang.inactiveLang {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: 0.01s ease-out;
+}
+
+
+.button-lang {
+    display: flex;
+    border: none;
+    background: transparent;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 5px;
+    cursor: pointer;
+    
+}
+
+
+.list-dropdown-button {
+    padding-left: 10%;
+
+}
+
+.icon-flag {
+    width: 20px;
+}
+
+.selectedLang{
+    color: #2270E2;
+}
