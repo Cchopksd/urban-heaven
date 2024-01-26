@@ -12,8 +12,14 @@ import './styles/Navbar.css';
 
 const Navbar = () => {
 	const { t } = useTranslation();
-	const { loading, data } = useContext(Context);
+	const { config, loading } = useContext(Context);
 	const [modalIsOpen, setIsOpen] = useState(false);
+
+	// const configData = localStorage.getItem('config');
+	// const config = configData;
+	// console.log(config);
+	// console.log(config.config);
+
 	// eslint-disable-next-line no-unused-vars
 	function openModal() {
 		setIsOpen(true);
@@ -59,7 +65,7 @@ const Navbar = () => {
 							wrapperStyle={{}}
 							wrapperClass=''
 						/>
-					) : data ? (
+					) : config ? (
 						<DropdownNav className='nav-drop' />
 					) : (
 						<button

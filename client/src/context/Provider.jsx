@@ -6,8 +6,9 @@ const Context = createContext();
 
 const Provider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
-	const [data, setData] = useState('');
-	const { user } = data;
+	const [config, setConfig] = useState('');
+	let miniConfig = { config };
+	localStorage.setItem('mini-config', JSON.stringify(miniConfig));
 
 	const fetchData = async () => {
 		try {
@@ -17,7 +18,7 @@ const Provider = ({ children }) => {
 					withCredentials: true,
 				},
 			);
-			setData(response.data);
+			setConfig(response.data);
 			setLoading(false);
 		} catch (e) {
 			console.log(e.response.message);
@@ -30,7 +31,7 @@ const Provider = ({ children }) => {
 	}, []);
 
 	return (
-		<Context.Provider value={{ user, loading, data, fetchData }}>
+		<Context.Provider value={{ loading, fetchData, config }}>
 			{children}
 		</Context.Provider>
 	);

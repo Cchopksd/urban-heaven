@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
@@ -8,15 +8,16 @@ import { IoPersonCircleOutline } from 'react-icons/io5';
 import { IoBagHandleOutline } from 'react-icons/io5';
 import { IoLogOutOutline } from 'react-icons/io5';
 
-import { Context } from '../context/Provider';
 import './styles/DropdownNav.css';
 
 const DropdownNav = () => {
 	const { t } = useTranslation();
-	const { data } = useContext(Context);
 	const [openDropdown, setOpenDropdown] = useState(false);
 	const menuRef = useRef();
 	const navigate = useNavigate();
+
+	const miniConfig = localStorage.getItem('mini-config');
+	const { config } = JSON.parse(miniConfig);
 
 	useEffect(() => {
 		let handleDropdown = (e) => {
@@ -58,7 +59,7 @@ const DropdownNav = () => {
 					setOpenDropdown(!openDropdown);
 				}}>
 				<label className='text-dropdown'>
-					{data.username}
+					{config.username}
 					<RiArrowDropDownLine className='dropdown-icon' />
 				</label>
 			</section>

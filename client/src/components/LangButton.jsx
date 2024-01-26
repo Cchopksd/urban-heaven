@@ -13,7 +13,6 @@ const LangButton = () => {
 	const langRef = useRef();
 	const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
 	const [langDropdown, setLangDropdown] = useState(false);
-
 	const changeLanguage = (lng) => {
 		i18n.changeLanguage(lng);
 		setCurrentLanguage(lng);
@@ -35,7 +34,7 @@ const LangButton = () => {
 				// console.log(menuRef.current);
 			}
 		};
-		
+
 		document.addEventListener('mousedown', handleDropdown);
 
 		return () => {
@@ -57,7 +56,7 @@ const LangButton = () => {
 					<label
 						className='label-current-language'
 						htmlFor='button-change-lang'>
-						{currentLanguage === 'th' ? t('thai') : t('english')}
+						{currentLanguage === 'th-TH' ? t('thai') : t('english')}
 					</label>
 				</button>
 				<section
@@ -67,9 +66,11 @@ const LangButton = () => {
 					<ul className='list-dropdown-button'>
 						<button
 							className={`button-lang ${
-								currentLanguage === 'th' ? 'selectedLang' : ''
+								currentLanguage === 'th-TH'
+									? 'selectedLang'
+									: ''
 							}`}
-							onClick={() => changeLanguage('th')}>
+							onClick={() => changeLanguage('th-TH')}>
 							<img
 								className='icon-flag'
 								src={thIcon}
@@ -80,9 +81,11 @@ const LangButton = () => {
 
 						<button
 							className={`button-lang ${
-								currentLanguage !== 'th' ? 'selectedLang' : ''
+								currentLanguage !== 'th-TH'
+									? 'selectedLang'
+									: ''
 							}`}
-							onClick={() => changeLanguage('en')}>
+							onClick={() => changeLanguage('en-US')}>
 							<img
 								className='icon-flag'
 								src={ukIcon}
