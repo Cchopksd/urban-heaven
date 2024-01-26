@@ -27,44 +27,31 @@ exports.registerController = async (req, res) => {
 		} = userInfo;
 
 		const isValidEmail = (email) => {
-			const emailRegex =
-				/^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+			const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
 			return emailRegex.test(email);
 		};
 
 		if (!username) {
-			return res
-				.status(400)
-				.json({ message: 'Username not empty' });
+			return res.status(400).json({ message: 'Username not empty' });
 		}
 		if (!email) {
-			return res
-				.status(400)
-				.json({ message: 'Email not empty' });
+			return res.status(400).json({ message: 'Email not empty' });
 		}
 
 		if (!isValidEmail(email)) {
-			return res
-				.status(400)
-				.json({ message: 'Invalid email format' });
+			return res.status(400).json({ message: 'Invalid email format' });
 		}
 
 		if (password !== confirmPassword) {
-			return res
-				.status(400)
-				.json({ message: 'password not matched' });
+			return res.status(400).json({ message: 'password not matched' });
 		}
 
 		if (name === '') {
-			return res
-				.status(400)
-				.json({ message: 'First name not empty' });
+			return res.status(400).json({ message: 'First name not empty' });
 		}
 
 		if (surname === '') {
-			return res
-				.status(400)
-				.json({ message: 'Last name not empty' });
+			return res.status(400).json({ message: 'Last name not empty' });
 		}
 
 		if (phone === '') {
@@ -73,9 +60,7 @@ exports.registerController = async (req, res) => {
 			});
 		}
 		if (gender === '') {
-			return res
-				.status(400)
-				.json({ message: 'gender not empty' });
+			return res.status(400).json({ message: 'gender not empty' });
 		}
 		if (!date || !month || !year) {
 			return res.status(400).json({
@@ -83,14 +68,9 @@ exports.registerController = async (req, res) => {
 			});
 		}
 
-		const emailExists = await checkUserExists(
-			'user_email',
-			email,
-		);
+		const emailExists = await checkUserExists('user_email', email);
 		if (emailExists) {
-			return res
-				.status(409)
-				.json({ message: 'Email already exists' });
+			return res.status(409).json({ message: 'Email already exists' });
 		}
 
 		const userID = uuidv4();
@@ -113,15 +93,11 @@ exports.EditProfileController = async (req, res) => {
 		const userInfo = req.body;
 
 		if (userInfo.fname === '') {
-			return res
-				.status(400)
-				.json({ message: 'First name not empty' });
+			return res.status(400).json({ message: 'First name not empty' });
 		}
 
 		if (userInfo.lname === '') {
-			return res
-				.status(400)
-				.json({ message: 'Last name not empty' });
+			return res.status(400).json({ message: 'Last name not empty' });
 		}
 
 		await EditProfileModel(user_params, {
@@ -150,6 +126,19 @@ exports.getAllUsersControllers = async (req, res) => {
 			message: 'Internal Server Error',
 		});
 		throw err;
+	}
+};
+
+exports.getSingleUserController = async (req, res) => {
+	try {
+		const userInfo = req.body;
+		const { user_id } = userInfo;
+		const result = await getSingleUserModel({ user_id });
+		res.status(200).json({ message: 'Get data successfully', result });
+	} catch (err) {
+		res.status(500).json({
+			message: err,
+		});
 	}
 };
 
@@ -186,4 +175,17 @@ exports.createAddressController = async (req, res) => {
 	}
 };
 
-
+exports.showData = async (req, res) => {
+	const payload = req.session.user;
+	try {
+		if (payload) {
+			res.status(200).json(payload);
+		} else if (err) {
+			console.error('err');
+			res.status(500).json({ message: err });
+		}
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ message: err });
+	}
+};
