@@ -6,8 +6,8 @@ import enTranslation from '../locales/en/trans.json';
 import thTranslation from '../locales/th/trans.json';
 
 const resources = {
-	en: { translation: enTranslation },
-	th: { translation: thTranslation },
+	'en': { translation: enTranslation },
+	'th': { translation: thTranslation },
 };
 
 i18n.use(LanguageDetector)
@@ -15,7 +15,7 @@ i18n.use(LanguageDetector)
 	.init({
 		load: 'languageOnly',
 		resources,
-		fallbackLng: 'en', // Fallback language if translation not found
+		fallbackLng: 'en-US', // Fallback language if translation not found
 
 		interpolation: {
 			escapeValue: false, // React already escapes strings
