@@ -10,6 +10,7 @@ const { sessionConfig } = require('./configs/sessionConfig');
 const authRoute = require('./routes/authRoute');
 const userRoute = require('./routes/userRoute');
 const dashboardRoute = require('./routes/dashboardRoute');
+const merchantRoute = require('./routes/merchantRoute');
 const { createTables } = require('./configs/createTables');
 
 PORT = process.env.PORT || 5500;
@@ -63,6 +64,7 @@ io.on('connection', (socket) => {
 app.use('/api', authRoute);
 app.use('/api', userRoute);
 app.use('/api', dashboardRoute);
+app.use('/api', merchantRoute);
 
 server.listen(PORT, () => {
 	console.log(`listening on port ${PORT}`);

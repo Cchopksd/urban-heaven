@@ -72,6 +72,20 @@ const addressTableQuery = `
     );
 `;
 
+const merchantTableQuery = `
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+    CREATE TABLE merchant (
+        merchant_ID UUID DEFAULT uuid_generate_v4(),
+        user_ID UUID REFERENCES users(user_ID),
+        merchant_name VARCHAR(100) NOT NULL,
+        merchant_email VARCHAR(100) NOT NULL,
+        merchant_phone VARCHAR(100) NOT NULL,
+        merchant_address VARCHAR(100) NOT NULL,
+        PRIMARY KEY(merchant_ID)
+    );
+`;
+
 exports.createTables = async () => {
 	await this.createTableIfNotExists(
 		'users',
@@ -84,5 +98,9 @@ exports.createTables = async () => {
 	await this.createTableIfNotExists(
 		'address',
 		addressTableQuery,
-	);
+    );
+    await this.createTableIfNotExists(
+        'merchant',
+        merchantTableQuery
+    )
 };
