@@ -131,13 +131,18 @@ exports.getAllUsersControllers = async (req, res) => {
 
 exports.getSingleUserController = async (req, res) => {
 	try {
-		const userInfo = req.body;
-		const { user_id } = userInfo;
+		const { user_id } = req.params;
+		// const { user_id } = userInfo;
+		console.log(user_id);
 		const result = await getSingleUserModel({ user_id });
-		res.status(200).json({ message: 'Get data successfully', result });
+		if (result) {
+			res.status(200).json({ message: 'Get data successfully', result });
+		} else {
+			res.status(404).json({ message: 'User not found' });
+		}
 	} catch (err) {
 		res.status(500).json({
-			message: err,
+			message: err.message || 'Internal Server Error',
 		});
 	}
 };
