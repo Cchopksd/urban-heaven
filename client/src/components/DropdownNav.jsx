@@ -72,7 +72,7 @@ const DropdownNav = () => {
 					<Link
 						className='list-dropdown-link'
 						onClick={handleLinkClick}
-						to={'/account/edit-profile'}>
+						to={`/account/edit-profile`}>
 						<IoPersonCircleOutline />
 						{t('account')}
 					</Link>

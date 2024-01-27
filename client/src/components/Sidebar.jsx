@@ -1,18 +1,17 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import "./styles/Sidebar.css";
+import './styles/Sidebar.css';
 
 const Sidebar = () => {
-    const { t } = useTranslation();
-    const [selectedLink] = useState(location.pathname);
-    // const selectedLink = `/account/security/ซ-ภถ-ภถภ-`;
+	const { t } = useTranslation();
+	const [selectedLink] = useState(location.pathname);
 
-    return (
+	return (
 		<main className='profile-sec-ops'>
 			<nav className='profile-option'>
 				<Link
-					to={'/account/edit-profile'}
+					to={`/account/edit-profile`}
 					className={`profile-each-option ${
 						selectedLink.startsWith('/account/edit-profile')
 							? 'selected'

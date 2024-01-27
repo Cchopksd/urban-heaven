@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 
 const Context = createContext();
@@ -7,13 +8,16 @@ const Context = createContext();
 const Provider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 	const [config, setConfig] = useState('');
-	let miniConfig = { config };
+	const miniConfig = { config };
 	localStorage.setItem('mini-config', JSON.stringify(miniConfig));
+	useEffect(() => {
+		Cookies.set('uuid', config.user_id, { expires: 7, path: '/' });
+	}, [config.user_id]);
 
 	const fetchData = async () => {
 		try {
 			const response = await axios.get(
-				`${import.meta.env.VITE_BASE_URL}/dashboard`,
+				`${import.meta.env.VITE_BASE_URL}/pull-user-data`,
 				{
 					withCredentials: true,
 				},
