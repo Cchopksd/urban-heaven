@@ -2,7 +2,7 @@
     "greeting": "Hello!",
     "changeLanguage": "Change Language",
     "currentLanguage": "Current Language",
-    "thai":"Thai",
+    "thai": "Thai",
     "english": "English",
     "account": "Account",
     "purchase": "My Parches",
@@ -21,6 +21,7 @@
     "service": "Service",
     "joinWithUS": "Join with us",
     "support": "Support",
-    "homepage":"Homepage",
+    "homepage": "Homepage",
+    "pageError": "404 | This page could not be found.",
     "solution": "Stay up to date with our latest products and services byfollowing us on social media. Join the Urban-Haven community today."
 }
