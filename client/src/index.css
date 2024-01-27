@@ -29,3 +29,9 @@ html {
     right: 0;
     bottom: 0;
 }
+
+.loader {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}

@@ -1,85 +1,108 @@
-.dash-container {
+.dash-screen {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    max-width: 1400px;
     margin: auto;
 }
 
-.dash-sec {
-    margin-top: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
+.dash-container {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+    max-width: 1400px;
+    margin: 20px auto;
+    font-size: calc(80% + 0.5vmin);
 }
 
+/* section-banner */
+.dash-sec-banner {
+    background-color: #fff;
+    width: 100%;
+    border-radius:calc(1% + 1%);
+    ;
+}
+
+.dash-sec-banner-layout {
+    padding: calc(1% + 1%);
+}
 
 /* section menu */
 .dash-sec-menu {
     margin-top: 20px;
     background-color: #fff;
     border-radius: 10px;
-    padding: 20px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    gap: 2rem;
-    justify-content: space-around;
+    /* gap: 2%; */
 }
 
 .dash-menu-icons {
-    width: 40px;
+    width: 100%;
+    max-width: 40px;
     border: 1px solid #eeeeee;
     padding: 5px;
     border-radius: 15px;
 }
 
+.lay {
+    display: flex;
+    width: 100%;
+    padding: calc(1% + 1%);
+    justify-content: space-around;
+    align-items: center;
+}
+
 .dash-sec-menu-layout {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    font-size: calc(70% + 0.5vmin);
     align-items: center;
-    gap: 0.5rem;
     cursor: pointer;
-    margin-top: 0px;
     transition: margin-top 0.3s ease;
     text-decoration: none;
     color: black;
+    text-align: center;
+
+}
+
+.menu1,
+.menu2,
+.menu3,
+.menu4 {
+    margin-top: 0px;
 }
 
 .menu1:hover,
 .menu2:hover,
-.menu3:hover {
+.menu3:hover,
+.menu4:hover {
     margin-top: -10px;
 }
 
-
-
 /* section flash-sale */
-.flash-sale {
+.dash-sec-flash-sale {
     flex-direction: column;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
+.dash-sec-flash-sale-layout {
+    padding: 0 calc(1% + 1%) calc(1% + 1%) calc(1% + 1%);
 }
 
 .dash-sec-head-flash {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    width: 100%;
-}
-
-.text-flash {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
 }
 
 .link-see-all {
     display: flex;
-
     gap: 0.5rem;
     text-decoration: none;
     color: #ff822d;
@@ -89,8 +112,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
-}
+    justify-content: center;
 
+}
 
 
 .flash-link-to-product {

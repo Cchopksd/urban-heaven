@@ -75,9 +75,7 @@ const Navbar = () => {
 						<Link
 							to={'/'}
 							className={`nav-menu-home ${
-								isMenuOpen
-									? 'each-menu nav-reveal'
-									: ''
+								isMenuOpen ? 'each-menu nav-reveal' : ''
 							}`}>
 							<IoCartOutline className='hide' />
 							Home
@@ -94,16 +92,18 @@ const Navbar = () => {
 
 				<section className='navbar-dropdown'>
 					{loading ? (
-						<TailSpin
-							visible={true}
-							height='20'
-							width='20'
-							color='#000000'
-							ariaLabel='tail-spin-loading'
-							radius='1'
-							wrapperStyle={{}}
-							wrapperClass=''
-						/>
+						<section className='loader'>
+							<TailSpin
+								visible={true}
+								height='20'
+								width='20'
+								color='#000000'
+								ariaLabel='tail-spin-loading'
+								radius='1'
+								wrapperStyle={{}}
+								wrapperClass=''
+							/>
+						</section>
 					) : config ? (
 						<DropdownNav className='nav-drop' />
 					) : (

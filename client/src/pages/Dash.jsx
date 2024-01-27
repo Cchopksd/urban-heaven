@@ -99,7 +99,7 @@ const Dash = () => {
 				</section>
 				<section className='dash-sec'></section>
 			</main>
-			{/* <Footer /> */}
+			<Footer />
 		</div>
 	);
 };
