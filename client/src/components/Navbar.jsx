@@ -28,8 +28,6 @@ const Navbar = () => {
 		setIsOpen(false);
 	}
 
-	
-
 	useEffect(() => {
 		const handleMenu = (e) => {
 			if (!menuHamRef.current.contains(e.target)) {
@@ -37,7 +35,7 @@ const Navbar = () => {
 				// console.log(menuHamRef.current);
 			}
 		};
-		
+
 		document.addEventListener('mousedown', handleMenu);
 
 		return () => {
@@ -73,6 +71,17 @@ const Navbar = () => {
 						<h1 className='nav-logo'>|</h1>
 
 						<LangButton className='each-menu' />
+
+						<Link
+							to={'/'}
+							className={`nav-menu-home ${
+								isMenuOpen
+									? 'each-menu nav-reveal'
+									: ''
+							}`}>
+							<IoCartOutline className='hide' />
+							Home
+						</Link>
 
 						<Link
 							to={'/chat'}

@@ -24,69 +24,67 @@ export default function Banner() {
 	};
 
 	return (
-		<div className='banner-component'>
-			<main className='slider-container'>
-				<Slider
-					{...settings}
-					className='slider'>
-					<section className='slider-layout'>
-						<Link to={'/mockup1'}>
-							<img
-								className='image-style'
-								src={imageBanner1}
-								alt='Slide 1'
-							/>
-						</Link>
-					</section>
+		<div className='slider-container'>
+			<Slider
+				{...settings}
+				className='slider'>
+				<section className='slider-layout'>
+					<Link to={'/mockup1'}>
+						<img
+							className='image-style'
+							src={imageBanner1}
+							alt='Slide 1'
+						/>
+					</Link>
+				</section>
 
-					<section className='slider-layout'>
-						<Link to={'/mockup2'}>
-							<img
-								className='image-style'
-								src={imageBanner2}
-								alt='Slide 2'
-							/>
-						</Link>
-					</section>
-					<section className='slider-layout'>
-						<Link to={'/mockup3'}>
-							<img
-								className='image-style'
-								src={imageBanner1}
-								alt='Slide 1'
-							/>
-						</Link>
-					</section>
-					<section className='slider-layout'>
-						<Link to={'/mockup4'}>
-							<img
-								className='image-style'
-								src={imageBanner1}
-								alt='Slide 1'
-							/>
-						</Link>
-					</section>
-					<section className='slider-layout'>
-						<Link to={'/mockup5'}>
-							<img
-								className='image-style'
-								src={imageBanner1}
-								alt='Slide 1'
-							/>
-						</Link>
-					</section>
-					<section className='slider-layout'>
-						<Link to={'/mockup6'}>
-							<img
-								className='image-style'
-								src={imageBanner1}
-								alt='Slide 1'
-							/>
-						</Link>
-					</section>
-				</Slider>
-			</main>
-			<h1 className='banner-h1'>Welcome to URBAN-HAVEN</h1>
+				<section className='slider-layout'>
+					<Link to={'/mockup2'}>
+						<img
+							className='image-style'
+							src={imageBanner2}
+							alt='Slide 2'
+						/>
+					</Link>
+				</section>
+				<section className='slider-layout'>
+					<Link to={'/mockup3'}>
+						<img
+							className='image-style'
+							src={imageBanner1}
+							alt='Slide 1'
+						/>
+					</Link>
+				</section>
+				<section className='slider-layout'>
+					<Link to={'/mockup4'}>
+						<img
+							className='image-style'
+							src={imageBanner1}
+							alt='Slide 1'
+						/>
+					</Link>
+				</section>
+				<section className='slider-layout'>
+					<Link to={'/mockup5'}>
+						<img
+							className='image-style'
+							src={imageBanner1}
+							alt='Slide 1'
+						/>
+					</Link>
+				</section>
+				<section className='slider-layout'>
+					<Link to={'/mockup6'}>
+						<img
+							className='image-style'
+							src={imageBanner1}
+							alt='Slide 1'
+						/>
+					</Link>
+				</section>
+			</Slider>
+			{/* <h1 className='banner-h1'>Welcome to URBAN-HAVEN</h1> */}
 		</div>
 	);
 }

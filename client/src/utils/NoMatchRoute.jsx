@@ -1,17 +1,20 @@
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import './styles/NoMatch.css'
+import { useTranslation } from 'react-i18next';
+
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+import './styles/NoMatch.css';
 
 const NoMatchRoute = () => {
-    return (
-        <div className='no-screen'>
-            <Navbar />
-            <main className='no-container '>
-                <h1>404 | This page could not be found.</h1>
-            </main>
-            <Footer />
-        </div>
-    );
-}
+    const { t } = useTranslation();
+	return (
+		<div className='no-screen'>
+			<Navbar />
+			<main className='no-container '>
+				<h1>{t('pageError')}</h1>
+			</main>
+			<Footer />
+		</div>
+	);
+};
 
 export default NoMatchRoute;

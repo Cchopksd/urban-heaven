@@ -1,7 +1,8 @@
 .navbar-component {
     display: flex;
     width: 100%;
-    height: 90px;
+    height: 90;
+    min-height: 90px;
     position: relative;
     background-color: #fff;
     box-shadow: 10px 10px 20px #0000001a;
@@ -12,11 +13,9 @@
 .navbar-container {
     display: flex;
     justify-content: space-between;
-    padding: 0 2%;
-    position: relative;
     width: 100%;
     align-items: center;
-
+    padding: 0 2%;
 }
 
 .nav-sec-1 {
@@ -87,23 +86,35 @@
     cursor: pointer;
 }
 
-@media only screen and (max-width: 767px) {
+.nav-reveal {
+    display: block;
+}
 
+.nav-hide {
+    display: none;
+}
+
+.nav-menu-home{
+    display: none;
+}
+
+@media only screen and (max-width: 767px) {
 
 
     .nav-sec-1 {
         display: flex;
         flex-direction: column;
         position: absolute;
-        height: 100%;
+        height: auto;
         width: 100%;
         background-color: #fff;
-        padding: 10px;
         border-radius: 5px;
         transform: translateY(-200%);
-        transition: transform 0.3s ease-out;
-        margin: 0 -20px;
         z-index: -1;
+        left: 0;
+        right: 0;
+        top: 61px;
+        padding: 20px 0;
         /* box-shadow: 10px 10px 20px #0000001a; */
     }
 
@@ -111,6 +122,8 @@
 
     .nav-sec-1.nav-slide {
         transform: translateY(20%);
+        transition: transform 0.3s ease-out;
+        z-index: -1
     }
 
     .menu-icon {
@@ -119,8 +132,19 @@
         cursor: pointer;
     }
 
+    /* .nav-logo {
+        display: none;
+    } */
+
     .nav-logo {
         display: none;
     }
 
+    .nav-reveal {
+        display: block;
+    }
+
+    .nav-hide {
+        display: none;
+    }
 }
