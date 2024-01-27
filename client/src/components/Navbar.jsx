@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useState, useContext } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TailSpin } from 'react-loader-spinner';
 import { IoCartOutline } from 'react-icons/io5';
@@ -12,13 +12,11 @@ import './styles/Navbar.css';
 
 const Navbar = () => {
 	const { t } = useTranslation();
+	const menuHamRef = useRef();
 	const { config, loading } = useContext(Context);
 	const [modalIsOpen, setIsOpen] = useState(false);
 
-	// const configData = localStorage.getItem('config');
-	// const config = configData;
-	// console.log(config);
-	// console.log(config.config);
+	const [isMenuOpen, setMenuOpen] = useState(false);
 
 	// eslint-disable-next-line no-unused-vars
 	function openModal() {
@@ -30,20 +28,51 @@ const Navbar = () => {
 		setIsOpen(false);
 	}
 
+	
+
+	useEffect(() => {
+		const handleMenu = (e) => {
+			if (!menuHamRef.current.contains(e.target)) {
+				setMenuOpen(false);
+				// console.log(menuHamRef.current);
+			}
+		};
+		
+		document.addEventListener('mousedown', handleMenu);
+
+		return () => {
+			document.removeEventListener('mousedown', handleMenu);
+		};
+	});
+
 	return (
 		<nav className='navbar-component'>
 			<main className='navbar-container'>
-				<section className='nav-sec-1'>
-					<h1 className='nav-logo'>
-						<Link
-							to={'/'}
-							className='each-menu'>
-							URBAN-HAVEN
-						</Link>
-					</h1>
-					<h1>|</h1>
-					<section className='navbar-menu'>
-						<LangButton />
+				<section
+					className='navbar-hide'
+					ref={menuHamRef}>
+					<button
+						className='menu-icon'
+						onClick={() => {
+							setMenuOpen(!isMenuOpen);
+						}}>
+						☰
+					</button>
+
+					<section
+						className={`nav-sec-1 ${
+							isMenuOpen ? 'nav-slide' : ''
+						}`}>
+						<h1 className='nav-logo'>
+							<Link
+								to={'/'}
+								className='each-menu'>
+								URBAN-HAVEN
+							</Link>
+						</h1>
+						<h1 className='nav-logo'>|</h1>
+
+						<LangButton className='each-menu' />
 
 						<Link
 							to={'/chat'}
@@ -53,6 +82,7 @@ const Navbar = () => {
 						</Link>
 					</section>
 				</section>
+
 				<section className='navbar-dropdown'>
 					{loading ? (
 						<TailSpin

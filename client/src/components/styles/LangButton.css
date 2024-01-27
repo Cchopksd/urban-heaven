@@ -1,11 +1,28 @@
+.modalLang {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 0.5rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 15rem;
+    height: auto;
+    z-index: 1000;
+    overflow: hidden;
+}
+
 .button-change-lang {
     display: flex;
     align-items: center;
-    font-size: 18px;
     border: none;
     background: transparent;
     cursor: pointer;
     gap: 0.5rem;
+    font-size: calc(60% + 0.8vmin);
 }
 
 .change-lang-layout {
@@ -13,14 +30,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.dropdown-menu-lang {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    top: 100px;
-    z-index: 1000;
 }
 
 .dropdown-menu-lang.active {
@@ -35,42 +44,19 @@
     visibility: hidden;
     transform: translateY(-10px);
     transition: 0.3s ease-out;
+
 }
 
 .button-change-lang {
     display: flex;
     align-items: center;
-    font-size: 18px;
     border: none;
     background: transparent;
     cursor: pointer;
 }
 
-.change-lang-layout {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-}
 
-.dropdown-menu-lang {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    position: absolute;
-    top: 100px;
-    z-index: 1000;
-    width: 100%;
-    height: 100%;
-    max-width: 130px;
-    background-color: #fff;
-    border-radius: 15px;
-    /* max-height: 50px; */
-
-}
-
-.dropdown-menu-lang.activeLang {
+/* .dropdown-menu-lang.activeLang {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
@@ -82,7 +68,7 @@
     visibility: hidden;
     transform: translateY(-10px);
     transition: 0.01s ease-out;
-}
+} */
 
 
 .button-lang {
@@ -92,9 +78,9 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 5px;
+    padding: 10px 0;
     cursor: pointer;
-    
+
 }
 
 
@@ -107,6 +93,6 @@
     width: 20px;
 }
 
-.selectedLang{
+.selectedLang {
     color: #2270E2;
 }

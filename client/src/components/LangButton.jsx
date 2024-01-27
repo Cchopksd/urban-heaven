@@ -7,17 +7,31 @@ import thIcon from '../assets/images/icons/th.png';
 import ukIcon from '../assets//images/icons/uk.png';
 import i18n from '../services/i18n';
 import './styles/LangButton.css';
+import Modal from 'react-modal';
 
 const LangButton = () => {
 	const { t } = useTranslation();
 	const langRef = useRef();
 	const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
-	const [langDropdown, setLangDropdown] = useState(false);
+	const [modalLangIsOpen, setModalLangIsOpen] = useState(false);
+
 	const changeLanguage = (lng) => {
 		i18n.changeLanguage(lng);
 		setCurrentLanguage(lng);
-		setLangDropdown(false);
+
+		setModalLangIsOpen(false);
 	};
+
+	// eslint-disable-next-line no-unused-vars
+	function modalLangOpen() {
+		setModalLangIsOpen(true);
+		console.log();
+	}
+
+	// eslint-disable-next-line no-unused-vars
+	function closeLangModal() {
+		setModalLangIsOpen(false);
+	}
 
 	useEffect(() => {
 		const languageInLocalStorage = localStorage.getItem('language');
@@ -28,20 +42,12 @@ const LangButton = () => {
 	}, []);
 
 	useEffect(() => {
-		const handleDropdown = (e) => {
-			if (!langRef.current.contains(e.target)) {
-				setLangDropdown(false);
-				// console.log(menuRef.current);
-			}
-		};
-
-		document.addEventListener('mousedown', handleDropdown);
-
-		return () => {
-			document.removeEventListener('mousedown', handleDropdown);
-		};
+		if (modalLangOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
 	});
-
 	return (
 		<div>
 			<main
@@ -50,7 +56,7 @@ const LangButton = () => {
 				<button
 					className='button-change-lang'
 					onClick={() => {
-						setLangDropdown(!langDropdown);
+						setModalLangIsOpen(!modalLangIsOpen);
 					}}>
 					<IoGlobeOutline />
 					<label
@@ -59,10 +65,16 @@ const LangButton = () => {
 						{currentLanguage === 'th-TH' ? t('thai') : t('english')}
 					</label>
 				</button>
-				<section
-					className={`dropdown-menu-lang ${
-						langDropdown ? 'activeLang' : 'inactiveLang'
-					}`}>
+				<Modal
+					isOpen={modalLangIsOpen}
+					onRequestClose={closeLangModal}
+					className='modalLang first-two'
+					overlayClassName='Overlay'>
+					<button
+						className='btn-close-modal'
+						onClick={closeLangModal}>
+						&times;
+					</button>
 					<ul className='list-dropdown-button'>
 						<button
 							className={`button-lang ${
@@ -94,7 +106,7 @@ const LangButton = () => {
 							{t('english')}
 						</button>
 					</ul>
-				</section>
+				</Modal>
 			</main>
 		</div>
 	);

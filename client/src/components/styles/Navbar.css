@@ -5,6 +5,8 @@
     position: relative;
     background-color: #fff;
     box-shadow: 10px 10px 20px #0000001a;
+    z-index: 1000;
+    font-size: calc(80% + 0.8vmin);
 }
 
 .navbar-container {
@@ -14,7 +16,7 @@
     position: relative;
     width: 100%;
     align-items: center;
-    /* margin: 0 -2.5rem; */
+
 }
 
 .nav-sec-1 {
@@ -22,6 +24,7 @@
     justify-content: center;
     align-items: center;
     gap: 1rem;
+    height: auto;
 }
 
 .navbar-menu {
@@ -44,7 +47,6 @@
 .each-menu {
     color: black;
     text-decoration: none;
-    font-size: calc(80% + 0.8vmin);
     /* font-size: calc(16px + 0.5vw); */
 }
 
@@ -56,7 +58,7 @@
 .navbar-dropdown {
     width: 100%;
     max-width: 6.625rem;
-    z-index: 1000;
+
 }
 
 .link-login {
@@ -72,7 +74,53 @@
     background-color: black;
 }
 
-.nav-right{
+.nav-right {
     display: flex;
-    /* right: 10px; */
+}
+
+.menu-icon {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: #000;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 767px) {
+
+
+
+    .nav-sec-1 {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 5px;
+        transform: translateY(-200%);
+        transition: transform 0.3s ease-out;
+        margin: 0 -20px;
+        z-index: -1;
+        /* box-shadow: 10px 10px 20px #0000001a; */
+    }
+
+    .each-menu {}
+
+    .nav-sec-1.nav-slide {
+        transform: translateY(20%);
+    }
+
+    .menu-icon {
+        display: block;
+        padding: 0 20px;
+        cursor: pointer;
+    }
+
+    .nav-logo {
+        display: none;
+    }
+
 }
