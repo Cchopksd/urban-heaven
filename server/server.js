@@ -5,6 +5,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
 require('dotenv').config();
+
 const { databaseConfig } = require('./configs/connectDB');
 const { sessionConfig } = require('./configs/sessionConfig');
 const authRoute = require('./routes/authRoute');

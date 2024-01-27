@@ -14,7 +14,7 @@ const router = express.Router();
 
 router.post('/register', registerController);
 router.get('/get-all-users', getAllUsersControllers);
-router.get('/get-single-user', isAuthenticated, getSingleUserController);
+router.get('/get-single-user/:user_id', getSingleUserController);
 router.get('/pull-user-data', isAuthenticated, showData);
 router.patch(
 	'/edit-profile/:user_params',
