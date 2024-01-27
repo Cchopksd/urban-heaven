@@ -1,11 +1,18 @@
-import { useLocation, Navigate } from "react-router-dom";
+import { useEffect } from 'react';
+import { useLocation, useNavigate, redirect } from 'react-router-dom';
 
 const InsteadRoute = () => {
-    let { pathname } = useLocation();
-    // console.log(pathname);
-    if (pathname === "/account" || pathname === "/account/") {
-        return <Navigate to='/account/edit-profile' />;
-    }
+	const navigate = useNavigate();
+	let { pathname } = useLocation();
+	// console.log(pathname);
+	useEffect(() => {
+		// Check if the pathname is "/account" or "/account/"
+		if (pathname === '/account' || pathname === '/account/') {
+			// Perform navigation to "/account/edit-profile"
+            navigate('/account/edit-profile');
+
+		}
+	}, [pathname, navigate]);
 };
 
 export default InsteadRoute;

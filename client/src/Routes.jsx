@@ -1,18 +1,23 @@
-import { BrowserRouter, Route, Routes  } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 // import PrivateRoute from "./PrivateRoutes";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ChatPage from "./pages/ChatPage";
-import Dash from "./pages/Dash";
-import Profile from "./pages/Profile";
-import Security from "./pages/Security";
-import Address from "./pages/Address";
-import InsteadRoute from "./utils/InsteadRoute";
-import NoMatchRoute from "./utils/NoMatchRoute";
-import Payment from "./pages/Payment";
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ChatPage from './pages/ChatPage';
+import Dash from './pages/Dash';
+import Profile from './pages/Profile';
+import Security from './pages/Security';
+import Address from './pages/Address';
+import InsteadRoute from './utils/InsteadRoute';
+import NoMatchRoute from './utils/NoMatchRoute';
+import Payment from './pages/Payment';
+
 
 const App = () => {
-    return (
+	// const [params, setParams] = useState();
+	// const url = sessionStorage.getItem('PAGE_URI');
+
+	return (
 		<BrowserRouter>
 			<InsteadRoute />
 			<Routes>
@@ -33,7 +38,8 @@ const App = () => {
 					element={<Register />}
 				/>
 				<Route
-					path={`/account/edit-profile/`}
+					path='/account/edit-profile'
+					exact
 					element={<Profile />}
 				/>
 				<Route

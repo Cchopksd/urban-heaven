@@ -10,6 +10,7 @@ const ChangePassword = () => {
 	const { t } = useTranslation();
 	useEffect(() => {
 		document.title = t('security');
+		sessionStorage.setItem('PAGE_URI', '/account/security');
 	});
 	return (
 		<div className='change-password-screen'>

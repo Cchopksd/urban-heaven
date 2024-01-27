@@ -34,6 +34,14 @@ const LangButton = () => {
 	}
 
 	useEffect(() => {
+		if (modalLangIsOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	});
+
+	useEffect(() => {
 		const languageInLocalStorage = localStorage.getItem('language');
 
 		if (languageInLocalStorage && languageInLocalStorage == i18n.language) {
@@ -41,13 +49,6 @@ const LangButton = () => {
 		}
 	}, []);
 
-	useEffect(() => {
-		if (modalLangOpen) {
-			document.body.style.overflow = 'hidden';
-		} else {
-			document.body.style.overflow = 'auto';
-		}
-	});
 	return (
 		<div>
 			<main

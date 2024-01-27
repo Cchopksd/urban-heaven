@@ -10,6 +10,7 @@ const Payment = () => {
 	const { t } = useTranslation();
 	useEffect(() => {
 		document.title = t('payment');
+		sessionStorage.setItem('PAGE_URI', '/account/payment');
 	});
 	return (
 		<div className='payment-screen'>

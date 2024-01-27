@@ -6,12 +6,12 @@ import Footer from '../components/Footer';
 import Sidebar from '../components/Sidebar';
 import './styles/Address.css';
 
-
 const Address = () => {
 	const { t } = useTranslation();
 	useEffect(() => {
 		document.title = t('address');
-	},[t]);
+		sessionStorage.setItem('PAGE_URI', '/account/address');
+	}, [t]);
 	return (
 		<div className='address-screen'>
 			<Navbar />

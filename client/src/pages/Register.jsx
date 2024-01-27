@@ -11,10 +11,11 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const Register = () => {
-    const { t } = useTranslation();
-    useEffect(() => {
-        document.title = t('register')
-    })
+	const { t } = useTranslation();
+	useEffect(() => {
+		document.title = t('register');
+		sessionStorage.setItem('PAGE_URI', '/register');
+	});
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		step: 1,

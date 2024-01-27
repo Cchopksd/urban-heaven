@@ -17,6 +17,7 @@ const Dash = () => {
 	const { t } = useTranslation();
 	useEffect(() => {
 		document.title = t('homepage');
+		sessionStorage.setItem('PAGE_URI', '/');
 	}, [t]);
 
 	return (

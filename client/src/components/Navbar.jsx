@@ -82,7 +82,7 @@ const Navbar = () => {
 						</Link>
 
 						<Link
-							to={'/chat'}
+							to={'chat'}
 							className='each-menu'>
 							<IoCartOutline className='hide' />
 							Cart
