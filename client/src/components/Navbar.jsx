@@ -5,7 +5,7 @@ import { TailSpin } from 'react-loader-spinner';
 import { IoCartOutline } from 'react-icons/io5';
 
 import { Context } from '../context/Provider';
-import LangButton from './langButton';
+import LangButton from './LangButton';
 import DropdownNav from './DropdownNav';
 import Login from '../pages/Login';
 import './styles/Navbar.css';
