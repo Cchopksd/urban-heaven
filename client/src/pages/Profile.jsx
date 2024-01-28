@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 import { useEffect, useContext, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
