@@ -10,9 +10,6 @@ const Provider = ({ children }) => {
 	const [config, setConfig] = useState('');
 	const miniConfig = { config };
 	localStorage.setItem('mini-config', JSON.stringify(miniConfig));
-	useEffect(() => {
-		Cookies.set('uuid', config.user_id, { expires: 7, path: '/' });
-	}, [config.user_id]);
 
 	const fetchData = async () => {
 		try {

@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import { useEffect, useContext, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
@@ -18,14 +19,11 @@ const Profile = () => {
 	useEffect(() => {
 		document.title = t('profile');
 		sessionStorage.setItem('PAGE_URI', '/account/profile');
-		
 	}, [t]);
-
-	const uuid = Cookies.get('uuid');
 
 	const fetchData = async () => {
 		const response = await axios.get(
-			`${import.meta.env.VITE_BASE_URL}/get-single-user/${uuid}`,
+			`${import.meta.env.VITE_BASE_URL}/get-single-user`,
 			{
 				withCredentials: true,
 			},
@@ -35,7 +33,6 @@ const Profile = () => {
 	};
 	useEffect(() => {
 		fetchData();
-
 	}, []);
 
 	return (
@@ -60,7 +57,14 @@ const Profile = () => {
 						</section>
 					) : (
 						<section>
-							<div>{userData.user_fname}</div>
+							{/* <div>userData</div> */}
+							<input value={userData.user_fname}/>
+							<input value={userData.user_lname}/>
+							<input value={userData.user_gender}/>
+							<input value={userData.user_phone}/>
+							<input value={userData.user_date}/>
+							<input value={userData.user_month}/>
+							<input value={userData.user_year}/>
 						</section>
 					)}
 				</section>

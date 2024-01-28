@@ -8,6 +8,9 @@ const {
 	createAddressModel,
 } = require('../models/userModel');
 const { v4: uuidv4 } = require('uuid');
+const jwt = require('jsonwebtoken');
+
+secretKey = process.env.SECRET_KEY;
 
 exports.registerController = async (req, res) => {
 	try {
@@ -131,11 +134,12 @@ exports.getAllUsersControllers = async (req, res) => {
 
 exports.getSingleUserController = async (req, res) => {
 	try {
-		const { user_id } = req.params;
-		// const { user_id } = userInfo;
-		console.log(user_id);
+		const { user_id } = req.session.user;
+
+		// console.log(user_id);
 		const result = await getSingleUserModel({ user_id });
 		if (result) {
+			// const token = jwt.sign(result, secretKey, { expiresIn: '1h' });
 			res.status(200).json({ message: 'Get data successfully', result });
 		} else {
 			res.status(404).json({ message: 'User not found' });
