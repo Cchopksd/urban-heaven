@@ -1,5 +1,5 @@
 const { databaseConfig } = require('../configs/connectDB');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 exports.registerModel = async (userInfo) => {
 	console.log(userInfo);
