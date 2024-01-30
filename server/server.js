@@ -7,6 +7,8 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 require('dotenv').config();
 
 const { databaseConfig } = require('./configs/connectDB');
@@ -19,7 +21,17 @@ const { createTables } = require('./configs/createTables');
 PORT = process.env.PORT || 5500;
 
 const app = express();
-app.use(sessionConfig);
+// const httpsOptions = {
+// 	cert: fs.readFileSync('./private/ssl/urban-heaven_me.crt'),
+// 	key: fs.readFileSync('./private/ssl/urban-heaven_me.key'),
+// 	ca: fs.readFileSync('./private/ssl/urban-heaven_me.ca-bundle'),
+// };
+
+// const server = https.createServer(httpsOptions, (req, res) => {
+// 	res.writeHead(200);
+// 	res.end('Hello, HTTPS World!');
+// });
+
 if (process.env.APP_ENV === 'production') {
 	app.set('trust proxy', 1);
 }
@@ -29,11 +41,27 @@ const corsOptions = {
 	credentials: true,
 };
 
-// const server = https.createServer((req, res) => {
-// 	res.writeHead(200);
-// 	res.end('Hello, HTTPS World!');
-// });
+const swaggerOptions = {
+	failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
+	definition: {
+		openapi: '3.0.0',
+		info: {
+			title: 'API Documentation',
+			version: '1.0.0',
+		},
+	},
+	servers: [
+		{
+			url: 'http://localhost:5500',
+		},
+	],
+	apis: ['./routes/*.js'],
+};
 
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
+app.use(sessionConfig);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
