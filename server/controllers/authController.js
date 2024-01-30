@@ -1,5 +1,6 @@
 const { loginModel } = require('../models/authModel');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 // var cookieParser = require('cookie-parser');
 
 exports.loginController = async (req, res, next) => {
@@ -34,7 +35,10 @@ exports.loginController = async (req, res, next) => {
 			if (isPasswordMatch) {
 				req.session.user = payload;
 				req.session.cookie.originalMaxAge = expireSessionTime;
-				res.status(200).json({ message: 'Login success', user_email });
+				res.status(200).json({
+					message: 'Login success',
+					user_email,
+				});
 				// return res.redirect(303, `${process.env.VITE_APP_API}/account/edit-profile`);
 			} else {
 				return res

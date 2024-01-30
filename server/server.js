@@ -1,4 +1,7 @@
 const express = require('express');
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const cors = require('cors');
@@ -25,6 +28,11 @@ const corsOptions = {
 	origin: process.env.VITE_APP_API,
 	credentials: true,
 };
+
+// const server = https.createServer((req, res) => {
+// 	res.writeHead(200);
+// 	res.end('Hello, HTTPS World!');
+// });
 
 app.use(cors(corsOptions));
 app.use(express.json());

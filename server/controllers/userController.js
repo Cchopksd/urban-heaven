@@ -10,7 +10,7 @@ const {
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 
-secretKey = process.env.SECRET_KEY;
+const secretKey = process.env.SECRET_KEY;
 
 exports.registerController = async (req, res) => {
 	try {
@@ -186,9 +186,13 @@ exports.createAddressController = async (req, res) => {
 
 exports.showData = async (req, res) => {
 	const payload = req.session.user;
+	const token = jwt.sign(payload, secretKey, {
+		expiresIn: '1h',
+	});
+
 	try {
 		if (payload) {
-			res.status(200).json(payload);
+			res.status(200).json({ token,payload });
 		} else if (err) {
 			console.error('err');
 			res.status(500).json({ message: err });
