@@ -37,7 +37,7 @@ exports.loginController = async (req, res, next) => {
 				req.session.cookie.originalMaxAge = expireSessionTime;
 				res.status(200).json({
 					message: 'Login success',
-					user_email,
+					payload,
 				});
 				// return res.redirect(303, `${process.env.VITE_APP_API}/account/edit-profile`);
 			} else {
@@ -59,7 +59,7 @@ exports.loginController = async (req, res, next) => {
 exports.logoutController = (req, res) => {
 	req.session.destroy((err) => {
 		if (err) {
-			res.status(500).json({ message: 'Internal server error' });
+			res.status(500).json({ message: 'Unable to logout' });
 		} else {
 			console.log(req.session);
 			res.status(200).json({ success: true, message: 'Logout complete' });
