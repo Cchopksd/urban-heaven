@@ -1,24 +1,28 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate, redirect, Navigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const InsteadRoute = () => {
+const InsteadRoute = ({ OpenModal }) => {
 	const navigate = useNavigate();
-    let { pathname } = useLocation();
-    const [loading,setLoading] = useState(true);
-	// console.log(pathname);
+	let { pathname } = useLocation();
+	const [loading, setLoading] = useState(true);
+	const miniConfig = sessionStorage.getItem('mini-session');
+	const { config } = JSON.parse(miniConfig);
+	console.log(config);
+
 	useEffect(() => {
-		// Check if the pathname is "/account" or "/account/"
-		if (pathname === '/account' || pathname === '/account/') {
-			// Perform navigation to "/account/edit-profile"
-			return (
-				<Navigate
-					to='/account/edit-profile'
-					replace={true}
-				/>
-			);
-        }
-        setLoading(false);
-	}, [pathname, navigate]);
+		setLoading(false);
+	}, [pathname, config]);
+
+	if (loading) {
+		return null;
+	}
+
+	if (config) {
+		return navigate('/account/edit-profile');
+	} else {
+		console.log('err');
+		return OpenModal();
+	}
 };
 
 export default InsteadRoute;

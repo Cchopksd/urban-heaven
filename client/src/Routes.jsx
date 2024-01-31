@@ -8,10 +8,9 @@ import Dash from './pages/Dash';
 import Profile from './pages/Profile';
 import Security from './pages/Security';
 import Address from './pages/Address';
-import InsteadRoute from './utils/InsteadRoute';
+import InsteadRoute from '../middlewares/InsteadRoute';
 import NoMatchRoute from './utils/NoMatchRoute';
 import Payment from './pages/Payment';
-
 
 const App = () => {
 	// const [params, setParams] = useState();
@@ -19,7 +18,6 @@ const App = () => {
 
 	return (
 		<BrowserRouter>
-			<InsteadRoute />
 			<Routes>
 				<Route
 					index
@@ -34,13 +32,17 @@ const App = () => {
 					element={<Login />}
 				/>
 				<Route
-					path='/register'
-					element={<Register />}
+					path='/account'
+					element={<InsteadRoute />}
 				/>
 				<Route
 					path='/account/edit-profile'
 					exact
 					element={<Profile />}
+				/>
+				<Route
+					path='/register'
+					element={<Register />}
 				/>
 				<Route
 					path='/account/security'
