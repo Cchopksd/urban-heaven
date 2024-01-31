@@ -20,11 +20,11 @@ exports.loginController = async (req, res, next) => {
 		if (userInfo) {
 			const isPasswordMatch = await bcrypt.compareSync(
 				password,
-				userInfo.user_password,
+				userInfo.password,
 			);
-			const { user_id, username } = userInfo;
+			const { uuid, username } = userInfo;
 			const payload = {
-				user_id,
+				uuid,
 				username,
 				email,
 			};

@@ -15,6 +15,7 @@ const secretKey = process.env.SECRET_KEY;
 exports.registerController = async (req, res) => {
 	try {
 		const userInfo = req.body;
+		console.log(userInfo);
 		const {
 			name,
 			surname,
@@ -71,7 +72,7 @@ exports.registerController = async (req, res) => {
 			});
 		}
 
-		const emailExists = await checkUserExists('user_email', email);
+		const emailExists = await checkUserExists('email', email);
 		if (emailExists) {
 			return res.status(409).json({ message: 'Email already exists' });
 		}

@@ -1,29 +1,19 @@
 const { databaseConfig } = require('./connectDB');
 
-exports.createTableIfNotExists = async (
-	tableName,
-	tableQuery,
-) => {
+exports.createTableIfNotExists = async (tableName, tableQuery) => {
 	try {
 		const checkTable = `SELECT to_regclass('${tableName}')`;
-		const result = await databaseConfig.query(
-			checkTable,
-		);
+		const result = await databaseConfig.query(checkTable);
 
 		if (!result.rows[0].to_regclass) {
 			await databaseConfig.query(tableQuery);
-			console.log(
-				`${tableName} table created successfully`,
-			);
+			console.log(`${tableName} table created successfully`);
 		}
 		// else {
 		//     console.log(`${tableName} table already exists`);
 		// }
 	} catch (err) {
-		console.error(
-			`Error creating ${tableName} table:`,
-			err,
-		);
+		console.error(`Error creating ${tableName} table:`, err);
 	}
 };
 
@@ -31,18 +21,18 @@ const userTableQuery = `
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
     CREATE TABLE IF NOT EXISTS users (
-        user_ID UUID DEFAULT uuid_generate_v4(),
-        user_fname VARCHAR(255) NOT NULL,
-        user_lname VARCHAR(255) NOT NULL,
+        user_id SERIAL PRIMARY KEY,
+        uuid UUID DEFAULT uuid_generate_v4(),
+        first_name VARCHAR(255) NOT NULL,
+        last_name VARCHAR(255) NOT NULL,
         username VARCHAR(255) NOT NULL,
-        user_email VARCHAR(255) NOT NULL,
-        user_password VARCHAR(255) NOT NULL,
-        user_phone VARCHAR(10) NOT NULL,
-        user_gender VARCHAR(255) NOT NULL,
-        user_day INTEGER NOT NULL,
-        user_month INTEGER NOT NULL,
-        user_year INTEGER NOT NULL,
-        PRIMARY KEY(user_ID)
+        email VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        phone VARCHAR(10) NOT NULL,
+        gender VARCHAR(255) NOT NULL,
+        date INTEGER NOT NULL,
+        month INTEGER NOT NULL,
+        year INTEGER NOT NULL
     );
 `;
 
@@ -60,7 +50,7 @@ const addressTableQuery = `
 
     CREATE TABLE address (
         address_ID UUID DEFAULT uuid_generate_v4(),
-        user_ID UUID REFERENCES users(user_ID),
+        user_ID UUID REFERENCES users(ID),
         province VARCHAR(255) NOT NULL,
         county VARCHAR(255) NOT NULL,
         district VARCHAR(255) NOT NULL,
@@ -77,7 +67,7 @@ const merchantTableQuery = `
 
     CREATE TABLE merchant (
         merchant_ID UUID DEFAULT uuid_generate_v4(),
-        user_ID UUID REFERENCES users(user_ID),
+        user_ID UUID REFERENCES users(ID),
         merchant_name VARCHAR(100) NOT NULL,
         merchant_email VARCHAR(100) NOT NULL,
         merchant_phone VARCHAR(100) NOT NULL,
@@ -87,20 +77,8 @@ const merchantTableQuery = `
 `;
 
 exports.createTables = async () => {
-	await this.createTableIfNotExists(
-		'users',
-		userTableQuery,
-	);
-	await this.createTableIfNotExists(
-		'session',
-		sessionTableQuery,
-	);
-	await this.createTableIfNotExists(
-		'address',
-		addressTableQuery,
-    );
-    await this.createTableIfNotExists(
-        'merchant',
-        merchantTableQuery
-    )
+	await this.createTableIfNotExists('users', userTableQuery);
+	await this.createTableIfNotExists('session', sessionTableQuery);
+	await this.createTableIfNotExists('address', addressTableQuery);
+	await this.createTableIfNotExists('merchant', merchantTableQuery);
 };

@@ -5,9 +5,9 @@ exports.registerModel = async (userInfo) => {
 	console.log(userInfo);
 	try {
 		const hashedPassword = await bcrypt.hash(userInfo.password, 10);
-		await databaseConfig.query(
-			`INSERT INTO users (user_id, user_fname, user_lname, username, user_email, user_password,user_phone,user_gender,user_date,user_month,user_year)
-            VALUES ($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11)
+		const result = await databaseConfig.query(
+			`INSERT INTO users (uuid, first_name, last_name, username, email, password, phone, gender, date, month, year)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
 			RETURNING user_id`,
 
 			[
@@ -24,6 +24,7 @@ exports.registerModel = async (userInfo) => {
 				userInfo.year,
 			],
 		);
+		return result.rows[0].user_id;
 	} catch (err) {
 		throw err;
 	}
@@ -53,22 +54,22 @@ exports.getAllUsersModel = async () => {
 	}
 };
 
-exports.EditProfileModel = async (user_params, userInfo) => {
-	console.log(user_params);
+exports.EditProfileModel = async (params, userInfo) => {
+	console.log(params);
 	try {
-		const hashedPassword = await bcrypt.hash(userInfo.user_password, 10);
+		const hashedPassword = await bcrypt.hash(userInfo.password, 10);
 		await databaseConfig.query(
 			`Update users
-            SET user_fname = $1, user_lname= $2, username= $3, user_email= $4, user_password= $5
-            WHERE user_id= $6
-            RETURNING user_id, user_fname, user_lname,username, user_email, user_password`,
+            SET fname = $1, lname= $2, username= $3, email= $4, password= $5
+            WHERE id= $6
+            RETURNING id, fname, lname,username, email, password`,
 			[
-				userInfo.user_fname,
-				userInfo.user_lname,
+				userInfo.fname,
+				userInfo.lname,
 				userInfo.username,
-				userInfo.user_email,
+				userInfo.email,
 				hashedPassword,
-				user_params,
+				params,
 			],
 		);
 	} catch (err) {
@@ -79,10 +80,10 @@ exports.EditProfileModel = async (user_params, userInfo) => {
 exports.getSingleUserModel = async (userInfo) => {
 	try {
 		const result = await databaseConfig.query(
-			`SELECT user_id, user_fname, user_lname, user_phone, user_gender, user_date, user_month, user_year
+			`SELECT id, fname, lname, phone, gender, date, month, year
 			FROM users
-			WHERE user_id=$1`,
-			[userInfo.user_id],
+			WHERE id=$1`,
+			[userInfo.id],
 		);
 		return result.rows[0];
 	} catch (err) {
@@ -95,12 +96,12 @@ exports.createAddressModel = async (address) => {
 	try {
 		const result = await databaseConfig.query(
 			`
-			INSERT INTO address (address_ID, user_ID, province, county, district, post_ID, address_etc, address_default, address_label)
+			INSERT INTO address (address_ID, ID, province, county, district, post_ID, address_etc, address_default, address_label)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8,$9)
 			RETURNING *`,
 			[
 				address.addressID,
-				address.user_params,
+				address.params,
 				address.province,
 				address.county,
 				address.district,
