@@ -6,28 +6,28 @@ const jwt = require('jsonwebtoken');
 exports.loginController = async (req, res, next) => {
 	try {
 		// console.log(req.body)
-		const { user_email, user_password, isChecked } = req.body;
+		const { email, password, isChecked } = req.body;
 
-		if (!user_email) {
+		if (!email) {
 			return res
 				.status(404)
 				.json({ message: 'Enter your email address' });
-		} else if (!user_password) {
+		} else if (!password) {
 			return res.status(404).json({ message: 'Enter your password' });
 		}
 
-		const userInfo = await loginModel(user_email);
+		const userInfo = await loginModel(email);
 		// console.log(userInfo)
 		if (userInfo) {
 			const isPasswordMatch = await bcrypt.compareSync(
-				user_password,
+				password,
 				userInfo.user_password,
 			);
 			const { user_id, username } = userInfo;
 			const payload = {
 				user_id,
 				username,
-				user_email,
+				email,
 			};
 
 			const expireSessionTime = isChecked ? 2592000000 : 86400000;
