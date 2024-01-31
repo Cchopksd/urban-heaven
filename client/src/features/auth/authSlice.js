@@ -34,7 +34,11 @@ export const loginUser = createAsyncThunk(
 			});
 			return response.data;
 		} catch (error) {
-			throw error.response.data;
+			await Swal.fire({
+				title: 'Message',
+				text: error.response.data.message,
+				icon: 'error',
+			});
 		}
 	},
 );
