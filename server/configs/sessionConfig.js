@@ -12,7 +12,7 @@ const sessionConfig = session({
 	resave: false,
 	saveUninitialized: true,
 	cookie: {
-		secure: process.env.APP_ENV === 'production',
+		secure: false,
 		httpOnly: true,
 		sameSite: 'lax',
 	},

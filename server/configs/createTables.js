@@ -21,8 +21,8 @@ const userTableQuery = `
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
     CREATE TABLE IF NOT EXISTS users (
-        user_id SERIAL PRIMARY KEY,
-        uuid UUID DEFAULT uuid_generate_v4(),
+        user_id SERIAL ,
+        uuid UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         first_name VARCHAR(255) NOT NULL,
         last_name VARCHAR(255) NOT NULL,
         username VARCHAR(255) NOT NULL,
@@ -32,7 +32,7 @@ const userTableQuery = `
         gender VARCHAR(255) NOT NULL,
         date INTEGER NOT NULL,
         month INTEGER NOT NULL,
-        year INTEGER NOT NULL
+        year INTEGER NOT NULL,
     );
 `;
 
@@ -50,7 +50,7 @@ const addressTableQuery = `
 
     CREATE TABLE address (
         address_ID UUID DEFAULT uuid_generate_v4(),
-        user_ID UUID REFERENCES users(ID),
+        user_ID UUID REFERENCES users(uuid),
         province VARCHAR(255) NOT NULL,
         county VARCHAR(255) NOT NULL,
         district VARCHAR(255) NOT NULL,
@@ -67,7 +67,7 @@ const merchantTableQuery = `
 
     CREATE TABLE merchant (
         merchant_ID UUID DEFAULT uuid_generate_v4(),
-        user_ID UUID REFERENCES users(ID),
+        user_ID UUID REFERENCES users(uuid),
         merchant_name VARCHAR(100) NOT NULL,
         merchant_email VARCHAR(100) NOT NULL,
         merchant_phone VARCHAR(100) NOT NULL,
