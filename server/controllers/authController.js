@@ -1,5 +1,5 @@
 const { loginModel } = require('../models/authModel');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 // var cookieParser = require('cookie-parser');
 
 exports.loginController = async (req, res, next) => {

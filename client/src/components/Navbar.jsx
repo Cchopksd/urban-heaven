@@ -106,7 +106,7 @@ const Navbar = () => {
 								wrapperClass=''
 							/>
 						</section>
-					) : user  ? (
+					) : user ? (
 						<DropdownNav className='nav-drop' />
 					) : (
 						<button
