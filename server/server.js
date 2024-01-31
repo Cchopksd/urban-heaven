@@ -100,6 +100,9 @@ io.on('connection', (socket) => {
 app.use('/api', authRoute);
 app.use('/api', userRoute);
 app.use('/api', merchantRoute);
+app.get('/', (req, res) => {
+	res.send('Hey this is my API running 🥳');
+});
 
 server.listen(PORT, () => {
 	console.log(`listening on port ${PORT}`);
