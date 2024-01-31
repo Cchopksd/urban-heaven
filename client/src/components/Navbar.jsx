@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { TailSpin } from 'react-loader-spinner';
 import { IoCartOutline } from 'react-icons/io5';
 
-import { Context } from '../context/Provider';
 import LangButton from './LangButton';
 import DropdownNav from './DropdownNav';
 import Login from '../pages/Login';
