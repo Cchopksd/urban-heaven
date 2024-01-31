@@ -5,28 +5,28 @@ const bcrypt = require('bcryptjs');
 exports.loginController = async (req, res, next) => {
 	try {
 		// console.log(req.body)
-		const { user_email, user_password, isChecked } = req.body;
+		const { email, password, isChecked } = req.body;
 
-		if (!user_email) {
+		if (!email) {
 			return res
 				.status(404)
 				.json({ message: 'Enter your email address' });
-		} else if (!user_password) {
+		} else if (!password) {
 			return res.status(404).json({ message: 'Enter your password' });
 		}
 
-		const userInfo = await loginModel(user_email);
+		const userInfo = await loginModel(email);
 		// console.log(userInfo)
 		if (userInfo) {
 			const isPasswordMatch = await bcrypt.compareSync(
-				user_password,
+				password,
 				userInfo.user_password,
 			);
 			const { user_id, username } = userInfo;
 			const payload = {
 				user_id,
 				username,
-				user_email,
+				email,
 			};
 
 			const expireSessionTime = isChecked ? 2592000000 : 86400000;
@@ -34,7 +34,10 @@ exports.loginController = async (req, res, next) => {
 			if (isPasswordMatch) {
 				req.session.user = payload;
 				req.session.cookie.originalMaxAge = expireSessionTime;
-				res.status(200).json({ message: 'Login success', user_email });
+				res.status(200).json({
+					message: 'Login success',
+					payload,
+				});
 				// return res.redirect(303, `${process.env.VITE_APP_API}/account/edit-profile`);
 			} else {
 				return res
@@ -55,7 +58,7 @@ exports.loginController = async (req, res, next) => {
 exports.logoutController = (req, res) => {
 	req.session.destroy((err) => {
 		if (err) {
-			res.status(500).json({ message: 'Internal server error' });
+			res.status(500).json({ message: 'Unable to logout' });
 		} else {
 			console.log(req.session);
 			res.status(200).json({ success: true, message: 'Logout complete' });

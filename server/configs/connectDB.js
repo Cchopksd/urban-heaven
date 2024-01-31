@@ -1,4 +1,4 @@
-const { Pool } = require('pg')
+const { Pool } = require('pg');
 
 // console.log(process.env.DATABASE_URL)
 

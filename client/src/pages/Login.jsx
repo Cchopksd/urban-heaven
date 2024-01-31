@@ -1,16 +1,24 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,  } from 'react-router-dom';
 import Modal from 'react-modal';
-import Swal from 'sweetalert2';
+
 import PropTypes from 'prop-types';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 
+import { loginUser } from '../features/auth/authSlice';
 import './styles/Login.css';
 
 const Login = ({ modalIsOpen, closeModal }) => {
+	const dispatch = useDispatch();
+	const { status, } = useSelector((state) => state.auth);
 	const { t } = useTranslation();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [isChecked, setIsChecked] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
 
 	useEffect(() => {
 		if (modalIsOpen) {
@@ -19,13 +27,6 @@ const Login = ({ modalIsOpen, closeModal }) => {
 			document.body.style.overflow = 'auto';
 		}
 	});
-
-	const navigate = useNavigate();
-
-	const [user_email, setEmail] = useState('');
-	const [user_password, setPassword] = useState('');
-	const [isChecked, setIsChecked] = useState(false);
-	const [showPassword, setShowPassword] = useState(false);
 
 	const togglePassword = () => {
 		setShowPassword(!showPassword);
@@ -39,32 +40,9 @@ const Login = ({ modalIsOpen, closeModal }) => {
 		Modal.setAppElement('body');
 	}, []);
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-
-		try {
-			await axios.post(
-				`${import.meta.env.VITE_BASE_URL}/login`,
-				{ user_email, user_password },
-				{
-					withCredentials: true,
-				},
-			);
-			navigate('/');
-			await Swal.fire({
-				title: 'Message',
-				text: 'success',
-				icon: 'success',
-			});
-			closeModal();
-			window.location.reload();
-		} catch (error) {
-			console.error('Login failed:', error.response.data.message);
-			await Swal.fire({
-				title: 'System',
-				text: error.response.data.message,
-				icon: 'error',
-			});
+	const handleLogin = () => {
+		if (status !== 'loading') {
+			dispatch(loginUser({ password, email, closeModal }));
 		}
 	};
 
@@ -91,7 +69,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
 							type='text'
 							name='email'
 							placeholder='Enter your email'
-							value={user_email}
+							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 						/>
 					</section>
@@ -105,10 +83,10 @@ const Login = ({ modalIsOpen, closeModal }) => {
 								type={showPassword ? 'text' : 'password'}
 								name='password'
 								className={`login-input ${
-									user_password && 'has-value'
+									password && 'has-value'
 								}`}
 								placeholder='Enter your password'
-								value={user_password}
+								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 							/>
 							<button
@@ -143,7 +121,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
 					</Link>
 					<button
 						className='modal-btn-login'
-						onClick={handleSubmit}>
+						onClick={handleLogin}>
 						Login
 					</button>
 				</section>

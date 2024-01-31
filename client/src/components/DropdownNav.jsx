@@ -1,23 +1,31 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
 import { Link, useNavigate } from 'react-router-dom';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 import { IoPersonCircleOutline } from 'react-icons/io5';
 import { IoBagHandleOutline } from 'react-icons/io5';
 import { IoLogOutOutline } from 'react-icons/io5';
 
+import { logoutUser, setUser, } from '../features/auth/authSlice';
 import './styles/DropdownNav.css';
 
 const DropdownNav = () => {
 	const { t } = useTranslation();
-	const [openDropdown, setOpenDropdown] = useState(false);
 	const menuRef = useRef();
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const { user } = useSelector((state) => state.auth);
 
-	const miniConfig = localStorage.getItem('mini-config');
-	const { config } = JSON.parse(miniConfig);
+	const [openDropdown, setOpenDropdown] = useState(false);
+
+
+	useEffect(() => {
+		const storedUser = sessionStorage.getItem('user-data');
+		if (storedUser) {
+			dispatch(setUser(JSON.parse(storedUser)));
+		}
+	}, [dispatch]);
 
 	useEffect(() => {
 		let handleDropdown = (e) => {
@@ -38,16 +46,9 @@ const DropdownNav = () => {
 		setOpenDropdown(false);
 	};
 
-	const handleLogout = async () => {
-		try {
-			await axios.post(`${import.meta.env.VITE_BASE_URL}/logout`, null, {
-				withCredentials: true,
-			});
-			window.location.reload();
-			navigate('/');
-		} catch (error) {
-			console.error('Logout error:', error);
-		}
+	const handleLogout = () => {
+		dispatch(logoutUser());
+		navigate('/')
 	};
 
 	return (
@@ -59,7 +60,7 @@ const DropdownNav = () => {
 					setOpenDropdown(!openDropdown);
 				}}>
 				<label className='text-dropdown'>
-					{config.username}
+					{user.username}
 					<RiArrowDropDownLine className='dropdown-icon' />
 				</label>
 			</section>
@@ -72,7 +73,7 @@ const DropdownNav = () => {
 					<Link
 						className='list-dropdown-link'
 						onClick={handleLinkClick}
-						to={`/account/edit-profile`}>
+						to={`/account`}>
 						<IoPersonCircleOutline />
 						{t('account')}
 					</Link>

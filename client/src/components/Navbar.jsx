@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { useContext, useEffect, useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TailSpin } from 'react-loader-spinner';
 import { IoCartOutline } from 'react-icons/io5';
@@ -12,8 +13,10 @@ import './styles/Navbar.css';
 
 const Navbar = () => {
 	const { t } = useTranslation();
+	const { user, status } = useSelector((state) => state.auth);
+
 	const menuHamRef = useRef();
-	const { config, loading } = useContext(Context);
+	// const { config, loading } = useContext(Context);
 	const [modalIsOpen, setIsOpen] = useState(false);
 
 	const [isMenuOpen, setMenuOpen] = useState(false);
@@ -91,7 +94,7 @@ const Navbar = () => {
 				</section>
 
 				<section className='navbar-dropdown'>
-					{loading ? (
+					{status === 'loading' ? (
 						<section className='loader'>
 							<TailSpin
 								visible={true}
@@ -104,7 +107,7 @@ const Navbar = () => {
 								wrapperClass=''
 							/>
 						</section>
-					) : config ? (
+					) : user  ? (
 						<DropdownNav className='nav-drop' />
 					) : (
 						<button
@@ -113,6 +116,7 @@ const Navbar = () => {
 							{t('login')}
 						</button>
 					)}
+
 					<Login
 						modalIsOpen={modalIsOpen}
 						closeModal={() => setIsOpen(false)}
