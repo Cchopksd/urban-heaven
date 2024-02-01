@@ -6,6 +6,7 @@ const {
 	EditProfileModel,
 	getSingleUserModel,
 	createAddressModel,
+	editPassUserModel,
 } = require('../models/userModel');
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
@@ -152,6 +153,20 @@ exports.getSingleUserController = async (req, res) => {
 		});
 	}
 };
+
+exports.editPassUserController = async (req, res) => {
+	try {
+		const { uuid } = req.session.user;
+		const userInfo = req.body
+		if (!userInfo.password) {
+			return res.status(400).json({ message: 'Enter your new password' });
+		}
+		await editPassUserModel({uuid,  ...userInfo });
+		res.status(200).json({ message: 'Update Data successfully' });
+	} catch (err) {
+		res.status(500).json({ message: err.message || 'Internal Server Error' });
+	}
+}
 
 exports.createAddressController = async (req, res) => {
 	try {

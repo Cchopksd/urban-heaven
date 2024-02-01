@@ -59,7 +59,7 @@ exports.EditProfileModel = async (params, userInfo) => {
 	try {
 		const hashedPassword = await bcrypt.hash(userInfo.password, 10);
 		await databaseConfig.query(
-			`Update users
+			`UPDATE users
             SET fname = $1, lname= $2, username= $3, email= $4, password= $5
             WHERE id= $6
             RETURNING id, fname, lname,username, email, password`,
@@ -90,6 +90,22 @@ exports.getSingleUserModel = async (userInfo) => {
 		throw err;
 	}
 };
+
+exports.editPassUserModel = async (userInfo) => {
+	const hashedPassword = await bcrypt.hash(userInfo.password, 10);
+	try {
+		const result = await databaseConfig.query(
+			`UPDATE users
+			SET password=$1
+			WHERE uuid=$2
+			RETURNING *`,
+			[hashedPassword, userInfo.uuid],
+		);
+		return result.rows[0];
+	} catch (err) {
+		throw err;
+	}
+}
 
 exports.createAddressModel = async (address) => {
 	console.log(address);

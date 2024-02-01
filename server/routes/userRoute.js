@@ -6,6 +6,7 @@ const {
 	createAddressController,
 	showData,
 	getSingleUserController,
+	editPassUserController,
 } = require('../controllers/userController');
 
 const { isAuthenticated } = require('../middlewares/authMiddleware');
@@ -21,6 +22,7 @@ router.patch(
 	isAuthenticated,
 	EditProfileController,
 );
+router.patch('/edit-pass', isAuthenticated, editPassUserController);
 router.post('/create-address/:user_params', createAddressController);
 
 module.exports = router;
