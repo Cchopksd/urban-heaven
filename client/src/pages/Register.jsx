@@ -4,11 +4,12 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { isValid, parse } from 'date-fns';
 import { IoEyeOffOutline, IoEyeOutline, IoChevronBack } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import './styles/Register.css';
-import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 
 const Register = () => {
 	const { t } = useTranslation();
