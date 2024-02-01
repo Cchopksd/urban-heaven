@@ -1,38 +1,30 @@
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { useEffect, useContext, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
-import Cookies from 'js-cookie';
 
+import { getUserData } from '../features/accountSlice';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import './styles/Profile.css';
 import Sidebar from '../components/Sidebar';
-import axios from 'axios';
 
 const Profile = () => {
+	const dispatch = useDispatch();
+	const { user, status } = useSelector((state) => state.account);
 	const { t } = useTranslation();
-	const [loading, setLoading] = useState(true);
-	const [userData, setUserData] = useState();
+
+	useEffect(() => {
+		if (status === 'idle') {
+			dispatch(getUserData());
+		}
+	}, [dispatch, status]);
 
 	useEffect(() => {
 		document.title = t('profile');
-		sessionStorage.setItem('PAGE_URI', '/account/profile');
+		sessionStorage.setItem('PAGE_URI', '/account/edit-profile');
 	}, [t]);
-
-	const fetchData = async () => {
-		const response = await axios.get(
-			`${import.meta.env.VITE_BASE_URL}/get-single-user`,
-			{
-				withCredentials: true,
-			},
-		);
-		setUserData(response.data.result);
-		setLoading(false);
-	};
-	useEffect(() => {
-		fetchData();
-	}, []);
 
 	return (
 		<div className='profile-screen'>
@@ -41,7 +33,7 @@ const Profile = () => {
 				<Sidebar />
 
 				<section className='profile-sec-content'>
-					{loading ? (
+					{status === 'loading' ? (
 						<section className='loader'>
 							<TailSpin
 								visible={true}
@@ -57,13 +49,13 @@ const Profile = () => {
 					) : (
 						<section>
 							{/* <div>userData</div> */}
-							<input value={userData.user_fname}/>
-							<input value={userData.user_lname}/>
-							<input value={userData.user_gender}/>
-							<input value={userData.user_phone}/>
-							<input value={userData.user_date}/>
-							<input value={userData.user_month}/>
-							<input value={userData.user_year}/>
+							<input value={user?.result.first_name} />
+							<input value={user?.result.last_name} />
+							<input value={user?.result.gender} />
+							<input value={user?.result.phone} />
+							<input value={user?.result.date} />
+							<input value={user?.result.month} />
+							<input value={user?.result.year} />
 						</section>
 					)}
 				</section>

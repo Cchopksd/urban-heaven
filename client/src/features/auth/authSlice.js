@@ -1,14 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
-const URL_LOGIN = `${import.meta.env.VITE_BASE_URL}/login`;
-const URL_LOGOUT = `${import.meta.env.VITE_BASE_URL}/logout`;
+import { URL_LOGIN, URL_LOGOUT } from '../../api/userAPI';
 
 const initialState = {
 	user: null,
 	status: 'idle',
 	error: null,
+	isUserLoggedIn: false,
 };
 
 export const loginUser = createAsyncThunk(
@@ -24,10 +23,11 @@ export const loginUser = createAsyncThunk(
 			);
 			sessionStorage.setItem(
 				'user-data',
-				JSON.stringify(response.data.payload),
+				JSON.stringify(response.data.config),
+				// console.log(response.data.config),
 			);
 			closeModal();
-			await Swal.fire({
+			Swal.fire({
 				title: 'Message',
 				text: response.data.message,
 				icon: 'success',
@@ -79,6 +79,7 @@ const authSlice = createSlice({
 			})
 			.addCase(loginUser.fulfilled, (state, action) => {
 				state.status = 'succeeded';
+				state.isUserLoggedIn = true;
 				state.user = action.payload;
 			})
 			.addCase(loginUser.rejected, (state, action) => {
@@ -90,6 +91,7 @@ const authSlice = createSlice({
 			})
 			.addCase(logoutUser.fulfilled, (state) => {
 				state.status = 'idle';
+				state.isUserLoggedIn = false;
 				state.user = null;
 			})
 			.addCase(logoutUser.rejected, (state, action) => {

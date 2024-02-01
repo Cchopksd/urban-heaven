@@ -60,7 +60,7 @@ const DropdownNav = () => {
 					setOpenDropdown(!openDropdown);
 				}}>
 				<label className='text-dropdown'>
-					{user.username}
+					{user?.payload?.username}
 					<RiArrowDropDownLine className='dropdown-icon' />
 				</label>
 			</section>
@@ -73,7 +73,7 @@ const DropdownNav = () => {
 					<Link
 						className='list-dropdown-link'
 						onClick={handleLinkClick}
-						to={`/account`}>
+						to={`/account/edit-profile`}>
 						<IoPersonCircleOutline />
 						{t('account')}
 					</Link>
