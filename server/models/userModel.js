@@ -80,10 +80,10 @@ exports.EditProfileModel = async (params, userInfo) => {
 exports.getSingleUserModel = async (userInfo) => {
 	try {
 		const result = await databaseConfig.query(
-			`SELECT id, fname, lname, phone, gender, date, month, year
+			`SELECT uuid, first_name, last_name, phone, gender, date, month, year
 			FROM users
-			WHERE id=$1`,
-			[userInfo.id],
+			WHERE uuid=$1`,
+			[userInfo.uuid],
 		);
 		return result.rows[0];
 	} catch (err) {

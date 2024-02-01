@@ -1,6 +1,8 @@
 const { loginModel } = require('../models/authModel');
 const bcrypt = require('bcryptjs');
-// var cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
+const secretKey = process.env.SECRET_KEY
 
 exports.loginController = async (req, res, next) => {
 	try {
@@ -34,9 +36,13 @@ exports.loginController = async (req, res, next) => {
 			if (isPasswordMatch) {
 				req.session.user = payload;
 				req.session.cookie.originalMaxAge = expireSessionTime;
+				const token = jwt.sign(payload, secretKey, {
+					expiresIn: '1h',
+				});
+				const config = { payload, token };
 				res.status(200).json({
 					message: 'Login success',
-					payload,
+					config,
 				});
 				// return res.redirect(303, `${process.env.VITE_APP_API}/account/edit-profile`);
 			} else {

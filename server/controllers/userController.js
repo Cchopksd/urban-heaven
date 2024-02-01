@@ -135,10 +135,11 @@ exports.getAllUsersControllers = async (req, res) => {
 
 exports.getSingleUserController = async (req, res) => {
 	try {
-		const { user_id } = req.session.user;
+		const { uuid } = req.session.user;
 
-		// console.log(user_id);
-		const result = await getSingleUserModel({ user_id });
+		// console.log(uuid);
+		const result = await getSingleUserModel({ uuid });
+		// console.log(result);
 		if (result) {
 			// const token = jwt.sign(result, secretKey, { expiresIn: '1h' });
 			res.status(200).json({ message: 'Get data successfully', result });
