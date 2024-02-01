@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
+
 // import thunk from 'redux-thunk'
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import authReducer from './features/auth/authSlice';
+import accountSlice from './features/accountSlice';
 
 const persistConfig = {
 	key: 'root',
@@ -11,9 +13,15 @@ const persistConfig = {
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
+const rootReducer = {
+	auth: persistedAuthReducer,
+	account: accountSlice,
+};
+
 const store = configureStore({
-	reducer: { auth: persistedAuthReducer },
-	// middleware: [thunk],
+	reducer: rootReducer,
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({ serializableCheck: false }),
 });
 
 const persistor = persistStore(store);
