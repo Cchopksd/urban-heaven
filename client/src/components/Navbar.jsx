@@ -67,7 +67,7 @@ const Navbar = () => {
 							<Link
 								to={'/'}
 								className='each-menu'>
-								URBAN-HAVEN
+								URBAN-HEAVEN
 							</Link>
 						</h1>
 						<h1 className='nav-logo'>|</h1>
