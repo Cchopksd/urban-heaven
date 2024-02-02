@@ -7,6 +7,7 @@ const {
 	showData,
 	getSingleUserController,
 	editPassUserController,
+	getUserAddressController,
 } = require('../controllers/userController');
 
 const { isAuthenticated } = require('../middlewares/authMiddleware');
@@ -17,12 +18,13 @@ router.post('/register', registerController);
 router.get('/get-all-users', getAllUsersControllers);
 router.get('/get-single-user', isAuthenticated, getSingleUserController);
 router.get('/pull-user-data', isAuthenticated, showData);
+router.get('/get-user-address', isAuthenticated, getUserAddressController);
 router.patch(
-	'/edit-profile/:user_params',
+	'/edit-profile',
 	isAuthenticated,
 	EditProfileController,
 );
 router.patch('/edit-pass', isAuthenticated, editPassUserController);
-router.post('/create-address/:user_params', createAddressController);
+router.post('/create-address', createAddressController);
 
 module.exports = router;

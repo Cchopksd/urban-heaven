@@ -105,19 +105,19 @@ exports.editPassUserModel = async (userInfo) => {
 	} catch (err) {
 		throw err;
 	}
-}
+};
 
 exports.createAddressModel = async (address) => {
 	console.log(address);
 	try {
 		const result = await databaseConfig.query(
 			`
-			INSERT INTO address (address_ID, ID, province, county, district, post_ID, address_etc, address_default, address_label)
+			INSERT INTO address (address_ID, user_id, province, county, district, post_ID, address_etc, address_default, address_label)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8,$9)
 			RETURNING *`,
 			[
 				address.addressID,
-				address.params,
+				address.uuid,
 				address.province,
 				address.county,
 				address.district,
@@ -129,6 +129,21 @@ exports.createAddressModel = async (address) => {
 		);
 		return result.rows[0];
 	} catch (err) {
+		throw err;
+	}
+};
+
+exports.getUserAddressModel = async (uuid) => {
+	try {
+		const result = await databaseConfig.query(
+			`SELECT address.address_id, address.province, address.county, address.district, address.post_id, address.address_etc, address.address_default, address.address_label
+			FROM address
+			RIGHT JOIN users ON address.user_id = users.uuid
+			WHERE users.uuid = $1`,
+			[uuid],
+		);
+		return result.rows[0];
+	} catch {
 		throw err;
 	}
 };

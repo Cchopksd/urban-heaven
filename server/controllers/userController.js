@@ -7,6 +7,7 @@ const {
 	getSingleUserModel,
 	createAddressModel,
 	editPassUserModel,
+	getUserAddressModel,
 } = require('../models/userModel');
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
@@ -157,21 +158,23 @@ exports.getSingleUserController = async (req, res) => {
 exports.editPassUserController = async (req, res) => {
 	try {
 		const { uuid } = req.session.user;
-		const userInfo = req.body
+		const userInfo = req.body;
 		if (!userInfo.password) {
 			return res.status(400).json({ message: 'Enter your new password' });
 		}
-		await editPassUserModel({uuid,  ...userInfo });
+		await editPassUserModel({ uuid, ...userInfo });
 		res.status(200).json({ message: 'Update Data successfully' });
 	} catch (err) {
-		res.status(500).json({ message: err.message || 'Internal Server Error' });
+		res.status(500).json({
+			message: err.message || 'Internal Server Error',
+		});
 	}
-}
+};
 
 exports.createAddressController = async (req, res) => {
 	try {
 		const addressInfo = req.body;
-		const { user_params } = req.params;
+		const { uuid } = req.session.user;
 		const addressID = uuidv4();
 
 		if (
@@ -183,13 +186,13 @@ exports.createAddressController = async (req, res) => {
 			!addressInfo.address_label
 		) {
 			return res.status(400).json({
-				message: 'Information is not empty',
+				message: 'Info is not empty',
 			});
 		}
 		await createAddressModel({
 			...addressInfo,
 			addressID,
-			user_params,
+			uuid,
 		});
 		res.status(200).json({
 			message: 'Create address successfully',
@@ -197,6 +200,21 @@ exports.createAddressController = async (req, res) => {
 	} catch (err) {
 		res.status(500).json({
 			message: 'Internal Server Error',
+		});
+	}
+};
+
+exports.getUserAddressController = async (req, res) => {
+	try {
+		const { uuid } = req.session.user;
+		const payload = await getUserAddressModel(uuid);
+		res.status(200).json({
+			message: 'Get user address successfully',
+			payload,
+		});
+	} catch (err) {
+		res.status(500).json({
+			message: err.message || 'Internal Server Error',
 		});
 	}
 };
@@ -209,7 +227,7 @@ exports.showData = async (req, res) => {
 
 	try {
 		if (payload) {
-			res.status(200).json({ token,payload });
+			res.status(200).json({ token, payload });
 		} else if (err) {
 			console.error('err');
 			res.status(500).json({ message: err });
