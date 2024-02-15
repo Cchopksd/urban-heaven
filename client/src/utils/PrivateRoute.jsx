@@ -3,7 +3,6 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const PrivateRoute = ({ children }) => {
-
 	const { status, isUserLoggedIn } = useSelector((state) => state.auth);
 
 	if (status === 'loading') return null;
@@ -13,6 +12,7 @@ const PrivateRoute = ({ children }) => {
 		<Navigate
 			to={'/'}
 			replace
+			
 		/>
 	);
 };

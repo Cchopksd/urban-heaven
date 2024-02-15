@@ -7,10 +7,10 @@ import Modal from 'react-modal';
 import PropTypes from 'prop-types';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 
-import { loginUser } from '../features/auth/authSlice';
+import { loginUser } from '../libs/auth/authSlice';
 import './styles/Login.css';
 
-const Login = ({ modalIsOpen, closeModal }) => {
+const Login = ({ modalIsOpen, closeModal, }) => {
 	const dispatch = useDispatch();
 	const { status, } = useSelector((state) => state.auth);
 	const { t } = useTranslation();

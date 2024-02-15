@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
+import Footer from '../../components/Footer';
+import Navbar from '../../components/Navbar';
+import Sidebar from '../../components/Sidebar';
 import './styles/Payment.css';
+import BackButton from '../../components/BackButton';
 
 const Payment = () => {
 	const { t } = useTranslation();
@@ -16,8 +17,8 @@ const Payment = () => {
 		<div className='payment-screen'>
 			<Navbar />
 			<main className='payment-layout'>
-				<Sidebar />
 				<section className='payment-sec-content'>
+					<BackButton />
 					<p>payment</p>
 				</section>
 			</main>

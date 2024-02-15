@@ -7,8 +7,10 @@
     "account": "Account",
     "purchase": "My Parches",
     "register": "register",
+    "startSelling": "Start Selling",
     "login": "Login",
     "logout": "Logout",
+    "editProfile": "Edit Profile",
     "freeShipping": "Free Shipping",
     "discount": "Discount",
     "become": "Become a seller",
@@ -22,6 +24,9 @@
     "joinWithUS": "Join with us",
     "support": "Support",
     "homepage": "Homepage",
+    "increase": "Increase",
+    "addAddressForShipping": "Add a shipping address",
+    "addAddress": "Add Address",
     "pageError": "404 | This page could not be found.",
     "solution": "Stay up to date with our latest products and services byfollowing us on social media. Join the Urban-Haven community today."
 }

@@ -140,11 +140,11 @@ exports.getSingleUserController = async (req, res) => {
 		const { uuid } = req.session.user;
 
 		// console.log(uuid);
-		const result = await getSingleUserModel({ uuid });
+		const payload = await getSingleUserModel({ uuid });
 		// console.log(result);
-		if (result) {
+		if (payload) {
 			// const token = jwt.sign(result, secretKey, { expiresIn: '1h' });
-			res.status(200).json({ message: 'Get data successfully', result });
+			res.status(200).json({ message: 'Get data successfully', payload });
 		} else {
 			res.status(404).json({ message: 'User not found' });
 		}
@@ -158,6 +158,7 @@ exports.getSingleUserController = async (req, res) => {
 exports.editPassUserController = async (req, res) => {
 	try {
 		const { uuid } = req.session.user;
+		console.log(uuid);
 		const userInfo = req.body;
 		if (!userInfo.password) {
 			return res.status(400).json({ message: 'Enter your new password' });

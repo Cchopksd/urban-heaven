@@ -5,12 +5,14 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import ChatPage from './pages/ChatPage';
 import Dash from './pages/Dash';
-import Profile from './pages/Profile';
-import Security from './pages/Security';
-import Address from './pages/Address';
+import Profile from './pages/account/Profile';
+import Security from './pages/account/Security';
+import Address from './pages/account/Address';
 import PrivateRoute from './utils/PrivateRoute';
 import NoMatchRoute from './utils/NoMatchRoute';
-import Payment from './pages/Payment';
+import Payment from './pages/account/Payment';
+import IncreaseAddress from './pages/account/IncreaseAddress';
+import Overview from './pages/Overview';
 
 const App = () => {
 	// const [params, setParams] = useState();
@@ -41,9 +43,18 @@ const App = () => {
 					element={
 						<PrivateRoute>
 							<Navigate
-								to={'/account/edit-profile'}
+								to={'/account/overview'}
 								replace
 							/>
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path='/account/overview'
+					exact
+					element={
+						<PrivateRoute>
+							<Overview />
 						</PrivateRoute>
 					}
 				/>
@@ -69,6 +80,14 @@ const App = () => {
 					element={
 						<PrivateRoute>
 							<Address />
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path='/account/address/increase'
+					element={
+						<PrivateRoute>
+							<IncreaseAddress />
 						</PrivateRoute>
 					}
 				/>

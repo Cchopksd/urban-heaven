@@ -142,7 +142,7 @@ exports.getUserAddressModel = async (uuid) => {
 			WHERE users.uuid = $1`,
 			[uuid],
 		);
-		return result.rows[0];
+		return result.rows;
 	} catch {
 		throw err;
 	}

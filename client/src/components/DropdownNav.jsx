@@ -7,7 +7,7 @@ import { IoPersonCircleOutline } from 'react-icons/io5';
 import { IoBagHandleOutline } from 'react-icons/io5';
 import { IoLogOutOutline } from 'react-icons/io5';
 
-import { logoutUser, setUser, } from '../features/auth/authSlice';
+import { logoutUser, setUser } from '../libs/auth/authSlice';
 import './styles/DropdownNav.css';
 
 const DropdownNav = () => {
@@ -73,7 +73,7 @@ const DropdownNav = () => {
 					<Link
 						className='list-dropdown-link'
 						onClick={handleLinkClick}
-						to={`/account/edit-profile`}>
+						to={`/account/overview`}>
 						<IoPersonCircleOutline />
 						{t('account')}
 					</Link>

@@ -1,25 +1,22 @@
-.profile-screen {
+.payment-screen {
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.profile-layout {
+.payment-layout {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     width: 100%;
-    max-width: 1400px;
     margin: auto;
 }
 
-.profile-sec-content {
-    display: flex;
+.payment-sec-content {
     height: 31.25rem;
     max-width: 1000px;
     width: 100%;
-    background-color: #fff;
     border-radius: 1.25rem;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-
+    margin: 1rem;
 }

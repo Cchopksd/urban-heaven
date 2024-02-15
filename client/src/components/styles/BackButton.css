@@ -1,0 +1,19 @@
+.back-button-container {
+    display: flex;
+    align-items: center;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.back-icon {
+    margin-right: 5px;
+    margin-top: -3px;
+}
+
+.back-text {
+    font-size: 16px;
+}
