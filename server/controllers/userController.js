@@ -2,7 +2,6 @@ const {
 	registerModel,
 	checkUserExists,
 	checkAllEmail,
-	getAllUsersModel,
 	EditProfileModel,
 	getSingleUserModel,
 	createAddressModel,
@@ -79,9 +78,9 @@ exports.registerController = async (req, res) => {
 			return res.status(409).json({ message: 'Email already exists' });
 		}
 
-		const userID = uuidv4();
+		const user_uuid = uuidv4();
 		// console.log({...userInfo})
-		await registerModel({ ...userInfo, userID });
+		await registerModel({ ...userInfo, user_uuid });
 		res.status(200).json({
 			message: 'Register successfully',
 		});
@@ -95,7 +94,7 @@ exports.registerController = async (req, res) => {
 
 exports.EditProfileController = async (req, res) => {
 	try {
-		const { user_params } = req.params;
+		const { user_uuid } = req.session.user;
 		const userInfo = req.body;
 
 		if (userInfo.fname === '') {
@@ -106,7 +105,7 @@ exports.EditProfileController = async (req, res) => {
 			return res.status(400).json({ message: 'Last name not empty' });
 		}
 
-		await EditProfileModel(user_params, {
+		await EditProfileModel(user_uuid, {
 			...userInfo,
 		});
 		res.status(200).json({
@@ -120,27 +119,11 @@ exports.EditProfileController = async (req, res) => {
 	}
 };
 
-exports.getAllUsersControllers = async (req, res) => {
-	try {
-		const userInfo = await getAllUsersModel();
-		res.status(200).json({
-			message: 'Get data successfully',
-			userInfo,
-		});
-	} catch (err) {
-		res.status(500).json({
-			message: 'Internal Server Error',
-		});
-		throw err;
-	}
-};
-
 exports.getSingleUserController = async (req, res) => {
 	try {
-		const { uuid } = req.session.user;
-
-		// console.log(uuid);
-		const payload = await getSingleUserModel({ uuid });
+		const { user_uuid } = req.session.user;
+		console.log(user_uuid);
+		const payload = await getSingleUserModel({ user_uuid });
 		// console.log(result);
 		if (payload) {
 			// const token = jwt.sign(result, secretKey, { expiresIn: '1h' });
@@ -157,13 +140,12 @@ exports.getSingleUserController = async (req, res) => {
 
 exports.editPassUserController = async (req, res) => {
 	try {
-		const { uuid } = req.session.user;
-		console.log(uuid);
+		const { user_uuid } = req.session.user;
 		const userInfo = req.body;
 		if (!userInfo.password) {
 			return res.status(400).json({ message: 'Enter your new password' });
 		}
-		await editPassUserModel({ uuid, ...userInfo });
+		await editPassUserModel({ user_uuid, ...userInfo });
 		res.status(200).json({ message: 'Update Data successfully' });
 	} catch (err) {
 		res.status(500).json({
@@ -175,15 +157,15 @@ exports.editPassUserController = async (req, res) => {
 exports.createAddressController = async (req, res) => {
 	try {
 		const addressInfo = req.body;
-		const { uuid } = req.session.user;
-		const addressID = uuidv4();
+		const { user_uuid } = req.session.user;
+		const address_uuid = uuidv4();
 
 		if (
 			!addressInfo.province ||
 			!addressInfo.county ||
 			!addressInfo.district ||
-			!addressInfo.post_ID ||
-			!addressInfo.address_etc ||
+			!addressInfo.postal_code ||
+			!addressInfo.address_line_1 ||
 			!addressInfo.address_label
 		) {
 			return res.status(400).json({
@@ -192,8 +174,8 @@ exports.createAddressController = async (req, res) => {
 		}
 		await createAddressModel({
 			...addressInfo,
-			addressID,
-			uuid,
+			address_uuid,
+			user_uuid,
 		});
 		res.status(200).json({
 			message: 'Create address successfully',
@@ -207,8 +189,8 @@ exports.createAddressController = async (req, res) => {
 
 exports.getUserAddressController = async (req, res) => {
 	try {
-		const { uuid } = req.session.user;
-		const payload = await getUserAddressModel(uuid);
+		const { user_uuid } = req.session.user;
+		const payload = await getUserAddressModel(user_uuid);
 		res.status(200).json({
 			message: 'Get user address successfully',
 			payload,

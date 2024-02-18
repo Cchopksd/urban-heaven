@@ -13,6 +13,7 @@ require('dotenv').config();
 
 const { databaseConfig } = require('./configs/connectDB');
 const { sessionConfig } = require('./configs/sessionConfig');
+const adminRoute = require('./routes/adminRoute');
 const authRoute = require('./routes/authRoute');
 const userRoute = require('./routes/userRoute');
 const merchantRoute = require('./routes/merchantRoute');
@@ -97,6 +98,7 @@ io.on('connection', (socket) => {
 	});
 });
 
+app.use('/api', adminRoute);
 app.use('/api', authRoute);
 app.use('/api', userRoute);
 app.use('/api', merchantRoute);

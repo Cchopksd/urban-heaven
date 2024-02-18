@@ -24,9 +24,9 @@ exports.loginController = async (req, res, next) => {
 				password,
 				userInfo.password,
 			);
-			const { uuid, username, role } = userInfo;
+			const { user_uuid, username, role } = userInfo;
 			const payload = {
-				uuid,
+				user_uuid,
 				username,
 				email,
 				role,
@@ -66,6 +66,7 @@ exports.loginController = async (req, res, next) => {
 exports.getAuthUserController = (req, res) => {
 	try {
 		if (req.session.user) {
+			console.log(req.session.user);
 			const payload = req.session.user;
 			const config = { payload };
 			res.status(200).json({ success: true, config });

@@ -1,7 +1,6 @@
 const express = require('express');
 const {
 	registerController,
-	getAllUsersControllers,
 	EditProfileController,
 	createAddressController,
 	showData,
@@ -15,7 +14,6 @@ const { isAuthenticated } = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 router.post('/register', registerController);
-router.get('/get-all-users', getAllUsersControllers);
 router.get('/get-single-user', isAuthenticated, getSingleUserController);
 router.get('/pull-user-data', isAuthenticated, showData);
 router.get('/get-user-address', isAuthenticated, getUserAddressController);
