@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { URL_LOGIN, URL_LOGOUT } from '../../api/userAPI';
+import { URL_LOGIN, URL_GET_AUTH_USER, URL_LOGOUT } from '../../api/userAPI';
 
 const initialState = {
 	user: null,
@@ -12,7 +12,7 @@ const initialState = {
 
 export const loginUser = createAsyncThunk(
 	'auth/loginUser',
-	async ({ email, password, closeModal }) => {
+	async ({ email, password, closeModal }, { dispatch }) => {
 		try {
 			const response = await axios.post(
 				URL_LOGIN,
@@ -21,12 +21,13 @@ export const loginUser = createAsyncThunk(
 					withCredentials: true,
 				},
 			);
-			sessionStorage.setItem(
-				'user-data',
-				JSON.stringify(response.data.config),
-				// console.log(response.data.config),
-			);
 			closeModal();
+			console.log(response.data);
+			if (response.data.message === 'Login success') {
+				dispatch(getAuthUser());
+			} else {
+				throw new Error(response.data.message);
+			}
 			Swal.fire({
 				title: 'Message',
 				text: response.data.message,
@@ -39,9 +40,31 @@ export const loginUser = createAsyncThunk(
 				text: error.response.data.message,
 				icon: 'error',
 			});
+			throw error;
 		}
 	},
 );
+
+export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
+	try {
+		const response = await axios.get(URL_GET_AUTH_USER, {
+			withCredentials: true,
+		});
+		sessionStorage.setItem(
+			'user-data',
+			JSON.stringify(response.data.config),
+			// console.log(response.data.config),
+		);
+		// if (response.data.config.payload.role === 'admin') {
+		// 	navigate('/admin');
+		// }
+		// if(response.data.)
+		return response.data;
+	} catch (err) {
+		console.error('Logout failed:', err);
+		return err.response?.data;
+	}
+});
 
 export const logoutUser = createAsyncThunk(
 	'auth/logoutUser',
@@ -73,14 +96,29 @@ const authSlice = createSlice({
 		builder
 			.addCase(loginUser.pending, (state) => {
 				state.status = 'loading';
+
 			})
-			.addCase(loginUser.fulfilled, (state, action) => {
+			.addCase(loginUser.fulfilled, (state) => {
 				state.status = 'succeeded';
 				state.isUserLoggedIn = true;
-				state.user = action.payload;
 			})
 			.addCase(loginUser.rejected, (state, action) => {
 				state.status = 'failed';
+
+				state.error = action.error.message;
+			})
+			.addCase(getAuthUser.pending, (state) => {
+				state.status = 'loading';
+
+			})
+			.addCase(getAuthUser.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+
+				state.user = action.payload;
+			})
+			.addCase(getAuthUser.rejected, (state, action) => {
+				state.status = 'failed';
+
 				state.error = action.error.message;
 			})
 			.addCase(logoutUser.pending, (state) => {

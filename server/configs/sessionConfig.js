@@ -13,8 +13,10 @@ const sessionConfig = session({
 	saveUninitialized: true,
 	cookie: {
 		secure: false,
+		proxy: true,
 		httpOnly: true,
-		sameSite: 'lax',
+		sameSite: 'Strict',
+		priority: 'high',
 	},
 });
 

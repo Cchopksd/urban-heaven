@@ -3,15 +3,17 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
-import { URL_GET_USER_DATA, URL_GET_USER_ADDRESS } from '../api/userAPI';
+import {
+	URL_GET_USER_DATA,
+	URL_GET_USER_ADDRESS,
+	URL_RESET_PASSWORD,
+} from '../api/userAPI';
 
 const initialState = {
 	user: null,
 	address: null,
 	status: 'idle',
 	error: null,
-	isEditAccount: false,
-	value: null,
 };
 
 export const getUserData = createAsyncThunk('account/getData', async () => {
@@ -40,13 +42,29 @@ export const getUserAddress = createAsyncThunk(
 	},
 );
 
+export const resetPassword = createAsyncThunk(
+	'account/resetPassword',
+	async ({ password }) => {
+		try {
+			const response = await axios.patch(
+				URL_RESET_PASSWORD,
+				{ password },
+				{
+					withCredentials: true,
+				},
+			);
+			return response.data;
+		} catch (err) {
+			console.log(err);
+			return err.response.data;
+		}
+	},
+);
+
 const accountSlice = createSlice({
 	name: 'account',
 	initialState,
 	reducers: {
-		clearUser: (state) => {
-			state.user = null;
-		},
 		editProfile: (state, action) => {
 			state.isEditAccount = action.payload;
 		},
@@ -64,6 +82,17 @@ const accountSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(getUserData.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action.error.message;
+			})
+			.addCase(resetPassword.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(resetPassword.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				state.address = action.payload;
+			})
+			.addCase(resetPassword.rejected, (state, action) => {
 				state.status = 'failed';
 				state.error = action.error.message;
 			})

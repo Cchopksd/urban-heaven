@@ -2,7 +2,7 @@ const { loginModel } = require('../models/authModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const secretKey = process.env.SECRET_KEY
+const secretKey = process.env.SECRET_KEY;
 
 exports.loginController = async (req, res, next) => {
 	try {
@@ -24,11 +24,12 @@ exports.loginController = async (req, res, next) => {
 				password,
 				userInfo.password,
 			);
-			const { uuid, username } = userInfo;
+			const { uuid, username, role } = userInfo;
 			const payload = {
 				uuid,
 				username,
 				email,
+				role,
 			};
 
 			const expireSessionTime = isChecked ? 2592000000 : 86400000;
@@ -36,14 +37,15 @@ exports.loginController = async (req, res, next) => {
 			if (isPasswordMatch) {
 				req.session.user = payload;
 				req.session.cookie.originalMaxAge = expireSessionTime;
-				const token = jwt.sign(payload, secretKey, {
-					expiresIn: '1h',
-				});
-				const config = { payload, token };
+				// const token = jwt.sign(payload, secretKey, {
+				// 	expiresIn: '1h',
+				// });
+
+				const config = { payload };
 				res.status(200).json({
 					message: 'Login success',
-					config,
 				});
+
 				// return res.redirect(303, `${process.env.VITE_APP_API}/account/edit-profile`);
 			} else {
 				return res
@@ -58,6 +60,21 @@ exports.loginController = async (req, res, next) => {
 	} catch (err) {
 		res.status(500).json({ message: 'Internal Server Error' });
 		throw err;
+	}
+};
+
+exports.getAuthUserController = (req, res) => {
+	try {
+		if (req.session.user) {
+			const payload = req.session.user;
+			const config = { payload };
+			res.status(200).json({ success: true, config });
+		}
+	} catch (err) {
+		res.status(500).json({
+			success: false,
+			message: 'Internal Server Error' || err,
+		});
 	}
 };
 

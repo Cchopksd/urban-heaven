@@ -30,10 +30,11 @@ const userTableQuery = `
         password VARCHAR(255) NOT NULL,
         phone VARCHAR(10) NOT NULL,
         gender VARCHAR(255) NOT NULL,
+        role VARCHAR(255) NOT NULL DEFAULT 'member',
         date INTEGER NOT NULL,
         month INTEGER NOT NULL,
-        year INTEGER NOT NULL,
-    );
+        year INTEGER NOT NULL
+    )
 `;
 
 const sessionTableQuery = `
@@ -42,7 +43,7 @@ const sessionTableQuery = `
         sess json NOT NULL,
         expire timestamp with time zone NOT NULL,
         PRIMARY KEY(sid)
-    );
+    )
 `;
 
 const addressTableQuery = `
@@ -59,7 +60,7 @@ const addressTableQuery = `
         address_default BOOLEAN NOT NULL DEFAULT false,
         address_label VARCHAR(255) NOT NULL,
         PRIMARY KEY(address_ID)
-    );
+    )
 `;
 
 const merchantTableQuery = `
@@ -73,7 +74,7 @@ const merchantTableQuery = `
         merchant_phone VARCHAR(100) NOT NULL,
         merchant_address VARCHAR(100) NOT NULL,
         PRIMARY KEY(merchant_ID)
-    );
+    )
 `;
 
 exports.createTables = async () => {

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
 import './styles/IncreaseAddress.css';
-import { IoChevronBackOutline } from 'react-icons/io5';
 import BackButton from '../../components/BackButton';
 
 const IncreaseAddress = () => {

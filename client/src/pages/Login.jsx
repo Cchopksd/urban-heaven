@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Link,  } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
+import { useNavigate } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
@@ -10,14 +11,16 @@ import { IoEyeOffOutline, IoEyeOutline } from 'react-icons/io5';
 import { loginUser } from '../libs/auth/authSlice';
 import './styles/Login.css';
 
-const Login = ({ modalIsOpen, closeModal, }) => {
+const Login = ({ modalIsOpen, closeModal }) => {
 	const dispatch = useDispatch();
-	const { status, } = useSelector((state) => state.auth);
+	const navigate = useNavigate();
+	const { status } = useSelector((state) => state.auth);
 	const { t } = useTranslation();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [isChecked, setIsChecked] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
+	const params = sessionStorage.getItem('PAGE_URI')
 
 	useEffect(() => {
 		if (modalIsOpen) {
@@ -39,9 +42,12 @@ const Login = ({ modalIsOpen, closeModal, }) => {
 		Modal.setAppElement('body');
 	}, []);
 
-	const handleLogin = () => {
+	const handleLogin = async () => {
 		if (status !== 'loading') {
 			dispatch(loginUser({ password, email, closeModal }));
+			if (params === '/register') {
+				navigate('/');
+			}
 		}
 	};
 

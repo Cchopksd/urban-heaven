@@ -1,19 +1,16 @@
-// import { Middleware } from '@reduxjs/toolkit';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const PrivateRoute = ({ children }) => {
+const IsLoggedIn = ({ children }) => {
 	const { status, isUserLoggedIn } = useSelector((state) => state.auth);
-
 	if (status === 'loading') return null;
-	return isUserLoggedIn ? (
-		children
-	) : (
+	else if (status === 'failed' || isUserLoggedIn === false) return children;
+	else if (isUserLoggedIn === true) {
 		<Navigate
 			to={'/'}
-			replace
-		/>
-	);
+
+		/>;
+	}
 };
 
-export default PrivateRoute;
+export default IsLoggedIn;

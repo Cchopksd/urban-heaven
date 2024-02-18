@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -51,6 +51,7 @@ const Register = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [isChecked, setIsChecked] = useState(false);
+	const emailRef = useRef(null);
 	const handleCheckboxChange = () => {
 		setIsChecked(!isChecked);
 	};
@@ -190,7 +191,6 @@ const Register = () => {
 				return;
 			}
 
-			console.log(!isDateValid());
 			if (!isDateValid()) {
 				Swal.fire({
 					title: 'Message',
@@ -238,7 +238,6 @@ const Register = () => {
 				year: '',
 			});
 		} catch (err) {
-			console.error('Error submitting form:', err);
 			await Swal.fire({
 				title: 'Error',
 				text:
@@ -246,6 +245,10 @@ const Register = () => {
 				icon: 'error',
 			});
 			prevStep();
+			if (err.response?.data?.message === 'Email already exists') {
+				emailRef.current.focus();
+			}
+			throw ('Error submitting form:', err);
 		}
 	};
 
@@ -326,6 +329,8 @@ const Register = () => {
 										</label>
 										<input
 											type='text'
+											ref={emailRef}
+											autoFocus
 											id='email'
 											name='email'
 											className='regis-input'

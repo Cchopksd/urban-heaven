@@ -3,13 +3,17 @@ import { useTranslation } from 'react-i18next';
 
 import { IoIosArrowForward } from 'react-icons/io';
 
-
 import Navbar from '../components/Navbar';
 import './styles/Overview.css';
 import Footer from '../components/Footer';
+import { useEffect } from 'react';
 
 const Overview = () => {
-	const {t} = useTranslation();
+	const { t } = useTranslation();
+	useEffect(() => {
+		document.title = t('Overview');
+		sessionStorage.setItem('PAGE_URI', '/account/overview');
+	});
 	return (
 		<div className='overview-page'>
 			<Navbar />

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
-import Sidebar from '../../components/Sidebar';
 import './styles/Payment.css';
 import BackButton from '../../components/BackButton';
 
