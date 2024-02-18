@@ -60,9 +60,6 @@ const Security = () => {
 						<section className='security-sec-header'>
 							<BackButton />
 							<h1 className='security-head'>{t('security')}</h1>
-							<div className='hide-element'>
-								<BackButton />
-							</div>
 						</section>
 						<hr className='security-head-line' />
 						<section>

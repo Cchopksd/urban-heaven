@@ -1,6 +1,9 @@
 .back-button-container {
     display: flex;
     align-items: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .back-button {

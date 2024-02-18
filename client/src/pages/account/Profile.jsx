@@ -56,9 +56,6 @@ const Profile = () => {
 						<section className='profile-sec-header'>
 							<BackButton />
 							<h1 className='profile-head'>{t('profile')}</h1>
-							<div className='hide-element'>
-								<BackButton />
-							</div>
 						</section>
 						<hr className='profile-head-line' />
 

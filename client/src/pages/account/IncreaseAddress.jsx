@@ -15,10 +15,17 @@ const IncreaseAddress = () => {
 	return (
 		<div className='increase-address-screen'>
 			<Navbar />
-			<main className='increase-address-layout'>
-				<section className='increase-address-sec-content'>
-					<BackButton />
-					<p>Increase address</p>
+			<main className='increase-address-container'>
+				<section className='increase-address-layout'>
+					<section className='increase-address-content'>
+						<section className='increase-address-header'>
+							<BackButton />
+							<h1 className='increase-address-head'>
+								{t('increaseAddress')}
+							</h1>
+						</section>
+						<hr className='increase-address-head-line' />
+					</section>
 				</section>
 			</main>
 			<Footer />

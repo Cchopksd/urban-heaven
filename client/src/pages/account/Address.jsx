@@ -35,7 +35,6 @@ const Address = () => {
 						<section className='address-sec-header'>
 							<BackButton />
 							<h1 className='address-head'>{t('address')}</h1>
-							<button className=''>{t('addAddress')}</button>
 						</section>
 						<hr className='address-head-line' />
 					</section>

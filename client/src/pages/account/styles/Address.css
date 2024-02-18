@@ -33,6 +33,10 @@
 }
 
 .address-empty-layout {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translateX(50%);
     margin: auto;
 }
 
@@ -75,17 +79,21 @@
 
 }
 
-.address-head{
+.address-head {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 20px;
+    top: 0;
 }
 
 .address-detail {
     margin: 15px 0;
 }
 
-.address-sec-header-layout {
+/* .address-sec-header-layout {
     width: 100%;
-}
+} */
 
 .address-box-detail {
     display: flex;
@@ -95,12 +103,8 @@
 
 .address-sec-header {
     display: flex;
-    justify-content: space-between;
-
-    /* background-color: antiquewhite; */
-    align-items: center;
-    align-self: center;
-    /* height: 100%; */
+    position: relative;
+    height: 80px;
 }
 
 .address-head-line {
@@ -108,5 +112,11 @@
     border: 0;
     border-top: 1px solid #eeeeef;
     padding: 0;
-    margin:0 -20px;
+    margin: 0 -20px;
+}
+
+.btn-increase-address {
+    /* display: block; */
+    visibility: hidden;
+
 }
