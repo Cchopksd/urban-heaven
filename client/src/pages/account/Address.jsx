@@ -54,7 +54,7 @@ const Address = () => {
 						</section>
 					) : (
 						<section className='address-box-info'>
-							{address?.payload[0]?.address_id === null ? (
+							{address?.payload[0]?.address_uuid === null ? (
 								<section className='address-empty-layout'>
 									<section className='address-empty'>
 										<Link
@@ -70,7 +70,7 @@ const Address = () => {
 									{address?.payload?.map((item, index) => (
 										<section
 											className='address-box-detail'
-											key={item.address_id}>
+											key={item.address_uuid}>
 											<ul className='address-info-group'>
 												<li className='address-detail'>
 													{index + 1}. &nbsp;
@@ -86,10 +86,13 @@ const Address = () => {
 													{item.district}
 												</li>
 												<li className='address-detail'>
-													{item.post_id}
+													{item.postal_code}
 												</li>
 												<li className='address-detail'>
-													{item.address_etc}
+													{item.address_line_1}
+												</li>
+												<li className='address-detail'>
+													{item.address_line_2}
 												</li>
 											</ul>
 											<div className='address-detail'>
