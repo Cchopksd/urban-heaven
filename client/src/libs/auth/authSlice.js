@@ -23,7 +23,7 @@ export const loginUser = createAsyncThunk(
 			);
 			closeModal();
 			console.log(response.data);
-			if (response.data.message === 'Login success') {
+			if (response.data.message === 'Login successfully') {
 				dispatch(getAuthUser());
 			} else {
 				throw new Error(response.data.message);
@@ -53,12 +53,13 @@ export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 		sessionStorage.setItem(
 			'user-data',
 			JSON.stringify(response.data.config),
-			// console.log(response.data.config),
+			console.log(response.data),
 		);
 		// if (response.data.config.payload.role === 'admin') {
 		// 	navigate('/admin');
 		// }
 		// if(response.data.)
+		console.log(response.data)
 		return response.data;
 	} catch (err) {
 		console.error('Logout failed:', err);

@@ -61,8 +61,9 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-app.use(sessionConfig);
+
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(sessionConfig);
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));

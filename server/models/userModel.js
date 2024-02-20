@@ -2,13 +2,22 @@ const { databaseConfig } = require('../configs/connectDB');
 const bcrypt = require('bcryptjs');
 
 exports.registerModel = async (userInfo) => {
-	console.log(userInfo);
+	// console.log(userInfo);
 	try {
 		const hashedPassword = await bcrypt.hash(userInfo.password, 10);
 		const result = await databaseConfig.query(
-			`INSERT INTO users (user_uuid, first_name, last_name, username, email, password, phone, gender, date, month, year)
+			`INSERT INTO users
+			(
+				user_uuid,
+				first_name,
+				last_name, username,
+				email, password,
+				phone, gender,
+				date, month,
+				year
+			)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-			RETURNING user_uuid`,
+			RETURNING *`,
 
 			[
 				userInfo.user_uuid,
@@ -24,7 +33,14 @@ exports.registerModel = async (userInfo) => {
 				userInfo.year,
 			],
 		);
-		return result.rows[0].user_uuid;
+		const resultAgreement = await databaseConfig.query(
+			`INSERT INTO agreement
+				( user_uuid )
+			VALUES ( $1 )
+			RETURNING *`,
+			[result.rows[0].user_uuid],
+		);
+		return resultAgreement.rows[0].user_uuid;
 	} catch (err) {
 		throw err;
 	}

@@ -71,6 +71,9 @@ const accountSlice = createSlice({
 		updateValue: (state, action) => {
 			state.value = action.payload;
 		},
+		resetPassword: (state, action) => {
+			state.address = action.payload;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -82,17 +85,6 @@ const accountSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(getUserData.rejected, (state, action) => {
-				state.status = 'failed';
-				state.error = action.error.message;
-			})
-			.addCase(resetPassword.pending, (state) => {
-				state.status = 'loading';
-			})
-			.addCase(resetPassword.fulfilled, (state, action) => {
-				state.status = 'succeeded';
-				state.address = action.payload;
-			})
-			.addCase(resetPassword.rejected, (state, action) => {
 				state.status = 'failed';
 				state.error = action.error.message;
 			})

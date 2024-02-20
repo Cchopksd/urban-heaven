@@ -17,6 +17,7 @@ import Overview from './pages/Overview';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
 import IsLoggedIn from './utils/IsLoggedIn';
+import AgreementForVendor from './pages/merchant/AgreementForVendor';
 
 const App = () => {
 	return (
@@ -54,11 +55,9 @@ const App = () => {
 					path='/account/overview'
 					exact
 					element={
-						<AdminRoute>
-							<PrivateRoute>
-								<Overview />
-							</PrivateRoute>
-						</AdminRoute>
+						<PrivateRoute>
+							<Overview />
+						</PrivateRoute>
 					}
 				/>
 				<Route
@@ -99,6 +98,15 @@ const App = () => {
 					element={
 						<PrivateRoute>
 							<Payment />
+						</PrivateRoute>
+					}
+				/>
+
+				<Route
+					path='/account/agreement-for-vendor'
+					element={
+						<PrivateRoute>
+							<AgreementForVendor />
 						</PrivateRoute>
 					}
 				/>

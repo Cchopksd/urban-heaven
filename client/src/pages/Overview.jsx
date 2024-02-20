@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
+import { useSelector } from 'react-redux';
 import { IoIosArrowForward } from 'react-icons/io';
 
 import Navbar from '../components/Navbar';
@@ -9,6 +9,7 @@ import Footer from '../components/Footer';
 import { useEffect } from 'react';
 
 const Overview = () => {
+	const { user } = useSelector((state) => state.auth);
 	const { t } = useTranslation();
 	useEffect(() => {
 		document.title = t('Overview');
@@ -49,7 +50,13 @@ const Overview = () => {
 								</span>
 								<IoIosArrowForward />
 							</Link>
-							<Link className='overview-sec-profile-per-group-link'>
+							<Link
+								to={
+									user.payload.is_vendor_agreement
+										? '/account/create-vendor'
+										: '/account/agreement-for-vendor'
+								}
+								className='overview-sec-profile-per-group-link'>
 								<span className='overview-label'>
 									{t('startSelling')}
 								</span>
