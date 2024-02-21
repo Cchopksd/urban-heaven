@@ -2,7 +2,6 @@ const { databaseConfig } = require('../configs/connectDB');
 
 exports.acceptAgreementVendorModel = async (vendorInfo) => {
 	try {
-		console.log(vendorInfo);
 		const result = await databaseConfig.query(
 			`UPDATE agreement
             SET

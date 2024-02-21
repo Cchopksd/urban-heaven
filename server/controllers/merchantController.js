@@ -6,6 +6,7 @@ const {
 exports.acceptAgreementVendorController = async (req, res) => {
 	try {
 		const { is_vendor_agreement } = req.body;
+		console.log(is_vendor_agreement);
 		const { user_uuid } = req.session.user;
 		if (is_vendor_agreement) {
 			await acceptAgreementVendorModel({

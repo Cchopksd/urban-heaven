@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
-import PrivateRoute from './utils/PrivateRoute';
-import NoMatchRoute from './utils/NoMatchRoute';
-import AdminRoute from './utils/AdminRoute';
+import PrivateRoute from './Routes/PrivateRoute';
+import NoMatchRoute from './Routes/NoMatchRoute';
+import AdminRoute from './Routes/AdminRoute';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -15,9 +15,13 @@ import Payment from './pages/account/Payment';
 import IncreaseAddress from './pages/account/IncreaseAddress';
 import Overview from './pages/Overview';
 
+import CreateVendor from './pages/merchant/CreateVendor';
+
 import AdminDashboard from './pages/admin/AdminDashboard';
-import IsLoggedIn from './utils/IsLoggedIn';
+import IsLoggedIn from './Routes/IsLoggedIn';
 import AgreementForVendor from './pages/merchant/AgreementForVendor';
+import IsAcceptVendor from './Routes/IsAcceptVendor';
+
 
 const App = () => {
 	return (
@@ -106,7 +110,17 @@ const App = () => {
 					path='/account/agreement-for-vendor'
 					element={
 						<PrivateRoute>
-							<AgreementForVendor />
+							<IsAcceptVendor>
+								<AgreementForVendor />
+							</IsAcceptVendor>
+						</PrivateRoute>
+					}
+				/>
+				<Route
+					path='/account/create-vendor'
+					element={
+						<PrivateRoute>
+								<CreateVendor />
 						</PrivateRoute>
 					}
 				/>

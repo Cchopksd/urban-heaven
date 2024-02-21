@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 
 exports.loginController = async (req, res, next) => {
 	try {
-		// console.log(req.body)
 		const { email, password, isChecked } = req.body;
 
 		if (!email) {

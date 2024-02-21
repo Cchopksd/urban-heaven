@@ -12,11 +12,11 @@ const initialState = {
 
 export const loginUser = createAsyncThunk(
 	'auth/loginUser',
-	async ({ email, password, closeModal }, { dispatch }) => {
+	async ({ email, password, closeModal, isChecked }, { dispatch }) => {
 		try {
 			const response = await axios.post(
 				URL_LOGIN,
-				{ email, password },
+				{ email, password, isChecked },
 				{
 					withCredentials: true,
 				},
@@ -59,7 +59,7 @@ export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 		// 	navigate('/admin');
 		// }
 		// if(response.data.)
-		console.log(response.data)
+		console.log(response.data);
 		return response.data;
 	} catch (err) {
 		console.error('Logout failed:', err);
@@ -97,7 +97,6 @@ const authSlice = createSlice({
 		builder
 			.addCase(loginUser.pending, (state) => {
 				state.status = 'loading';
-
 			})
 			.addCase(loginUser.fulfilled, (state) => {
 				state.status = 'succeeded';
@@ -110,11 +109,9 @@ const authSlice = createSlice({
 			})
 			.addCase(getAuthUser.pending, (state) => {
 				state.status = 'loading';
-
 			})
 			.addCase(getAuthUser.fulfilled, (state, action) => {
 				state.status = 'succeeded';
-
 				state.user = action.payload;
 			})
 			.addCase(getAuthUser.rejected, (state, action) => {
