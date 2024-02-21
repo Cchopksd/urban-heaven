@@ -22,7 +22,6 @@ import IsLoggedIn from './Routes/IsLoggedIn';
 import AgreementForVendor from './pages/merchant/AgreementForVendor';
 import IsAcceptVendor from './Routes/IsAcceptVendor';
 
-
 const App = () => {
 	return (
 		<BrowserRouter>
@@ -41,7 +40,12 @@ const App = () => {
 				/>
 				<Route
 					path='/register'
-					element={<Register />}
+					element={
+						<IsLoggedIn>
+							<Register />
+						</IsLoggedIn>
+					}
+					
 				/>
 				<Route
 					path='/account'
@@ -120,7 +124,7 @@ const App = () => {
 					path='/account/create-vendor'
 					element={
 						<PrivateRoute>
-								<CreateVendor />
+							<CreateVendor />
 						</PrivateRoute>
 					}
 				/>

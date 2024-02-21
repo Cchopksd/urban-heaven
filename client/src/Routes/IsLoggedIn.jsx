@@ -7,7 +7,7 @@ const IsLoggedIn = ({ children }) => {
 	if (status === 'loading') return null;
 	else if (status === 'failed' || isUserLoggedIn === false) return children;
 	else if (isUserLoggedIn === true) {
-		<Navigate to={'/'} />;
+		return <Navigate to={'/'} />;
 	}
 };
 
