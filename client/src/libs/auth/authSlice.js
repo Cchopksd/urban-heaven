@@ -1,7 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { URL_LOGIN, URL_GET_AUTH_USER, URL_LOGOUT } from '../../api/userAPI';
+import Cookies from 'js-cookie';
+
+import { URL_LOGIN, URL_GET_AUTH_DATA, URL_LOGOUT } from '../../api/userAPI';
 
 const initialState = {
 	user: null,
@@ -23,7 +25,7 @@ export const loginUser = createAsyncThunk(
 			);
 			closeModal();
 			console.log(response.data);
-			if (response.data.message === 'Login successfully') {
+			if (response.data.message === 'Login Successfully') {
 				dispatch(getAuthUser());
 			} else {
 				throw new Error(response.data.message);
@@ -33,6 +35,7 @@ export const loginUser = createAsyncThunk(
 				text: response.data.message,
 				icon: 'success',
 			});
+			Cookies.set('accessToken', response.data.token.accessToken);
 			return response.data;
 		} catch (error) {
 			await Swal.fire({
@@ -47,13 +50,18 @@ export const loginUser = createAsyncThunk(
 
 export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 	try {
-		const response = await axios.get(URL_GET_AUTH_USER, {
+		const accessToken = Cookies.get('accessToken');
+		console.log(accessToken);
+		const response = await axios.get(URL_GET_AUTH_DATA, {
 			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
 		});
 		sessionStorage.setItem(
 			'user-data',
-			JSON.stringify(response.data.config),
-			console.log(response.data),
+			JSON.stringify(response.data),
+			console.log(response)
 		);
 		// if (response.data.config.payload.role === 'admin') {
 		// 	navigate('/admin');

@@ -57,8 +57,8 @@ exports.loginController = async (req, res, next) => {
 		// req..user = user;
 		// req..cookie.originalMaxAge = expireTime;
 		res.status(200).json({
-			accessToken,
-			refreshToken,
+			message: 'Login Successfully',
+			token: { accessToken, refreshToken },
 		});
 	} catch (err) {
 		res.status(500).json({ message: 'Internal Server Error' });
@@ -89,12 +89,10 @@ exports.refreshTokenController = async (req, res) => {
 
 		const access_token = jwtGenerate(user);
 		const refresh_token = jwtRefreshTokenGenerate(user, expireTime);
-		await updateRefreshToken(
-			userInfo.user_uuid,
-			refresh_token,
-		);
+		await updateRefreshToken(userInfo.user_uuid, refresh_token);
 
 		res.status(200).json({
+			message: 'Login Successfully',
 			access_token,
 			refresh_token,
 		});
@@ -107,11 +105,15 @@ exports.refreshTokenController = async (req, res) => {
 exports.getUserDataController = async (req, res) => {
 	try {
 		const token = await req.headers['authorization'].replace('Bearer ', '');
+		console.log('token :', token);
 		const decoded = jwtDecode(token);
 		const { user } = decoded;
-		const userInfo = await getUserDataModel(user.user_uuid);
+		if (!token) {
+			return res.status(404).json({ error: 'Token Not Found' });
+		}
+		const payload = await getUserDataModel(user.user_uuid);
 		// console.log(userInfo);
-		res.status(200).json({ userInfo });
+		res.status(200).json({ payload });
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({ error: 'Internal Server Error' });
