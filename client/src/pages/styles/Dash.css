@@ -7,7 +7,7 @@
 
 .dash-container {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1000px;
     margin: 20px auto;
     font-size: calc(80% + 0.5vmin);
 }
