@@ -105,7 +105,6 @@ exports.refreshTokenController = async (req, res) => {
 exports.getUserDataController = async (req, res) => {
 	try {
 		const token = await req.headers['authorization'].replace('Bearer ', '');
-		console.log('token :', token);
 		const decoded = jwtDecode(token);
 		const { user } = decoded;
 		if (!token) {

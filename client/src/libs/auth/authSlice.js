@@ -24,18 +24,17 @@ export const loginUser = createAsyncThunk(
 				},
 			);
 			closeModal();
-			console.log(response.data);
+			Cookies.set('accessToken', response.data?.token?.accessToken);
 			if (response.data.message === 'Login Successfully') {
 				dispatch(getAuthUser());
 			} else {
-				throw new Error(response.data.message);
+				return Promise.reject(response.data.message);
 			}
 			Swal.fire({
 				title: 'Message',
 				text: response.data.message,
 				icon: 'success',
 			});
-			Cookies.set('accessToken', response.data.token.accessToken);
 			return response.data;
 		} catch (error) {
 			await Swal.fire({
@@ -51,7 +50,10 @@ export const loginUser = createAsyncThunk(
 export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 	try {
 		const accessToken = Cookies.get('accessToken');
-		console.log(accessToken);
+		if (!accessToken) {
+			console.log('No access token found');
+			return null;
+		}
 		const response = await axios.get(URL_GET_AUTH_DATA, {
 			withCredentials: true,
 			headers: {
@@ -61,13 +63,11 @@ export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 		sessionStorage.setItem(
 			'user-data',
 			JSON.stringify(response.data),
-			console.log(response)
 		);
 		// if (response.data.config.payload.role === 'admin') {
 		// 	navigate('/admin');
 		// }
 		// if(response.data.)
-		console.log(response.data);
 		return response.data;
 	} catch (err) {
 		console.error('Logout failed:', err);
@@ -79,13 +79,11 @@ export const logoutUser = createAsyncThunk(
 	'auth/logoutUser',
 	async (_, { dispatch }) => {
 		try {
-			const response = await axios.post(URL_LOGOUT, null, {
-				withCredentials: true,
-			});
 			sessionStorage.removeItem('user-data');
-			dispatch(clearUser());
+			Cookies.remove('accessToken');
+			// dispatch(clearUser());
+			window.location.reload()
 			console.log('logout');
-			return response?.data;
 		} catch (error) {
 			console.error('Logout failed:', error);
 			return error.response?.data;

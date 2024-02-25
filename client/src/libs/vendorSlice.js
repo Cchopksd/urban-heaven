@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getAuthUser } from './auth/authSlice';
+import Cookies from 'js-cookie';
 
+import { getAuthUser } from './auth/authSlice';
 import { URL_ACCEPT_AGREEMENT } from '../api/userAPI';
+
 
 const initialState = {
 	vendor: null,
@@ -13,12 +15,17 @@ const initialState = {
 export const acceptAgreement = createAsyncThunk(
 	'vendor/acceptAgreement',
 	async ({ is_vendor_agreement }, { dispatch }) => {
-		console.log(is_vendor_agreement);
+		const accessToken = Cookies.get('accessToken')
 		try {
 			const response = await axios.patch(
 				URL_ACCEPT_AGREEMENT,
 				{ is_vendor_agreement },
-				{ withCredentials: true },
+				{
+					withCredentials: true,
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				},
 			);
 			dispatch(getAuthUser());
 			return response.data;

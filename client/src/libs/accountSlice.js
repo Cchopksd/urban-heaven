@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 import {
 	URL_GET_USER_DATA,
@@ -18,8 +19,12 @@ const initialState = {
 
 export const getUserData = createAsyncThunk('account/getData', async () => {
 	try {
+		const accessToken = Cookies.get('accessToken');
 		const response = await axios.get(URL_GET_USER_DATA, {
 			withCredentials: true,
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
 		});
 		return response.data;
 	} catch (err) {
@@ -31,8 +36,12 @@ export const getUserAddress = createAsyncThunk(
 	'account/getAddress',
 	async () => {
 		try {
+			const accessToken = Cookies.get('accessToken');
 			const response = await axios.get(URL_GET_USER_ADDRESS, {
 				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
 			});
 			return response.data;
 		} catch (err) {
@@ -46,11 +55,15 @@ export const resetPassword = createAsyncThunk(
 	'account/resetPassword',
 	async ({ password }) => {
 		try {
+			const accessToken = Cookies.get('accessToken');
 			const response = await axios.patch(
 				URL_RESET_PASSWORD,
 				{ password },
 				{
 					withCredentials: true,
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
 				},
 			);
 			return response.data;
