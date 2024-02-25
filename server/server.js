@@ -8,8 +8,6 @@ const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
-const swaggerUi = require('swagger-ui-express');
-const swaggerJsdoc = require('swagger-jsdoc');
 require('dotenv').config();
 
 const { databaseConfig } = require('./configs/connectDB');
@@ -43,26 +41,6 @@ const corsOptions = {
 	credentials: true,
 };
 
-const swaggerOptions = {
-	failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
-	definition: {
-		openapi: '3.0.0',
-		info: {
-			title: 'API Documentation',
-			version: '1.0.0',
-		},
-	},
-	servers: [
-		{
-			url: 'http://localhost:5500',
-		},
-	],
-	apis: ['./routes/*.js'],
-};
-
-const swaggerSpec = swaggerJsdoc(swaggerOptions);
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // app.use(sessionConfig);
 app.use(cors(corsOptions));
 app.use(express.json());
