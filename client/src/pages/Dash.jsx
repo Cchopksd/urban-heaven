@@ -78,7 +78,7 @@ const Dash = () => {
 							</h4>
 						</section>
 						<section className='dash-sec-product-flash'>
-							{productsData.slice(0, 7).map((index) => (
+							{productsData.slice(0, 5).map((index) => (
 								<Link
 									key={index.id}
 									className='flash-link-to-product'>
