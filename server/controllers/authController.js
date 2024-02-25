@@ -26,7 +26,7 @@ exports.loginController = async (req, res, next) => {
 		}
 
 		const userInfo = await loginModel(email);
-		// console.log(userInfo)
+
 		if (!userInfo) {
 			return res
 				.status(401)
@@ -76,7 +76,6 @@ exports.refreshTokenController = async (req, res) => {
 			'refresh_token',
 			req.data.token,
 		);
-		console.log(userInfo);
 		const user = {
 			user_uuid: userInfo.user_uuid,
 			username: userInfo.username,
@@ -93,7 +92,6 @@ exports.refreshTokenController = async (req, res) => {
 		await updateRefreshToken(
 			userInfo.user_uuid,
 			refresh_token,
-			req.data.user.is_checked,
 		);
 
 		res.status(200).json({

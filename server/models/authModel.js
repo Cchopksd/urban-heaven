@@ -53,7 +53,6 @@ exports.checkUserByTokenModel = async (field, value) => {
 };
 
 exports.updateRefreshToken = async (user_uuid, refreshToken, isChecked) => {
-	console.log( refreshToken);
 	try {
 		const result = await databaseConfig.query(
 			`UPDATE

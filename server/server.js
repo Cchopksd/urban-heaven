@@ -5,6 +5,8 @@ const fs = require('fs');
 const { createServer } = require('node:http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const cookieparser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const swaggerUi = require('swagger-ui-express');
@@ -12,7 +14,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 require('dotenv').config();
 
 const { databaseConfig } = require('./configs/connectDB');
-const { sessionConfig } = require('./configs/sessionConfig');
+// const { sessionConfig } = require('./configs/sessionConfig');
 const adminRoute = require('./routes/adminRoute');
 const authRoute = require('./routes/authRoute');
 const userRoute = require('./routes/userRoute');
@@ -61,12 +63,12 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use(sessionConfig);
+// app.use(sessionConfig);
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(cookieparser());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 
