@@ -8,8 +8,10 @@ const {
 	editPassUserModel,
 	getUserAddressModel,
 } = require('../models/userModel');
+
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
+const { jwtDecode } = require('jwt-decode');
 
 const secretKey = process.env.SECRET_KEY;
 
@@ -94,18 +96,41 @@ exports.registerController = async (req, res) => {
 
 exports.EditProfileController = async (req, res) => {
 	try {
-		const { user_uuid } = req.session.user;
+		const token = await req.headers['authorization'].replace('Bearer ', '');
+		const decoded = jwtDecode(token);
+		const { user } = decoded;
 		const userInfo = req.body;
 
-		if (userInfo.fname === '') {
+		if (userInfo.name === '') {
 			return res.status(400).json({ message: 'First name not empty' });
 		}
 
-		if (userInfo.lname === '') {
+		if (userInfo.surname === '') {
+			return res.status(400).json({ message: 'Last name not empty' });
+		}
+		if (userInfo.username === '') {
+			return res.status(400).json({ message: 'Last name not empty' });
+		}
+		if (userInfo.email === '') {
+			return res.status(400).json({ message: 'Last name not empty' });
+		}
+		if (userInfo.phone === '') {
+			return res.status(400).json({ message: 'Last name not empty' });
+		}
+		if (userInfo.gender === '') {
+			return res.status(400).json({ message: 'Last name not empty' });
+		}
+		if (userInfo.date === '') {
+			return res.status(400).json({ message: 'Last name not empty' });
+		}
+		if (userInfo.month === '') {
+			return res.status(400).json({ message: 'Last name not empty' });
+		}
+		if (userInfo.year === '') {
 			return res.status(400).json({ message: 'Last name not empty' });
 		}
 
-		await EditProfileModel(user_uuid, {
+		await EditProfileModel(user.user_uuid, {
 			...userInfo,
 		});
 		res.status(200).json({
@@ -121,9 +146,10 @@ exports.EditProfileController = async (req, res) => {
 
 exports.getSingleUserController = async (req, res) => {
 	try {
-		const { user_uuid } = req.session.user;
-		console.log(user_uuid);
-		const payload = await getSingleUserModel({ user_uuid });
+		const token = await req.headers['authorization'].replace('Bearer ', '');
+		const decoded = jwtDecode(token);
+		const { user } = decoded;
+		const payload = await getSingleUserModel(user.user_uuid);
 		// console.log(result);
 		if (payload) {
 			// const token = jwt.sign(result, secretKey, { expiresIn: '1h' });
@@ -140,12 +166,14 @@ exports.getSingleUserController = async (req, res) => {
 
 exports.editPassUserController = async (req, res) => {
 	try {
-		const { user_uuid } = req.session.user;
+		const token = await req.headers['authorization'].replace('Bearer ', '');
+		const decoded = jwtDecode(token);
+		const { user } = decoded;
 		const userInfo = req.body;
 		if (!userInfo.password) {
 			return res.status(400).json({ message: 'Enter your new password' });
 		}
-		await editPassUserModel({ user_uuid, ...userInfo });
+		await editPassUserModel({ ...user.user_uuid, ...userInfo });
 		res.status(200).json({ message: 'Update Data successfully' });
 	} catch (err) {
 		res.status(500).json({
@@ -157,7 +185,10 @@ exports.editPassUserController = async (req, res) => {
 exports.createAddressController = async (req, res) => {
 	try {
 		const addressInfo = req.body;
-		const { user_uuid } = req.session.user;
+		const token = await req.headers['authorization'].replace('Bearer ', '');
+		const decoded = jwtDecode(token);
+		const { user } = decoded;
+		// console.log(user);
 		const address_uuid = uuidv4();
 
 		if (
@@ -175,7 +206,7 @@ exports.createAddressController = async (req, res) => {
 		await createAddressModel({
 			...addressInfo,
 			address_uuid,
-			user_uuid,
+			user_uuid: user.user_uuid,
 		});
 		res.status(200).json({
 			message: 'Create address successfully',
@@ -189,8 +220,10 @@ exports.createAddressController = async (req, res) => {
 
 exports.getUserAddressController = async (req, res) => {
 	try {
-		const { user_uuid } = req.session.user;
-		const payload = await getUserAddressModel(user_uuid);
+		const token = await req.headers['authorization'].replace('Bearer ', '');
+		const decoded = jwtDecode(token);
+		const { user } = decoded;
+		const payload = await getUserAddressModel(user.user_uuid);
 		res.status(200).json({
 			message: 'Get user address successfully',
 			payload,

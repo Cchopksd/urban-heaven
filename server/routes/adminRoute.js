@@ -1,18 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const {
-	isAuthenticated,
-	isAdminAuthenticated,
-} = require('../middlewares/authMiddleware');
+const { accessToken } = require('../middlewares/authMiddleware');
 
 const { getAllUsersControllers } = require('../controllers/adminController');
 
-router.get(
-	'/get-all-users',
-	isAuthenticated,
-	isAdminAuthenticated,
-	getAllUsersControllers,
-);
+router.get('/get-all-users', accessToken, getAllUsersControllers);
 
 module.exports = router;

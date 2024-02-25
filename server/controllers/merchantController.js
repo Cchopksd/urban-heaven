@@ -3,14 +3,17 @@ const {
 	acceptAgreementVendorModel,
 } = require('../models/merchantModels');
 
+const { jwtDecode } = require('jwt-decode');
+
 exports.acceptAgreementVendorController = async (req, res) => {
 	try {
 		const { is_vendor_agreement } = req.body;
-		console.log(is_vendor_agreement);
-		const { user_uuid } = req.session.user;
+		const token = await req.headers['authorization'].replace('Bearer ', '');
+		const decoded = jwtDecode(token);
+		const { user } = decoded;
 		if (is_vendor_agreement) {
 			await acceptAgreementVendorModel({
-				user_uuid,
+				user_uuid: user.user_uuid,
 				is_vendor_agreement,
 			});
 

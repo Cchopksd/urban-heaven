@@ -62,21 +62,34 @@ exports.checkUserExists = async (field, value) => {
 };
 
 exports.EditProfileModel = async (user_uuid, userInfo) => {
-	console.log(user_uuid);
 	try {
-		const hashedPassword = await bcrypt.hash(userInfo.password, 10);
 		await databaseConfig.query(
-			`UPDATE users
-            SET name = $1, surname= $2, username= $3, email= $4, password= $5
-            WHERE user_uuid= $6
-            RETURNING user_uuid, name, surname,username, email, password`,
+			`UPDATE
+				users
+            SET
+				first_name = $2,
+				last_name= $3,
+				username = $4,
+				email= $5,
+				phone = $6,
+				gender= $7,
+				date = $8,
+				month= $9,
+				year= $10
+            WHERE
+				user_uuid = $1
+            RETURNING *`,
 			[
+				user_uuid,
 				userInfo.name,
 				userInfo.surname,
 				userInfo.username,
 				userInfo.email,
-				hashedPassword,
-				user_uuid,
+				userInfo.phone,
+				userInfo.gender,
+				userInfo.date,
+				userInfo.month,
+				userInfo.year,
 			],
 		);
 	} catch (err) {
@@ -84,13 +97,13 @@ exports.EditProfileModel = async (user_uuid, userInfo) => {
 	}
 };
 
-exports.getSingleUserModel = async (userInfo) => {
+exports.getSingleUserModel = async (user_uuid) => {
 	try {
 		const result = await databaseConfig.query(
 			`SELECT user_uuid, first_name, last_name, phone, gender, date, month, year
 			FROM users
 			WHERE user_uuid=$1`,
-			[userInfo.user_uuid],
+			[user_uuid],
 		);
 		return result.rows[0];
 	} catch (err) {
@@ -115,7 +128,7 @@ exports.editPassUserModel = async (userInfo) => {
 };
 
 exports.createAddressModel = async (address) => {
-	console.log(address);
+	console.log(address)
 	try {
 		const resultAddress = await databaseConfig.query(
 			`

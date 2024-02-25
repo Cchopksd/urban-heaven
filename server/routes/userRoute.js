@@ -9,20 +9,20 @@ const {
 	getUserAddressController,
 } = require('../controllers/userController');
 
-const { isAuthenticated } = require('../middlewares/authMiddleware');
+const { accessToken } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
 router.post('/register', registerController);
-router.get('/get-single-user', isAuthenticated, getSingleUserController);
-router.get('/pull-user-data', isAuthenticated, showData);
-router.get('/get-user-address', isAuthenticated, getUserAddressController);
+router.get('/get-single-user', accessToken, getSingleUserController);
+router.get('/pull-user-data', accessToken, showData);
+router.get('/get-user-address', accessToken, getUserAddressController);
 router.patch(
 	'/edit-profile',
-	isAuthenticated,
+	accessToken,
 	EditProfileController,
 );
-router.patch('/edit-pass', isAuthenticated, editPassUserController);
+router.patch('/edit-pass', accessToken, editPassUserController);
 router.post('/create-address', createAddressController);
 
 module.exports = router;

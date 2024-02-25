@@ -13,19 +13,87 @@ exports.loginModel = async (user_email) => {
 	}
 };
 
-
-exports.getUserData = async (userInfo) => {
+exports.checkUserByIDModel = async (userInfo) => {
+	console.log(userInfo);
 	try {
 		const result = await databaseConfig.query(
 			`SELECT
-				is_vendor_agreement
-			FROM
-				agreement
-            WHERE user_uuid = $1 `,
+				*
+            FROM
+				users
+            WHERE
+				user_uuid = $1
+			`,
 			[userInfo.user_uuid],
+		);
+
+		return result.rows[0];
+	} catch (err) {
+		throw err;
+	}
+};
+
+exports.checkUserByTokenModel = async (field, value) => {
+	try {
+		const result = await databaseConfig.query(
+			`SELECT
+				COUNT(*) AS count
+            FROM
+				users
+            WHERE
+				${field} = $1
+			`,
+			[value],
+		);
+		return result.rows[0].count > 0;
+		// return parseInt(result.rows[0].count) > 0;
+	} catch (err) {
+		throw err;
+	}
+};
+
+exports.updateRefreshToken = async (user_uuid, refreshToken, isChecked) => {
+	console.log( refreshToken);
+	try {
+		const result = await databaseConfig.query(
+			`UPDATE
+				users
+			SET
+				refresh_token = $2,
+				is_checked = $3
+			WHERE
+				user_uuid =$1`,
+			[user_uuid, refreshToken, isChecked],
 		);
 		return result.rows[0];
 	} catch (err) {
 		throw err;
 	}
-}
+};
+
+exports.getUserDataModel = async (user_uuid) => {
+	try {
+		const result = await databaseConfig.query(
+			`SELECT
+				user_uuid,
+				first_name,
+				last_name,
+				username,
+				email,
+				phone,
+				gender,
+				role,
+				date,
+				month,
+				year
+			FROM
+				users
+            WHERE
+				user_uuid = $1 `,
+			[user_uuid],
+		);
+		return result.rows[0];
+	} catch (err) {
+		throw err;
+	}
+};
