@@ -8,5 +8,5 @@ exports.databaseConfig = new Pool({
 	database: process.env.POSTGRES_DATABASE || 'urban-heaven',
 	user: process.env.POSTGRES_USER || 'postgres',
 	password: process.env.POSTGRES_PASSWORD || 'password',
-	// connectionString: process.env.POSTGRES_URL + '?sslmode=require',
+	connectionString: process.env.POSTGRES_URL + '?sslmode=require',
 });
