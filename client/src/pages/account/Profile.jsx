@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import { isValid, parse } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+// import cloudinary from 'cloudinary';
 
 import { FaUpload } from 'react-icons/fa';
 

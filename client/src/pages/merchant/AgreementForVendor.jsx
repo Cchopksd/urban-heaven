@@ -12,7 +12,6 @@ const AgreementForVendor = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [is_vendor_agreement, setIsChecked] = useState(false);
-	const { vendor, isAccept } = useSelector((state) => state.vendor);
 
 	const handleChecked = () => {
 		setIsChecked(!is_vendor_agreement);
