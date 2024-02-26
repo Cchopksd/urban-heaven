@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 const IsAcceptVendor = ({ children }) => {
 	const { status, user } = useSelector((state) => state.auth);
@@ -24,3 +25,7 @@ const IsAcceptVendor = ({ children }) => {
 };
 
 export default IsAcceptVendor;
+
+IsAcceptVendor.propTypes = {
+	children: PropTypes.element.isRequired,
+};

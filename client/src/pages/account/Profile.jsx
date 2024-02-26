@@ -53,247 +53,227 @@ const Profile = () => {
 			<Navbar />
 			<main className='profile-layout'>
 				<section className='profile-content'>
-					<section className='profile-sec-header-layout'>
-						<section className='profile-sec-header'>
-							<BackButton />
-							<h1 className='profile-head'>{t('profile')}</h1>
-						</section>
-						<hr className='profile-head-line' />
-
-						{status === 'loading' ? (
-							<section className='loader'>
-								<TailSpin
-									visible={true}
-									height='20'
-									width='20'
-									color='#000000'
-									ariaLabel='tail-spin-loading'
-									radius='1'
-									wrapperStyle={{}}
-									wrapperClass=''
-								/>
-							</section>
-						) : (
-							<form className='edit-profile-sec-layout'>
-								<section className='edit-profile-sec'>
-									<section className='edit-profile-sec-content-left'>
-										<section className='upload-photo-layer'>
-											<label
-												htmlFor='upload-photo'
-												className='edit-profile-photo'>
-												<FaUpload />
-												Upload Photo
-											</label>
-											<input
-												id='upload-photo'
-												type='file'
-											/>
-										</section>
-									</section>
-									<section className='edit-profile-sec-layout-right'>
-										<section className='edit-profile-sec-content-right'>
-											<section className='edit-profile-g-name'>
-												<label htmlFor='Full Name'>
-													Full Name :
-												</label>
-												<section className='edit-profile-name'>
-													<input
-														className='edit-profile-input'
-														name='FirstName'
-														id='first-name'
-														type='text'
-														value={
-															user?.payload
-																.first_name
-														}
-													/>
-													<input
-														className='edit-profile-input'
-														name='lastName'
-														id='lastName'
-														type='text'
-														value={
-															user?.payload
-																.last_name
-														}
-													/>
-												</section>
-											</section>
-											<section className='edit-profile-g-phone'>
-												<label htmlFor='phone'>
-													Phone :
-												</label>
-												<section>
-													<input
-														className='edit-profile-input'
-														name='phone'
-														id='phone'
-														type='text'
-														value={
-															user?.payload.phone
-														}
-													/>
-												</section>
-											</section>
-											<section className='edit-profile-g-gender'>
-												<label htmlFor='gender'>
-													Gender :
-												</label>
-												<section className='edit-profile-gender'>
-													<label
-														htmlFor='male'
-														className=''>
-														<input
-															type='radio'
-															id='male'
-															name='gender'
-															value='male'
-															checked={
-																user?.payload
-																	.gender ===
-																'male'
-															}
-														/>
-														male
-													</label>
-													<label
-														htmlFor='female'
-														className=''>
-														<input
-															type='radio'
-															id='female'
-															name='gender'
-															value='female'
-															checked={
-																user?.payload
-																	.gender ===
-																'female'
-															}
-														/>
-														female
-													</label>
-													<label htmlFor='other'>
-														<input
-															type='radio'
-															id='other'
-															name='gender'
-															value='other'
-															checked={
-																user?.payload
-																	.gender ===
-																'other'
-															}
-														/>
-														other
-													</label>
-												</section>
-											</section>
-											<section className='edit-profile-g-date'>
-												<label htmlFor='date'>
-													Date of birth : &nbsp;
-												</label>
-												<section className='edit-profile-input-date'>
-													<select
-														name='date'
-														value={
-															user?.payload.date
-														}
-														className='edit-profile-input'>
-														<option
-															value=''
-															disabled
-															hidden>
-															Select Day
-														</option>
-														{Array.from(
-															{ length: 31 },
-															(_, index) => (
-																<option
-																	key={
-																		index +
-																		1
-																	}
-																	value={(
-																		index +
-																		1
-																	)
-																		.toString()
-																		.padStart(
-																			2,
-																			'0',
-																		)}>
-																	{index + 1}
-																</option>
-															),
-														)}
-													</select>
-													<select
-														name='month'
-														className='edit-profile-input'
-														value={
-															user?.payload.month
-														}>
-														<option
-															value=''
-															disabled
-															hidden>
-															Select Month
-														</option>
-														{Array.from(
-															{ length: 12 },
-															(_, index) => (
-																<option
-																	key={
-																		index +
-																		1
-																	}
-																	value={(
-																		index +
-																		1
-																	)
-																		.toString()
-																		.padStart(
-																			2,
-																			'0',
-																		)}>
-																	{index + 1}
-																</option>
-															),
-														)}
-													</select>
-													<select
-														name='year'
-														className='edit-profile-input'
-														value={
-															user?.payload.year
-														}>
-														<option
-															value=''
-															disabled
-															hidden>
-															Select Year
-														</option>
-														{years.map((year) => (
-															<option
-																key={year}
-																value={year.toString()}>
-																{year}
-															</option>
-														))}
-													</select>
-												</section>
-											</section>
-										</section>
-									</section>
-								</section>
-								<section className='edit-profile-button-layout'>
-									<button className='edit-profile-button'>
-										Confirm
-									</button>
-								</section>
-							</form>
-						)}
+					<section className='profile-sec-header'>
+						<BackButton />
+						<h1 className='profile-head'>{t('profile')}</h1>
 					</section>
+					<hr className='profile-head-line' />
+
+					{status === 'loading' ? (
+						<section className='loader'>
+							<TailSpin
+								visible={true}
+								height='20'
+								width='20'
+								color='#000000'
+								ariaLabel='tail-spin-loading'
+								radius='1'
+								wrapperStyle={{}}
+								wrapperClass=''
+							/>
+						</section>
+					) : (
+						<form className='edit-profile-sec-layout'>
+							<section className='edit-profile-sec'>
+								<section className='edit-profile-sec-content-left'>
+									<section className='upload-photo-layer'>
+										<label
+											htmlFor='upload-photo'
+											className='edit-profile-photo'>
+											<FaUpload />
+											Upload Photo
+										</label>
+										<input
+											id='upload-photo'
+											type='file'
+										/>
+									</section>
+								</section>
+								<section className='edit-profile-sec-layout-right'>
+									<section className='edit-profile-sec-content-right'>
+										<section className='edit-profile-g-name'>
+											<label htmlFor='Full Name'>
+												Full Name :
+											</label>
+											<section className='edit-profile-name'>
+												<input
+													className='edit-profile-input'
+													name='FirstName'
+													id='first-name'
+													type='text'
+													value={
+														user?.payload.first_name
+													}
+												/>
+												<input
+													className='edit-profile-input'
+													name='lastName'
+													id='lastName'
+													type='text'
+													value={
+														user?.payload.last_name
+													}
+												/>
+											</section>
+										</section>
+										<section className='edit-profile-g-phone'>
+											<label htmlFor='phone'>
+												Phone :
+											</label>
+											<section>
+												<input
+													className='edit-profile-input'
+													name='phone'
+													id='phone'
+													type='text'
+													value={user?.payload.phone}
+												/>
+											</section>
+										</section>
+										<section className='edit-profile-g-gender'>
+											<label htmlFor='gender'>
+												Gender :
+											</label>
+											<section className='edit-profile-gender'>
+												<label
+													htmlFor='male'
+													className=''>
+													<input
+														type='radio'
+														id='male'
+														name='gender'
+														value='male'
+														checked={
+															user?.payload
+																.gender ===
+															'male'
+														}
+													/>
+													male
+												</label>
+												<label
+													htmlFor='female'
+													className=''>
+													<input
+														type='radio'
+														id='female'
+														name='gender'
+														value='female'
+														checked={
+															user?.payload
+																.gender ===
+															'female'
+														}
+													/>
+													female
+												</label>
+												<label htmlFor='other'>
+													<input
+														type='radio'
+														id='other'
+														name='gender'
+														value='other'
+														checked={
+															user?.payload
+																.gender ===
+															'other'
+														}
+													/>
+													other
+												</label>
+											</section>
+										</section>
+										<section className='edit-profile-g-date'>
+											<label htmlFor='date'>
+												Date of birth : &nbsp;
+											</label>
+											<section className='edit-profile-input-date'>
+												<select
+													name='date'
+													value={user?.payload.date}
+													className='edit-profile-input'>
+													<option
+														value=''
+														disabled
+														hidden>
+														Select Day
+													</option>
+													{Array.from(
+														{ length: 31 },
+														(_, index) => (
+															<option
+																key={index + 1}
+																value={(
+																	index + 1
+																)
+																	.toString()
+																	.padStart(
+																		2,
+																		'0',
+																	)}>
+																{index + 1}
+															</option>
+														),
+													)}
+												</select>
+												<select
+													name='month'
+													className='edit-profile-input'
+													value={user?.payload.month}>
+													<option
+														value=''
+														disabled
+														hidden>
+														Select Month
+													</option>
+													{Array.from(
+														{ length: 12 },
+														(_, index) => (
+															<option
+																key={index + 1}
+																value={(
+																	index + 1
+																)
+																	.toString()
+																	.padStart(
+																		2,
+																		'0',
+																	)}>
+																{index + 1}
+															</option>
+														),
+													)}
+												</select>
+												<select
+													name='year'
+													className='edit-profile-input'
+													value={user?.payload.year}>
+													<option
+														value=''
+														disabled
+														hidden>
+														Select Year
+													</option>
+													{years.map((year) => (
+														<option
+															key={year}
+															value={year.toString()}>
+															{year}
+														</option>
+													))}
+												</select>
+											</section>
+										</section>
+									</section>
+								</section>
+							</section>
+							<section className='edit-profile-button-layout'>
+								<button className='edit-profile-button'>
+									Confirm
+								</button>
+							</section>
+						</form>
+					)}
 				</section>
 			</main>
 			<Footer />

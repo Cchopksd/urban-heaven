@@ -30,7 +30,7 @@ const userTableQuery = `
         password VARCHAR(255) NOT NULL,
         phone VARCHAR(10) NOT NULL,
         gender VARCHAR(10) NOT NULL,
-        refresh_token VARCHAR(512) NOT NULL,
+        refresh_token VARCHAR(512) NULL,
         role VARCHAR(10) NOT NULL DEFAULT 'member',
         date INTEGER NOT NULL,
         month INTEGER NOT NULL,

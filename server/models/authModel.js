@@ -18,7 +18,10 @@ exports.checkUserByIDModel = async (userInfo) => {
 	try {
 		const result = await databaseConfig.query(
 			`SELECT
-				*
+				user_uuid,
+				username,
+				role,
+
             FROM
 				users
             WHERE
@@ -75,16 +78,8 @@ exports.getUserDataModel = async (user_uuid) => {
 		const result = await databaseConfig.query(
 			`SELECT
 				user_uuid,
-				first_name,
-				last_name,
 				username,
-				email,
-				phone,
-				gender,
-				role,
-				date,
-				month,
-				year
+				role
 			FROM
 				users
             WHERE

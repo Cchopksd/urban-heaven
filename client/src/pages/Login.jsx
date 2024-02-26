@@ -20,7 +20,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
 	const [password, setPassword] = useState('');
 	const [isChecked, setIsChecked] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
-	const params = sessionStorage.getItem('PAGE_URI')
+	const params = sessionStorage.getItem('PAGE_URI');
 
 	useEffect(() => {
 		if (modalIsOpen) {
@@ -62,7 +62,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
 				onClick={closeModal}>
 				&times;
 			</button>
-			<h2 className='login-modal-header'>Log in</h2>
+			<h2 className='login-modal-header'>{t('Login')}</h2>
 			<main className='login-container'>
 				<section className='form-login'>
 					<section className='login-input-sec'>
@@ -81,7 +81,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
 
 					<section className='login-input-sec'>
 						<label className='form-label'>
-							<b>Password</b>
+							<b>{t('password')}</b>
 						</label>
 						<section className='frame-login-input-password'>
 							<input

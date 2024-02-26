@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 import { IoPersonCircleOutline } from 'react-icons/io5';
 import { IoBagHandleOutline } from 'react-icons/io5';
@@ -14,11 +14,9 @@ const DropdownNav = () => {
 	const { t } = useTranslation();
 	const menuRef = useRef();
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	const { user } = useSelector((state) => state.auth);
 
 	const [openDropdown, setOpenDropdown] = useState(false);
-
 
 	useEffect(() => {
 		const storedUser = sessionStorage.getItem('user-data');
@@ -46,9 +44,8 @@ const DropdownNav = () => {
 		setOpenDropdown(false);
 	};
 
-	const handleLogout = () => {
+	const handleLogout = async() => {
 		dispatch(logoutUser());
-		navigate('/')
 	};
 
 	return (

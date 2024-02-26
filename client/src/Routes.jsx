@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 import PrivateRoute from './Routes/PrivateRoute';
 import NoMatchRoute from './Routes/NoMatchRoute';
-import AdminRoute from './Routes/AdminRoute';
 
 import Login from './pages/Login';
 import Register from './pages/Register';

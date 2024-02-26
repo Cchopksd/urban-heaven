@@ -3,7 +3,11 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 
-import { URL_LOGIN, URL_GET_AUTH_DATA, URL_LOGOUT } from '../../api/userAPI';
+import {
+	URL_LOGIN,
+	URL_GET_AUTH_DATA,
+	URL_REFRESH_TOKEN,
+} from '../../api/userAPI';
 
 const initialState = {
 	user: null,
@@ -25,6 +29,7 @@ export const loginUser = createAsyncThunk(
 			);
 			closeModal();
 			Cookies.set('accessToken', response.data?.token?.accessToken);
+			Cookies.set('refreshToken', response.data?.token?.refreshToken);
 			if (response.data.message === 'Login Successfully') {
 				dispatch(getAuthUser());
 			} else {
@@ -60,10 +65,7 @@ export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 				Authorization: `Bearer ${accessToken}`,
 			},
 		});
-		sessionStorage.setItem(
-			'user-data',
-			JSON.stringify(response.data),
-		);
+		sessionStorage.setItem('user-data', JSON.stringify(response.data));
 		// if (response.data.config.payload.role === 'admin') {
 		// 	navigate('/admin');
 		// }
@@ -75,6 +77,34 @@ export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 	}
 });
 
+export const getRefreshToken = createAsyncThunk(
+	'auth/getRefreshToken',
+	async () => {
+		try {
+			const accessToken = Cookies.get('accessToken');
+			if (!accessToken) {
+				console.log('No access token found');
+				return null;
+			}
+			const response = await axios.get(URL_GET_AUTH_DATA, {
+				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			});
+			sessionStorage.setItem('user-data', JSON.stringify(response.data));
+			// if (response.data.config.payload.role === 'admin') {
+			// 	navigate('/admin');
+			// }
+			// if(response.data.)
+			return response.data;
+		} catch (err) {
+			console.error('Logout failed:', err);
+			return err.response?.data;
+		}
+	},
+);
+
 export const logoutUser = createAsyncThunk(
 	'auth/logoutUser',
 	async (_, { dispatch }) => {
@@ -82,7 +112,7 @@ export const logoutUser = createAsyncThunk(
 			sessionStorage.removeItem('user-data');
 			Cookies.remove('accessToken');
 			// dispatch(clearUser());
-			window.location.reload()
+			// window.location.reload();
 			console.log('logout');
 		} catch (error) {
 			console.error('Logout failed:', error);
