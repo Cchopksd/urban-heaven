@@ -67,7 +67,6 @@ exports.loginController = async (req, res, next) => {
 };
 
 exports.refreshTokenController = async (req, res) => {
-	// console.log(req.data.user);
 	try {
 		const userInfo = await checkUserByIDModel({
 			user_uuid: req.data.user.user_uuid,
@@ -87,14 +86,13 @@ exports.refreshTokenController = async (req, res) => {
 		if (!userInfo || tokenInfo < 0) return res.sendStatus(401);
 		const expireTime = userInfo.is_checked ? 2592000000 : 86400000;
 
-		const access_token = jwtGenerate(user);
-		const refresh_token = jwtRefreshTokenGenerate(user, expireTime);
-		await updateRefreshToken(userInfo.user_uuid, refresh_token);
+		const accessToken = jwtGenerate(user);
+		const refreshToken = jwtRefreshTokenGenerate(user, expireTime);
+		await updateRefreshToken(userInfo.user_uuid, refreshToken);
 
 		res.status(200).json({
 			message: 'Login Successfully',
-			access_token,
-			refresh_token,
+			token: { accessToken, refreshToken },
 		});
 	} catch (error) {
 		console.error(error);

@@ -23,7 +23,6 @@ exports.accessToken = async (req, res, next) => {
 exports.verifyRefreshToken = async (req, res, next) => {
 	try {
 		const token = req.headers['authorization'].replace('Bearer ', '');
-
 		if (!token) {
 			return res.status(401).json({ error: 'Unauthorized' });
 		}
@@ -32,7 +31,7 @@ exports.verifyRefreshToken = async (req, res, next) => {
 			if (err) {
 				return res.status(401).json({ error: 'Unauthorized' });
 			}
-			req.data = decoded;// เก็บข้อมูลผู้ใช้ใน req.user เพื่อให้ module ถัดไปใช้
+			req.data = decoded; // เก็บข้อมูลผู้ใช้ใน req.user เพื่อให้ module ถัดไปใช้
 			req.data.token = token;
 			delete req.data.exp;
 			delete req.data.iat;

@@ -14,7 +14,6 @@ exports.loginModel = async (user_email) => {
 };
 
 exports.checkUserByIDModel = async (userInfo) => {
-	console.log(userInfo);
 	try {
 		const result = await databaseConfig.query(
 			`SELECT

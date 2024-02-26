@@ -28,8 +28,16 @@ export const loginUser = createAsyncThunk(
 				},
 			);
 			closeModal();
+			const expireTime = isChecked ? 2592000000 : 86400000;
+
+			var currentDate = new Date();
+
+			var expirationTime = new Date(currentDate.getTime() + expireTime);
+			console.log(expirationTime);
 			Cookies.set('accessToken', response.data?.token?.accessToken);
-			Cookies.set('refreshToken', response.data?.token?.refreshToken);
+			Cookies.set('refreshToken', response.data?.token?.refreshToken, {
+				expires: expirationTime,
+			});
 			if (response.data.message === 'Login Successfully') {
 				dispatch(getAuthUser());
 			} else {
@@ -66,10 +74,6 @@ export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 			},
 		});
 		sessionStorage.setItem('user-data', JSON.stringify(response.data));
-		// if (response.data.config.payload.role === 'admin') {
-		// 	navigate('/admin');
-		// }
-		// if(response.data.)
 		return response.data;
 	} catch (err) {
 		console.error('Logout failed:', err);
@@ -81,26 +85,22 @@ export const getRefreshToken = createAsyncThunk(
 	'auth/getRefreshToken',
 	async () => {
 		try {
-			const accessToken = Cookies.get('accessToken');
-			if (!accessToken) {
+			const refreshToken = Cookies.get('refreshToken');
+			if (!refreshToken) {
 				console.log('No access token found');
 				return null;
 			}
-			const response = await axios.get(URL_GET_AUTH_DATA, {
+			const response = await axios.post(URL_REFRESH_TOKEN, null, {
 				withCredentials: true,
 				headers: {
-					Authorization: `Bearer ${accessToken}`,
+					Authorization: `Bearer ${refreshToken}`,
 				},
 			});
-			sessionStorage.setItem('user-data', JSON.stringify(response.data));
-			// if (response.data.config.payload.role === 'admin') {
-			// 	navigate('/admin');
-			// }
-			// if(response.data.)
+			Cookies.set('accessToken', response.data?.token?.accessToken);
 			return response.data;
 		} catch (err) {
-			console.error('Logout failed:', err);
-			return err.response?.data;
+			console.error(err.message);
+			return err.response?.data.message;
 		}
 	},
 );
@@ -111,8 +111,6 @@ export const logoutUser = createAsyncThunk(
 		try {
 			sessionStorage.removeItem('user-data');
 			Cookies.remove('accessToken');
-			// dispatch(clearUser());
-			// window.location.reload();
 			console.log('logout');
 		} catch (error) {
 			console.error('Logout failed:', error);
@@ -126,6 +124,9 @@ const authSlice = createSlice({
 	initialState,
 	reducers: {
 		setUser: (state, action) => {
+			state.user = action.payload;
+		},
+		getRefreshToken: (state, action) => {
 			state.user = action.payload;
 		},
 	},
@@ -152,7 +153,6 @@ const authSlice = createSlice({
 			})
 			.addCase(getAuthUser.rejected, (state, action) => {
 				state.status = 'failed';
-
 				state.error = action.error.message;
 			})
 			.addCase(logoutUser.pending, (state) => {

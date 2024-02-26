@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaUpload } from 'react-icons/fa';
 
 import { getUserData } from '../../libs/accountSlice';
+import { getRefreshToken } from '../../libs/auth/authSlice';
 
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
@@ -26,6 +27,7 @@ const Profile = () => {
 
 	useEffect(() => {
 		dispatch(getUserData());
+		dispatch(getRefreshToken());
 	}, [dispatch]);
 
 	useEffect(() => {
