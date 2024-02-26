@@ -20,8 +20,7 @@ exports.checkUserByIDModel = async (userInfo) => {
 			`SELECT
 				user_uuid,
 				username,
-				role,
-
+				role
             FROM
 				users
             WHERE
