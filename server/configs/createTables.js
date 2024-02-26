@@ -101,11 +101,11 @@ const merchantTableQuery = `
 
 exports.createTables = async () => {
 	await this.createTableIfNotExists('users', userTableQuery);
+	await this.createTableIfNotExists('address', addressTableQuery);
 	await this.createTableIfNotExists(
 		'user_addresses',
 		userAddressesTableQuery,
 	);
-	await this.createTableIfNotExists('address', addressTableQuery);
 	await this.createTableIfNotExists('vendor', merchantTableQuery);
 	await this.createTableIfNotExists('agreement', agreementTableQuery);
 };

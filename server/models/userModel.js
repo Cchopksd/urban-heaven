@@ -128,7 +128,7 @@ exports.editPassUserModel = async (userInfo) => {
 };
 
 exports.createAddressModel = async (address) => {
-	console.log(address)
+	console.log(address);
 	try {
 		const resultAddress = await databaseConfig.query(
 			`
