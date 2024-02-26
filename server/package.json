@@ -27,12 +27,15 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "morgan": "^1.10.0",
+    "nodemailer": "^6.9.10",
     "nodemon": "^3.0.2",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
+    "path": "^0.12.7",
     "pg": "^8.11.3",
     "redux-persist-expire": "^1.1.1",
     "socket.io": "^4.7.2",
+    "util": "^0.12.5",
     "uuid": "^9.0.1"
   },
   "engines": {

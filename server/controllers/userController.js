@@ -7,6 +7,7 @@ const {
 	createAddressModel,
 	editPassUserModel,
 	getUserAddressModel,
+	getAgreement,
 } = require('../models/userModel');
 
 const { v4: uuidv4 } = require('uuid');
@@ -152,11 +153,27 @@ exports.getSingleUserController = async (req, res) => {
 		const payload = await getSingleUserModel(user.user_uuid);
 		// console.log(result);
 		if (payload) {
-			// const token = jwt.sign(result, secretKey, { expiresIn: '1h' });
 			res.status(200).json({ message: 'Get data successfully', payload });
 		} else {
 			res.status(404).json({ message: 'User not found' });
 		}
+	} catch (err) {
+		res.status(500).json({
+			message: err.message || 'Internal Server Error',
+		});
+	}
+};
+
+exports.getAgreementController = async (req, res) => {
+	try {
+		const token = await req.headers['authorization'].replace('Bearer ', '');
+		const decoded = jwtDecode(token);
+		const { user } = decoded;
+		const { is_vendor_agreement } = await getAgreement(user.user_uuid);
+		// console.log(is_vendor_agreement);
+		res.status(200).json({
+			isVendorAgreement: is_vendor_agreement,
+		});
 	} catch (err) {
 		res.status(500).json({
 			message: err.message || 'Internal Server Error',

@@ -100,9 +100,40 @@ exports.EditProfileModel = async (user_uuid, userInfo) => {
 exports.getSingleUserModel = async (user_uuid) => {
 	try {
 		const result = await databaseConfig.query(
-			`SELECT user_uuid, first_name, last_name, phone, gender, date, month, year
-			FROM users
-			WHERE user_uuid=$1`,
+			`SELECT
+				user_uuid,
+				first_name,
+				last_name,
+				phone, gender,
+				date,
+				month,
+				year
+			FROM
+				users
+			WHERE
+				user_uuid = $1
+			`,
+			[user_uuid],
+		);
+		return result.rows[0];
+	} catch (err) {
+		throw err;
+	}
+};
+
+exports.getAgreement = async (user_uuid) => {
+	try {
+		const result = await databaseConfig.query(
+			`SELECT
+				agreement.user_uuid ,
+				agreement.is_vendor_agreement
+			FROM
+				users
+			RIGHT JOIN
+				agreement ON users.user_uuid = agreement.user_uuid
+			WHERE
+				agreement.user_uuid = $1
+			`,
 			[user_uuid],
 		);
 		return result.rows[0];

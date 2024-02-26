@@ -35,6 +35,7 @@ const userTableQuery = `
         date INTEGER NOT NULL,
         month INTEGER NOT NULL,
         year INTEGER NOT NULL,
+        is_verified BOOLEAN DEFAULT FALSE,
         is_checked BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP

@@ -4,6 +4,7 @@ const {
 	loginController,
 	refreshTokenController,
 	getUserDataController,
+	emailValidation,
 } = require('../controllers/authController');
 const {
 	accessToken,
@@ -13,5 +14,5 @@ const {
 router.post('/login', loginController);
 router.post('/auth/refresh-token', verifyRefreshToken, refreshTokenController);
 router.get('/auth/get-auth-data', accessToken, getUserDataController);
-
+router.post('/verify-email', emailValidation);
 module.exports = router;
