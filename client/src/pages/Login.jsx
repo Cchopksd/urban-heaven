@@ -44,10 +44,11 @@ const Login = ({ modalIsOpen, closeModal }) => {
 
 	const handleLogin = async () => {
 		if (status !== 'loading') {
-			dispatch(loginUser({ password, email, closeModal, isChecked }));
+			await dispatch(loginUser({ password, email, closeModal, isChecked }));
 			if (params === '/register') {
 				navigate('/');
 			}
+			navigate('/email-verify');
 		}
 	};
 

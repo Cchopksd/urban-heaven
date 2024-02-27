@@ -21,7 +21,7 @@ const EmailVerification = () => {
 			});
 			setIsVerified(response.data.success);
 			setLoading(true);
-			return 
+			return
 		} catch (err) {
 			console.error(err.message);
 			return err.response?.data.message;

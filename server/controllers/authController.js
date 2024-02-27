@@ -124,6 +124,7 @@ exports.getUserDataController = async (req, res) => {
 
 exports.emailValidation = async (req, res) => {
 	const token = await req.headers['authorization'].replace('Bearer ', '');
+	console.log('token:', req.headers['authorization']);
 	const decoded = jwtDecode(token);
 	const { user } = decoded;
 	// console.log(user);

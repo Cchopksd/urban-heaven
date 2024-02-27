@@ -23,6 +23,7 @@ import CreateVendor from './pages/merchant/CreateVendor';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AgreementForVendor from './pages/merchant/AgreementForVendor';
 import IsAcceptVendor from './Routes/IsAcceptVendor';
+import SendEmailVerify from './pages/SendEmailVerify';
 
 const App = () => {
 	return (
@@ -37,8 +38,8 @@ const App = () => {
 					element={<ChatPage />}
 				/>
 				<Route
-					path='/login'
-					element={<Login />}
+					path='/email-verify'
+					element={<SendEmailVerify />}
 				/>
 				<Route
 					path='/register'
@@ -47,6 +48,10 @@ const App = () => {
 							<Register />
 						</IsLoggedIn>
 					}
+				/>
+				<Route
+					path='/login'
+					element={<Login />}
 				/>
 				<Route
 					path='/verify-account/:params'
