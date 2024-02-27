@@ -2,6 +2,10 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 import PrivateRoute from './Routes/PrivateRoute';
 import NoMatchRoute from './Routes/NoMatchRoute';
+import IsLoggedIn from './Routes/IsLoggedIn';
+
+import EmailVerification from './pages/EmailVerification';
+import EmailAlreadyVerify from './pages/EmailAlreadyVerify';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -17,7 +21,6 @@ import Overview from './pages/Overview';
 import CreateVendor from './pages/merchant/CreateVendor';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
-import IsLoggedIn from './Routes/IsLoggedIn';
 import AgreementForVendor from './pages/merchant/AgreementForVendor';
 import IsAcceptVendor from './Routes/IsAcceptVendor';
 
@@ -44,8 +47,16 @@ const App = () => {
 							<Register />
 						</IsLoggedIn>
 					}
-					
 				/>
+				<Route
+					path='/verify-account/:params'
+					element={<EmailVerification />}
+				/>
+				<Route
+					path='/has-verified/:params'
+					element={<EmailAlreadyVerify />}
+				/>
+
 				<Route
 					path='/account'
 					exact

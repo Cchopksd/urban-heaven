@@ -27,10 +27,9 @@ const Address = () => {
 		// Dispatch getUserAddress immediately
 		dispatch(getUserAddress());
 
-		const delay = 5000;
 		const refreshTimeout = setTimeout(() => {
 			dispatch(getRefreshToken());
-		}, delay);
+		}, 2000);
 		return () => clearTimeout(refreshTimeout);
 	}, [dispatch]);
 

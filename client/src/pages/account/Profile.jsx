@@ -27,7 +27,10 @@ const Profile = () => {
 
 	useEffect(() => {
 		dispatch(getUserData());
-		dispatch(getRefreshToken());
+		const refreshTimeout = setTimeout(() => {
+			dispatch(getRefreshToken());
+		});
+		return () => clearTimeout(refreshTimeout);
 	}, [dispatch]);
 
 	useEffect(() => {

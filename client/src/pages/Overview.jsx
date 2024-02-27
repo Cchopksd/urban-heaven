@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { IoIosArrowForward } from 'react-icons/io';
+import { useSelector } from 'react-redux';
 
 import Navbar from '../components/Navbar';
 import './styles/Overview.css';
@@ -15,6 +15,7 @@ const Overview = () => {
 		document.title = t('Overview');
 		sessionStorage.setItem('PAGE_URI', '/account/overview');
 	});
+
 	return (
 		<div className='overview-page'>
 			<Navbar />

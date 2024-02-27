@@ -1,21 +1,25 @@
 import { Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import { getUserAgreement } from '../libs/accountSlice';
 
 const IsAcceptVendor = ({ children }) => {
-	const { status, user } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
+	const { isVendorAgreement, status } = useSelector((state) => state.account);
+
+	useEffect(() => {
+		dispatch(getUserAgreement());
+	}, [dispatch]);
 
 	if (status === 'loading') {
 		return null;
-	} else if (
-		status === 'failed' ||
-		user.payload.is_vendor_agreement === false
-	) {
+	} else if (status === 'failed' || isVendorAgreement === false) {
 		return children;
-	} else if (user.payload.is_vendor_agreement === true) {
+	} else if (isVendorAgreement === true) {
 		return (
 			<Navigate
-				to='/account/overview'
+				to='/account/'
 				replace
 			/>
 		);

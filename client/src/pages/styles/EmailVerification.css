@@ -1,0 +1,16 @@
+.email-verification-screen {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    gap: 3rem;
+}
+
+.email-verification-container {
+    text-align: center;
+}
+
+.email-verified-image {
+    width: 130px;
+}

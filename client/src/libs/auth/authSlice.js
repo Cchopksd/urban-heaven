@@ -7,6 +7,7 @@ import {
 	URL_LOGIN,
 	URL_GET_AUTH_DATA,
 	URL_REFRESH_TOKEN,
+	URL_VERIFY_EMAIL,
 } from '../../api/userAPI';
 
 const initialState = {
@@ -129,6 +130,9 @@ const authSlice = createSlice({
 		getRefreshToken: (state, action) => {
 			state.user = action.payload;
 		},
+		verifyEmail: (state, action) => {
+			state.user = action.payload;
+		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -155,6 +159,7 @@ const authSlice = createSlice({
 				state.status = 'failed';
 				state.error = action.error.message;
 			})
+
 			.addCase(logoutUser.pending, (state) => {
 				state.status = 'loading';
 			})

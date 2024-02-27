@@ -8,13 +8,16 @@ import {
 	URL_GET_USER_DATA,
 	URL_GET_USER_ADDRESS,
 	URL_RESET_PASSWORD,
+	URL_GET_USER_AGREEMENT,
 } from '../api/userAPI';
 
 const initialState = {
 	user: null,
 	address: null,
+	isVendorAgreement: false,
 	status: 'idle',
 	error: null,
+	changePass: null,
 };
 
 export const getUserData = createAsyncThunk('account/getData', async () => {
@@ -43,6 +46,26 @@ export const getUserAddress = createAsyncThunk(
 					Authorization: `Bearer ${accessToken}`,
 				},
 			});
+			return response.data;
+		} catch (err) {
+			console.log(err);
+			return err.response.data;
+		}
+	},
+);
+
+export const getUserAgreement = createAsyncThunk(
+	'account/getAgreement',
+	async () => {
+		try {
+			const accessToken = Cookies.get('accessToken');
+			const response = await axios.get(URL_GET_USER_AGREEMENT, {
+				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
+				},
+			});
+			console.log(response.data);
 			return response.data;
 		} catch (err) {
 			console.log(err);
@@ -85,7 +108,11 @@ const accountSlice = createSlice({
 			state.value = action.payload;
 		},
 		resetPassword: (state, action) => {
-			state.address = action.payload;
+			state.changePass = action.payload;
+		},
+		getUserAgreement: (state, action) => {
+			state.isVendorAgreement = action.payload;
+			state.status = 'succeeded';
 		},
 	},
 	extraReducers: (builder) => {

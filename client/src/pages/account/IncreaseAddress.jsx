@@ -25,6 +25,10 @@ const IncreaseAddress = () => {
 							</h1>
 						</section>
 						<hr className='increase-address-head-line' />
+						<section>
+							<input type="text" />
+							<input type="text" />
+						</section>
 					</section>
 				</section>
 			</main>

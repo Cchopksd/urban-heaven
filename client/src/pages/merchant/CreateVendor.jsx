@@ -1,9 +1,19 @@
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+
+import { getUserAgreement } from '../../libs/accountSlice';
 import BackButton from '../../components/BackButton';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
 import './styles/CreateVendor.css';
 
 const CreateVendor = () => {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getUserAgreement());
+	});
+
 	return (
 		<div className='create-vendor-screen'>
 			<Navbar />
@@ -28,7 +38,12 @@ const CreateVendor = () => {
 								เบอร์ติดต่อ : <input type='text' />
 							</label>
 							<label>
-								ที่อยู่ร้านค้า : <textarea id="story" name="story" rows="5" cols="33"></textarea>
+								ที่อยู่ร้านค้า :
+								<textarea
+									id='story'
+									name='story'
+									rows='5'
+									cols='33'></textarea>
 							</label>
 							<section>
 								Payment Method :
@@ -48,9 +63,7 @@ const CreateVendor = () => {
 									/>
 									Mobile Banking
 								</label>
-								<section>
-
-								</section>
+								<section></section>
 								<label>
 									<input
 										type='checkbox'
