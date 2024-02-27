@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const { jwtDecode } = require('jwt-decode');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
-const util = require('util');
+const ejs = require('ejs');
 const path = require('path');
 
 const {
@@ -11,10 +11,13 @@ const {
 	checkUserByTokenModel,
 	checkUserByIDModel,
 	getUserDataModel,
+	getIsVerified,
+	updateVerify,
 } = require('../models/authModel');
 const {
 	jwtGenerate,
 	jwtRefreshTokenGenerate,
+	jwtEmailGenerate,
 } = require('../configs/generateToken');
 
 exports.loginController = async (req, res, next) => {
@@ -111,7 +114,7 @@ exports.getUserDataController = async (req, res) => {
 			return res.status(404).json({ error: 'Token Not Found' });
 		}
 		const payload = await getUserDataModel(user.user_uuid);
-		// console.log(userInfo);
+
 		res.status(200).json({ payload });
 	} catch (err) {
 		console.error(err);
@@ -123,12 +126,24 @@ exports.emailValidation = async (req, res) => {
 	const token = await req.headers['authorization'].replace('Bearer ', '');
 	const decoded = jwtDecode(token);
 	const { user } = decoded;
-	const readFile = util.promisify(fs.readFile);
-	const emailTemplate = path.join(__dirname, '../email/template.html');
+	// console.log(user);
+
+	const emailToken = jwtEmailGenerate({
+		user_uuid: user.user_uuid,
+		email: user.email,
+	});
+
+	const emailTemplatePath = path.join(__dirname, '../email/template.ejs');
+	const emailTemplate = ejs.compile(
+		fs.readFileSync(emailTemplatePath, 'utf-8'),
+	);
+
+	const emailContent = emailTemplate({
+		emailToken,
+		verifyUrl: process.env.VITE_APP_API,
+	});
 
 	try {
-		const templateContent = await readFile(emailTemplate, 'utf8');
-
 		const transporter = nodemailer.createTransport({
 			service: 'gmail',
 			port: 587,
@@ -141,15 +156,50 @@ exports.emailValidation = async (req, res) => {
 
 		const mailOptions = {
 			from: process.env.EMAIL_PROVIDER,
-			to: user.email,
+			to: 'chopper.kasidit@gmail.com',
 			subject: 'Hello from sender',
-			html: templateContent,
+			html: emailContent,
 		};
 
 		transporter.sendMail(mailOptions);
-		res.status(200).send({ message: 'Email sent successfully' });
+		// console.log(emailToken)
+		res.status(200).send({
+			message: 'Email sent successfully',
+			emailToken,
+		});
 	} catch (error) {
 		console.log('Error sending email:', error);
 		res.status(500).json({ message: 'Error sending email' });
+	}
+};
+
+exports.emailVerified = async (req, res) => {
+	try {
+		const token = req.params.token;
+		const decoded = jwtDecode(token);
+		const { user } = decoded;
+		const isExpired = new Date() > new Date(decoded.exp * 1000);
+		if (isExpired) {
+			console.log('JWT has expired');
+			res.status(401).json({
+				message: 'Unauthorized - Token has expired',
+			});
+		}
+		console.log('JWT is still valid');
+		const { is_verified } = await getIsVerified(user.user_uuid);
+		console.log('status:', is_verified);
+		if (is_verified) {
+			return res.status(208).send({
+				message: 'This email has previously been verified.',
+				success: false,
+			});
+		}
+		const result = await updateVerify(user.user_uuid);
+		console.log(result);
+
+		res.status(200).json({ message: 'Email has verified', success: true });
+	} catch (err) {
+		console.log('Error sending email:', err);
+		res.status(500).json({ message: 'Internal Server Error' });
 	}
 };

@@ -13,3 +13,11 @@ exports.jwtRefreshTokenGenerate = (user, expireTime) => {
 		algorithm: 'HS256',
 	});
 };
+
+
+exports.jwtEmailGenerate = (user) => {
+	return jwt.sign({ user }, process.env.ACCESS_TOKEN_SECRET, {
+		expiresIn: '1d',
+		algorithm: 'HS256',
+	});
+};

@@ -89,3 +89,38 @@ exports.getUserDataModel = async (user_uuid) => {
 		throw err;
 	}
 };
+
+exports.getIsVerified = async (user_uuid) => {
+	try {
+		const result = await databaseConfig.query(
+			`SELECT
+				is_verified
+			FROM
+				users
+			WHERE
+				user_uuid = $1`,
+			[user_uuid],
+		);
+		return result.rows[0];
+	} catch (err) {
+		throw err;
+	}
+};
+
+exports.updateVerify = async (user_uuid) => {
+	try {
+		const result = await databaseConfig.query(
+			`UPDATE
+				users
+			SET
+				is_verified = TRUE
+			WHERE
+				user_uuid =$1
+			RETURNING is_verified`,
+			[user_uuid],
+		);
+		return result.rows[0];
+	} catch (err) {
+		throw err;
+	}
+};

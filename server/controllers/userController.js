@@ -83,7 +83,7 @@ exports.registerController = async (req, res) => {
 
 		const user_uuid = uuidv4();
 		// console.log({...userInfo})
-		await registerModel({ ...userInfo, user_uuid });
+		const result = await registerModel({ ...userInfo, user_uuid });
 		res.status(200).json({
 			message: 'Register successfully',
 		});
