@@ -16,12 +16,9 @@ const EmailVerification = () => {
 
 	const verifyEmail = async () => {
 		try {
-			const response = await axios.post(
-				`${URL_VERIFY_EMAIL}/${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJfdXVpZCI6ImE0OTUzZmNlLTkzMWQtNDQwZi1hZDljLWZiYTUyMGNjMzE4ZiIsImVtYWlsIjoidXNlckBnbWFpbC5jb20ifSwiaWF0IjoxNzA5MDQ4OTY1LCJleHAiOjE3MDkxMzUzNjV9.0nTMqs_VbafGV2e7IMJd2GIatrnkxsHhcHqqwKcNUMc'}`,
-				{
-					withCredentials: true,
-				},
-			);
+			const response = await axios.post(`${URL_VERIFY_EMAIL}/${params}`, {
+				withCredentials: true,
+			});
 			setIsVerified(response.data.success);
 			setLoading(true);
 			return 
