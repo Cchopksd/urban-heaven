@@ -10,10 +10,14 @@ exports.registerModel = async (userInfo) => {
 			(
 				user_uuid,
 				first_name,
-				last_name, username,
-				email, password,
-				phone, gender,
-				date, month,
+				last_name,
+				username,
+				email,
+				password,
+				phone,
+				gender,
+				date,
+				month,
 				year
 			)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
@@ -40,7 +44,11 @@ exports.registerModel = async (userInfo) => {
 			RETURNING *`,
 			[result.rows[0].user_uuid],
 		);
-		return resultAgreement.rows[0].user_uuid;
+		return {
+			user_uuid: result.rows[0].user_uuid,
+			email: result.rows[0].email,
+			is_checked: result.rows[0].is_checked,
+		};
 	} catch (err) {
 		throw err;
 	}

@@ -3,9 +3,8 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import PrivateRoute from './Routes/PrivateRoute';
 import NoMatchRoute from './Routes/NoMatchRoute';
 import IsLoggedIn from './Routes/IsLoggedIn';
+import IsAcceptVendor from './Routes/IsAcceptVendor';
 
-import EmailVerification from './pages/EmailVerification';
-import EmailAlreadyVerify from './pages/EmailAlreadyVerify';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -17,13 +16,12 @@ import Address from './pages/account/Address';
 import Payment from './pages/account/Payment';
 import IncreaseAddress from './pages/account/IncreaseAddress';
 import Overview from './pages/Overview';
+import EmailVerification from './pages/EmailVerification';
 
 import CreateVendor from './pages/merchant/CreateVendor';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AgreementForVendor from './pages/merchant/AgreementForVendor';
-import IsAcceptVendor from './Routes/IsAcceptVendor';
-import SendEmailVerify from './pages/SendEmailVerify';
 
 const App = () => {
 	return (
@@ -36,10 +34,6 @@ const App = () => {
 				<Route
 					path='/chat'
 					element={<ChatPage />}
-				/>
-				<Route
-					path='/email-verify'
-					element={<SendEmailVerify />}
 				/>
 				<Route
 					path='/register'
@@ -56,10 +50,6 @@ const App = () => {
 				<Route
 					path='/verify-account/:params'
 					element={<EmailVerification />}
-				/>
-				<Route
-					path='/has-verified/:params'
-					element={<EmailAlreadyVerify />}
 				/>
 
 				<Route

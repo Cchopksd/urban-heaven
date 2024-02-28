@@ -48,7 +48,6 @@ const Login = ({ modalIsOpen, closeModal }) => {
 			if (params === '/register') {
 				navigate('/');
 			}
-			navigate('/email-verify');
 		}
 	};
 

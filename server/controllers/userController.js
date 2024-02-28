@@ -13,13 +13,18 @@ const {
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
 const { jwtDecode } = require('jwt-decode');
+const { jwtEmailGenerate } = require('../configs/generateToken');
+const path = require('path');
+const nodemailer = require('nodemailer');
+const fs = require('fs');
+const ejs = require('ejs');
 
 const secretKey = process.env.SECRET_KEY;
 
 exports.registerController = async (req, res) => {
 	try {
 		const userInfo = req.body;
-		console.log(userInfo);
+		// console.log(userInfo);
 		const {
 			name,
 			surname,
@@ -83,9 +88,45 @@ exports.registerController = async (req, res) => {
 
 		const user_uuid = uuidv4();
 		// console.log({...userInfo})
-		const result = await registerModel({ ...userInfo, user_uuid });
+		const payload = await registerModel({ ...userInfo, user_uuid });
+
+		const emailToken = jwtEmailGenerate({
+			user_uuid: payload.user_uuid,
+			email: payload.email,
+		});
+
+		const emailTemplatePath = path.join(__dirname, '../email/template.ejs');
+		const emailTemplate = ejs.compile(
+			fs.readFileSync(emailTemplatePath, 'utf-8'),
+		);
+
+		const emailContent = emailTemplate({
+			emailToken,
+			verifyUrl: process.env.VITE_APP_API,
+		});
+
+		const transporter = nodemailer.createTransport({
+			service: 'gmail',
+			port: 587,
+			secure: false,
+			auth: {
+				user: process.env.EMAIL_PROVIDER,
+				pass: process.env.PASSWORD_PROVIDER,
+			},
+		});
+
+		const mailOptions = {
+			from: process.env.EMAIL_PROVIDER,
+			to: 'chopper.kasidit@gmail.com',
+			subject: 'Hello from sender',
+			html: emailContent,
+		};
+
+		transporter.sendMail(mailOptions);
+
 		res.status(200).json({
 			message: 'Register successfully',
+			emailToken,
 		});
 	} catch (err) {
 		res.status(500).json({

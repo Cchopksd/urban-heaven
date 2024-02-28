@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 
@@ -16,11 +17,14 @@ const initialState = {
 	status: 'idle',
 	error: null,
 	isUserLoggedIn: false,
+	emailVerify: null
 };
 
 export const loginUser = createAsyncThunk(
 	'auth/loginUser',
 	async ({ email, password, closeModal, isChecked }, { dispatch }) => {
+		// const navigate = useNavigate();
+
 		try {
 			const response = await axios.post(
 				URL_LOGIN,
@@ -35,7 +39,6 @@ export const loginUser = createAsyncThunk(
 			var currentDate = new Date();
 
 			var expirationTime = new Date(currentDate.getTime() + expireTime);
-			console.log(expirationTime);
 			Cookies.set('accessToken', response.data?.token?.accessToken);
 			Cookies.set('refreshToken', response.data?.token?.refreshToken, {
 				expires: expirationTime,
@@ -75,7 +78,18 @@ export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 				Authorization: `Bearer ${accessToken}`,
 			},
 		});
-		sessionStorage.setItem('user-data', JSON.stringify(response.data));
+		sessionStorage.setItem(
+			'user-data',
+			JSON.stringify({
+				payload: {
+					user_uuid: response.data.payload.user_uuid,
+					username: response.data.payload.username,
+					role: response.data.payload.role,
+					is_verified: response.data.payload.is_verified,
+				},
+			}),
+		);
+		// console.log(response.data.payload.is_verified);
 		return response.data;
 	} catch (err) {
 		console.error('Logout failed:', err);
@@ -158,9 +172,6 @@ const authSlice = createSlice({
 		getRefreshToken: (state, action) => {
 			state.user = action.payload;
 		},
-		sendEmailVerify: (state, action) => {
-			state.user = action.payload;
-		},
 	},
 	extraReducers: (builder) => {
 		builder
@@ -184,6 +195,17 @@ const authSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(getAuthUser.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action.error.message;
+			})
+			.addCase(sendEmailVerify.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(sendEmailVerify.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				state.emailVerify = action.payload;
+			})
+			.addCase(sendEmailVerify.rejected, (state, action) => {
 				state.status = 'failed';
 				state.error = action.error.message;
 			})

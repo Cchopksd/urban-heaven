@@ -32,8 +32,6 @@ const Register = () => {
 		month: '',
 		year: '',
 	});
-	// console.log(formData.date, formData.month, formData.year);
-	// console.log(formData.province);
 	const [errors, setErrors] = useState({
 		name: '',
 		surname: '',
@@ -223,7 +221,12 @@ const Register = () => {
 				text: response.data.message,
 				icon: 'success',
 			});
+			// console.log(response.data.is_checked);
+			// if (response.data.is_checked === false) {
+			// navigate('/email-verify');
 			navigate('/');
+			// }
+
 			setFormData({
 				name: '',
 				surname: '',

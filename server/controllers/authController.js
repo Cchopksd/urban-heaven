@@ -165,8 +165,7 @@ exports.emailValidation = async (req, res) => {
 		transporter.sendMail(mailOptions);
 		// console.log(emailToken)
 		res.status(200).send({
-			message: 'Email sent successfully',
-			emailToken,
+			message: 'Email sent successfully.'
 		});
 	} catch (error) {
 		console.log('Error sending email:', error);

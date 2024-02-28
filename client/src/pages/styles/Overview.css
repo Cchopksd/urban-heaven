@@ -10,6 +10,35 @@
     gap: 2rem;
 }
 
+.overview-sec-profile-content-is-unverified {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px 0 10px;
+    margin: auto;
+}
+
+.overview-sec-profile-layout-is-unverified {
+    color: red;
+    border-radius: 20px;
+    border: 2px solid red;
+    background-color: rgb(255, 177, 177);
+}
+
+.overview-sec-profile-content-is-unverified-func{
+    display: flex;
+    justify-content: center;
+
+}
+
+.button-send-email-verify {
+    text-decoration:underline;
+    border: none;
+    background-color: rgb(255, 177, 177);
+    cursor: pointer;
+}
+
+
+
 .overview-sec-profile-layout {
     background-color: #fff;
     border-radius: 10px;
@@ -34,7 +63,7 @@
     padding: 10px 0;
     text-decoration: none;
     color: black;
-    transition:  0.3s ease;
+    transition: 0.3s ease;
 }
 
 .overview-sec-profile-per-group-link:hover {
