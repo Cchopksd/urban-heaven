@@ -44,7 +44,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
 
 	const handleLogin = async () => {
 		if (status !== 'loading') {
-			await dispatch(loginUser({ password, email, closeModal, isChecked }));
+			dispatch(loginUser({ password, email, closeModal, isChecked }));
 			if (params === '/register') {
 				navigate('/');
 			}

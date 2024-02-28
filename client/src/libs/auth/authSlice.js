@@ -8,6 +8,7 @@ import {
 	URL_GET_AUTH_DATA,
 	URL_REFRESH_TOKEN,
 	URL_VERIFY_EMAIL,
+	URL_SEND_EMAIL_VERIFY,
 } from '../../api/userAPI';
 
 const initialState = {
@@ -106,6 +107,33 @@ export const getRefreshToken = createAsyncThunk(
 	},
 );
 
+export const sendEmailVerify = createAsyncThunk(
+	'auth/sendEmailVerify',
+	async () => {
+		try {
+			const accessToken = Cookies.get('accessToken');
+			if (!accessToken) {
+				console.log('No access token found');
+				return null;
+			}
+			const response = await axios.post(
+				`${import.meta.env.VITE_BASE_URL}/email-validation`,
+				null,
+				{
+					withCredentials: true,
+					headers: {
+						Authorization: `Bearer ${accessToken}`,
+					},
+				},
+			);
+			return response.data;
+		} catch (err) {
+			console.error(err.message);
+			return err.response?.data.message;
+		}
+	},
+);
+
 export const logoutUser = createAsyncThunk(
 	'auth/logoutUser',
 	async (_, { dispatch }) => {
@@ -130,7 +158,7 @@ const authSlice = createSlice({
 		getRefreshToken: (state, action) => {
 			state.user = action.payload;
 		},
-		verifyEmail: (state, action) => {
+		sendEmailVerify: (state, action) => {
 			state.user = action.payload;
 		},
 	},

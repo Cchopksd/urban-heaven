@@ -1,20 +1,13 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { sendEmailVerify } from '../libs/auth/authSlice';
 
 const SendEmailVerify = () => {
-    const accessToken = Cookies.get('accessToken');
-    console.log(accessToken);
+	const dispatch = useDispatch();
+
 	const handleClick = async () => {
-		await axios.post(
-			`${import.meta.env.VITE_BASE_URL}/email-validation`,
-			null,
-			{
-				withCredentials: true,
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			},
-		);
+		dispatch(sendEmailVerify());
 	};
 	return (
 		<div

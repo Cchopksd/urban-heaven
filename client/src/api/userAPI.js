@@ -7,3 +7,4 @@ export const URL_GET_AUTH_DATA = `${import.meta.env.VITE_BASE_URL}/auth/get-auth
 export const URL_RESET_PASSWORD = `${import.meta.env.VITE_BASE_URL}/edit-pass`;
 export const URL_ACCEPT_AGREEMENT = `${import.meta.env.VITE_BASE_URL}/accept-agreement-vendor`;
 export const URL_VERIFY_EMAIL = `${import.meta.env.VITE_BASE_URL}/verify-email`;
+export const URL_SEND_EMAIL_VERIFY = `${import.meta.env.VITE_BASE_URL}/email-validation`;
