@@ -17,7 +17,7 @@ const initialState = {
 	status: 'idle',
 	error: null,
 	isUserLoggedIn: false,
-	emailVerify: null
+	emailVerify: null,
 };
 
 export const loginUser = createAsyncThunk(
@@ -39,9 +39,14 @@ export const loginUser = createAsyncThunk(
 			var currentDate = new Date();
 
 			var expirationTime = new Date(currentDate.getTime() + expireTime);
-			Cookies.set('accessToken', response.data?.token?.accessToken);
+			Cookies.set('accessToken', response.data?.token?.accessToken, {
+				secure: true,
+				sameSite: 'strict',
+			});
 			Cookies.set('refreshToken', response.data?.token?.refreshToken, {
 				expires: expirationTime,
+				secure: true,
+				sameSite: 'strict',
 			});
 			if (response.data.message === 'Login Successfully') {
 				dispatch(getAuthUser());

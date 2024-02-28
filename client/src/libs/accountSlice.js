@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 import {
@@ -17,7 +16,8 @@ const initialState = {
 	isVendorAgreement: false,
 	status: 'idle',
 	error: null,
-	changePass: null,
+	inputPassword: null,
+	inputConfirmPassword: null,
 };
 
 export const getUserData = createAsyncThunk('account/getData', async () => {
@@ -65,8 +65,7 @@ export const getUserAgreement = createAsyncThunk(
 					Authorization: `Bearer ${accessToken}`,
 				},
 			});
-			console.log(response.data);
-			return response.data;
+			return response.data.is_vendor_agreement;
 		} catch (err) {
 			console.log(err);
 			return err.response.data;
@@ -107,12 +106,13 @@ const accountSlice = createSlice({
 		updateValue: (state, action) => {
 			state.value = action.payload;
 		},
-		resetPassword: (state, action) => {
-			state.changePass = action.payload;
-		},
-		getUserAgreement: (state, action) => {
-			state.isVendorAgreement = action.payload;
+		setInputPassword: (state, action) => {
 			state.status = 'succeeded';
+			state.inputPassword = action.payload;
+		},
+		setInputConfirmPassword: (state, action) => {
+			state.status = 'succeeded';
+			state.inputConfirmPassword = action.payload;
 		},
 	},
 	extraReducers: (builder) => {
@@ -125,6 +125,17 @@ const accountSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(getUserData.rejected, (state, action) => {
+				state.status = 'failed';
+				state.error = action.error.message;
+			})
+			.addCase(getUserAgreement.pending, (state) => {
+				state.status = 'loading';
+			})
+			.addCase(getUserAgreement.fulfilled, (state, action) => {
+				state.status = 'succeeded';
+				state.isVendorAgreement = action.payload;
+			})
+			.addCase(getUserAgreement.rejected, (state, action) => {
 				state.status = 'failed';
 				state.error = action.error.message;
 			})
@@ -142,10 +153,16 @@ const accountSlice = createSlice({
 	},
 });
 
-export const { clearUser, editProfile, updateValue } = accountSlice.actions;
+export const {
+	clearUser,
+	editProfile,
+	setInputPassword,
+	setInputConfirmPassword,
+} = accountSlice.actions;
 
 // Selectors
-// export const selectEdit = (state) => state.account.isEditAccount;
+export const selectInputPassword = (state) => state.inputPassword;
+export const selectInputConfirmPassword = (state) => state.setInputConfirmPassword;
 // export const selectLoginStatus = (state) => state.login.status;
 // export const selectLoginError = (state) => state.login.error;
 

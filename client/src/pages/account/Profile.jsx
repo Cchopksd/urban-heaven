@@ -7,11 +7,10 @@ import { isValid, parse } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 // import cloudinary from 'cloudinary';
 
-import { FaUpload } from 'react-icons/fa';
-
 import { getUserData } from '../../libs/accountSlice';
 import { getRefreshToken } from '../../libs/auth/authSlice';
 
+import ImageProfile from '../../components/imageUpload/imageProfile';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
 import './styles/Profile.css';
@@ -81,18 +80,7 @@ const Profile = () => {
 						<form className='edit-profile-sec-layout'>
 							<section className='edit-profile-sec'>
 								<section className='edit-profile-sec-content-left'>
-									<section className='upload-photo-layer'>
-										<label
-											htmlFor='upload-photo'
-											className='edit-profile-photo'>
-											<FaUpload />
-											Upload Photo
-										</label>
-										<input
-											id='upload-photo'
-											type='file'
-										/>
-									</section>
+									<ImageProfile/>
 								</section>
 								<section className='edit-profile-sec-layout-right'>
 									<section className='edit-profile-sec-content-right'>
@@ -109,6 +97,7 @@ const Profile = () => {
 													value={
 														user?.payload.first_name
 													}
+													// onChange={}
 												/>
 												<input
 													className='edit-profile-input'

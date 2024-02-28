@@ -213,7 +213,7 @@ exports.getAgreementController = async (req, res) => {
 		const { is_vendor_agreement } = await getAgreement(user.user_uuid);
 		// console.log(is_vendor_agreement);
 		res.status(200).json({
-			isVendorAgreement: is_vendor_agreement,
+			is_vendor_agreement,
 		});
 	} catch (err) {
 		res.status(500).json({

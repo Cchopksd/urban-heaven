@@ -1,4 +1,4 @@
-import { Navigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { URL_VERIFY_EMAIL } from '../api/userAPI';
 import { useEffect, useState } from 'react';
@@ -14,22 +14,25 @@ const EmailVerification = () => {
 	const [isVerified, setIsVerified] = useState();
 	const [loading, setLoading] = useState(false);
 
-	const verifyEmail = async () => {
-		try {
-			const response = await axios.post(`${URL_VERIFY_EMAIL}/${params}`, {
-				withCredentials: true,
-			});
-			setIsVerified(response.data.success);
-			setLoading(true);
-			return;
-		} catch (err) {
-			console.error(err.message);
-			return err.response?.data.message;
-		}
-	};
 	useEffect(() => {
+		const verifyEmail = async () => {
+			try {
+				const response = await axios.post(
+					`${URL_VERIFY_EMAIL}/${params}`,
+					{
+						withCredentials: true,
+					},
+				);
+				setIsVerified(response.data.success);
+				setLoading(true);
+				return;
+			} catch (err) {
+				console.error(err.message);
+				return err.response?.data.message;
+			}
+		};
 		verifyEmail();
-	}, []);
+	}, [params]);
 
 	return (
 		<div

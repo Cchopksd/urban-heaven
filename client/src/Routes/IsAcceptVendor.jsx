@@ -6,7 +6,9 @@ import { getUserAgreement } from '../libs/accountSlice';
 
 const IsAcceptVendor = ({ children }) => {
 	const dispatch = useDispatch();
-	const { isVendorAgreement, status } = useSelector((state) => state.account);
+	const { is_vendor_agreement, status } = useSelector(
+		(state) => state.account,
+	);
 
 	useEffect(() => {
 		dispatch(getUserAgreement());
@@ -14,9 +16,9 @@ const IsAcceptVendor = ({ children }) => {
 
 	if (status === 'loading') {
 		return null;
-	} else if (status === 'failed' || isVendorAgreement === false) {
+	} else if (status === 'failed' || is_vendor_agreement === false) {
 		return children;
-	} else if (isVendorAgreement === true) {
+	} else if (is_vendor_agreement === true) {
 		return (
 			<Navigate
 				to='/account/'

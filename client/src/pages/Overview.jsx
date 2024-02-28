@@ -1,21 +1,28 @@
+import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { IoIosArrowForward } from 'react-icons/io';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { sendEmailVerify, getAuthUser } from '../libs/auth/authSlice';
+import { getUserAgreement } from '../libs/accountSlice';
 import Navbar from '../components/Navbar';
 import './styles/Overview.css';
 import Footer from '../components/Footer';
 import { useEffect } from 'react';
 
 const Overview = () => {
-	// useEffect(() => {
-	// 	dispatch(getAuthUser());
-	// }, [dispatch]);
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.auth);
+	const { isVendorAgreement } = useSelector((state) => state.account);
 	const { t } = useTranslation();
+	const memoizedDispatch = useCallback(() => {
+		dispatch(getUserAgreement());
+	}, [dispatch]);
+
+	useEffect(() => {
+		memoizedDispatch();
+	}, [memoizedDispatch]);
 	useEffect(() => {
 		document.title = t('Overview');
 		sessionStorage.setItem('PAGE_URI', '/account/overview');
@@ -26,7 +33,7 @@ const Overview = () => {
 
 	const handleRefresh = () => {
 		dispatch(getAuthUser());
-	}
+	};
 
 	return (
 		<div className='overview-page'>
@@ -85,7 +92,7 @@ const Overview = () => {
 							</Link>
 							<Link
 								to={
-									user.payload.is_vendor_agreement
+									isVendorAgreement
 										? '/account/create-vendor'
 										: '/account/agreement-for-vendor'
 								}

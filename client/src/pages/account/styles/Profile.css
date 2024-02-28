@@ -74,21 +74,6 @@
     justify-content: center;
 }
 
-.upload-photo-layer {
-    margin: auto -20px;
-}
-
-.edit-profile-photo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    border-style: dashed;
-}
-
-#upload-photo {
-    display: none;
-}
 
 .edit-profile-sec-content-right {
     display: flex;
