@@ -1,4 +1,7 @@
+const Multer = require('multer');
 const express = require('express');
+const router = express.Router();
+
 const {
 	registerController,
 	EditProfileController,
@@ -12,9 +15,12 @@ const {
 
 const { accessToken } = require('../middlewares/authMiddleware');
 
-const router = express.Router();
+const store = new Multer.memoryStorage()
+const upload = Multer({
+	store,
+});
 
-router.post('/register', registerController);
+router.post('/register', upload.single('avatar'), registerController);
 router.get('/get-single-user', accessToken, getSingleUserController);
 router.get('/get-user-agreement', accessToken, getAgreementController);
 router.get('/pull-user-data', accessToken, showData);

@@ -8,6 +8,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
+// const Multer = require('multer');
 require('dotenv').config();
 
 const { databaseConfig } = require('./configs/connectDB');
@@ -16,6 +17,7 @@ const adminRoute = require('./routes/adminRoute');
 const authRoute = require('./routes/authRoute');
 const userRoute = require('./routes/userRoute');
 const merchantRoute = require('./routes/merchantRoute');
+const imageRoute = require('./routes/imageRoute');
 const { createTables } = require('./configs/createTables');
 
 PORT = process.env.PORT || 5500;
@@ -41,12 +43,18 @@ const corsOptions = {
 	credentials: true,
 };
 
+// const storage = new Multer.memoryStorage();
+// const upload = Multer({
+// 	storage,
+// });
+
 // app.use(sessionConfig);
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
+// app.use(upload.single('my_file'));
 
 const server = createServer(app);
 
@@ -81,6 +89,8 @@ app.use('/api', adminRoute);
 app.use('/api', authRoute);
 app.use('/api', userRoute);
 app.use('/api', merchantRoute);
+app.use('/api', imageRoute);
+
 app.get('/', (req, res) => {
 	res.send('Hey this is my API running 🥳');
 });

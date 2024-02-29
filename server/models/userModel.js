@@ -2,13 +2,12 @@ const { databaseConfig } = require('../configs/connectDB');
 const bcrypt = require('bcryptjs');
 
 exports.registerModel = async (userInfo) => {
-	// console.log(userInfo);
+	console.log(userInfo.avatar_image);
 	try {
 		const hashedPassword = await bcrypt.hash(userInfo.password, 10);
 		const result = await databaseConfig.query(
 			`INSERT INTO users
 			(
-				user_uuid,
 				first_name,
 				last_name,
 				username,
@@ -18,13 +17,25 @@ exports.registerModel = async (userInfo) => {
 				gender,
 				date,
 				month,
-				year
+				year,
+				avatar_image
 			)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            VALUES (
+				$1,
+				$2,
+				$3,
+				$4,
+				$5,
+				$6,
+				$7,
+				$8,
+				$9,
+				$10,
+				COALESCE($11, 'https://res.cloudinary.com/du2ue2bj0/image/upload/v1709218418/Profile/errf9tyzzdpuruls2dmj.png')
+			)
 			RETURNING *`,
 
 			[
-				userInfo.user_uuid,
 				userInfo.name,
 				userInfo.surname,
 				userInfo.username,
@@ -35,9 +46,10 @@ exports.registerModel = async (userInfo) => {
 				userInfo.date,
 				userInfo.month,
 				userInfo.year,
+				userInfo.avatar_image,
 			],
 		);
-		const resultAgreement = await databaseConfig.query(
+		await databaseConfig.query(
 			`INSERT INTO agreement
 				( user_uuid )
 			VALUES ( $1 )
