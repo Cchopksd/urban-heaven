@@ -1,4 +1,4 @@
-.image-upload-profile-component{
+.image-upload-profile-component {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -7,12 +7,13 @@
 
 }
 
-.image-profile-upload{
-    width: 100%;
-    max-width: 150px;
+.image-profile-upload {
+    width: 200px;
+    height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    border-radius: 50%;
 }
 
 .edit-profile-photo {
@@ -24,7 +25,13 @@
     cursor: pointer;
 }
 
+.edit-profile-photo-instead {
+    margin-top: 20px;
+    cursor: pointer;
+}
+
 #upload-photo,
+
 #upload-photo-instead {
     display: none;
     cursor: pointer;

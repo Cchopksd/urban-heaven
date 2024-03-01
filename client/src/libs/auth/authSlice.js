@@ -42,11 +42,13 @@ export const loginUser = createAsyncThunk(
 			Cookies.set('accessToken', response.data?.token?.accessToken, {
 				secure: true,
 				sameSite: 'strict',
+				Priority: 'High',
 			});
 			Cookies.set('refreshToken', response.data?.token?.refreshToken, {
 				expires: expirationTime,
 				secure: true,
 				sameSite: 'strict',
+				Priority: 'High',
 			});
 			if (response.data.message === 'Login Successfully') {
 				dispatch(getAuthUser());
@@ -135,16 +137,12 @@ export const sendEmailVerify = createAsyncThunk(
 				console.log('No access token found');
 				return null;
 			}
-			const response = await axios.post(
-				`${import.meta.env.VITE_BASE_URL}/email-validation`,
-				null,
-				{
-					withCredentials: true,
-					headers: {
-						Authorization: `Bearer ${accessToken}`,
-					},
+			const response = await axios.post(URL_SEND_EMAIL_VERIFY, null, {
+				withCredentials: true,
+				headers: {
+					Authorization: `Bearer ${accessToken}`,
 				},
-			);
+			});
 			return response.data;
 		} catch (err) {
 			console.error(err.message);

@@ -12,6 +12,7 @@ const persistConfig = {
 	storage,
 };
 
+
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
 const rootReducer = {
@@ -24,6 +25,7 @@ const store = configureStore({
 	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }),
+	devTools: import.meta.env.APP_ENV === 'local',
 });
 
 const persistor = persistStore(store);

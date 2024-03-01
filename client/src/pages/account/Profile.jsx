@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import { isValid, parse } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
-// import cloudinary from 'cloudinary';
+import axios from 'axios';
 
 import { getUserData } from '../../libs/accountSlice';
 import { getRefreshToken } from '../../libs/auth/authSlice';
@@ -20,16 +20,15 @@ import BackButton from '../../components/BackButton';
 const Profile = () => {
 	const dispatch = useDispatch();
 	const { user, status } = useSelector((state) => state.account);
-
 	// const isEditAccount = useSelector(selectEdit);
 	const { t } = useTranslation();
 
 	useEffect(() => {
 		dispatch(getUserData());
-		const refreshTimeout = setTimeout(() => {
-			dispatch(getRefreshToken());
-		});
-		return () => clearTimeout(refreshTimeout);
+		// const refreshTimeout = setTimeout(() => {
+		dispatch(getRefreshToken());
+		// });
+		// return () => clearTimeout(refreshTimeout);
 	}, [dispatch]);
 
 	useEffect(() => {
@@ -77,10 +76,10 @@ const Profile = () => {
 							/>
 						</section>
 					) : (
-						<form className='edit-profile-sec-layout'>
+						<section className='edit-profile-sec-layout'>
 							<section className='edit-profile-sec'>
 								<section className='edit-profile-sec-content-left'>
-									<ImageProfile/>
+									<ImageProfile />
 								</section>
 								<section className='edit-profile-sec-layout-right'>
 									<section className='edit-profile-sec-content-right'>
@@ -262,11 +261,14 @@ const Profile = () => {
 								</section>
 							</section>
 							<section className='edit-profile-button-layout'>
-								<button className='edit-profile-button'>
+								<button
+									className='edit-profile-button'
+									// onClick={(e) => handleSubmit(e)}
+								>
 									Confirm
 								</button>
 							</section>
-						</form>
+						</section>
 					)}
 				</section>
 			</main>
