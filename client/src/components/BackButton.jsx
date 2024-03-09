@@ -3,11 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import './styles/BackButton.css';
-const BackButton = () => {
+const BackButton = ({ step }) => {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const handleBack = () => {
-		navigate(-1);
+		if (step !== undefined) {
+			navigate(step);
+		} else {
+			navigate(-1);
+		}
 	};
 	return (
 		<section className='back-button-container'>
