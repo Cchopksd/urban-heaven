@@ -198,7 +198,7 @@ const Register = () => {
 				return;
 			}
 
-			const thaiPhoneRegex = /^(\+66|0)-?[1-9]\d{8}$/;
+			const thaiPhoneRegex = /^(\0)-?[1-9]\d{8}$/;
 			if (!thaiPhoneRegex.test(phone)) {
 				Swal.fire({
 					title: 'Error',
@@ -443,6 +443,7 @@ const Register = () => {
 											name='phone'
 											className='regis-input'
 											value={formData.phone}
+											maxLength={10}
 											onChange={handleChange}
 											placeholder='Enter your phone number'
 										/>
