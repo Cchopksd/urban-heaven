@@ -1,0 +1,94 @@
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { FaUpload } from 'react-icons/fa';
+import axios from 'axios';
+
+import './styles/ImageProfile.css';
+
+const ImageProfile = (props) => {
+	const dispatch = useDispatch();
+	const { user, status } = useSelector((state) => state.account);
+	const [file, setFile] = useState(user?.payload.avatar_image);
+	const [image, setImage] = useState(null);
+	const [res, setRes] = useState({});
+
+	const handleSelectFile = (selectedFile) => {
+		setFile(selectedFile);
+		setImage(URL.createObjectURL(selectedFile));
+	};
+
+	const handleUpload = async () => {
+		try {
+			const data = new FormData();
+			data.append('avatar', file);
+			const response = await axios.post(
+				'http://localhost:5500/api/send-image',
+				data,
+			);
+			setRes(response.data);
+		} catch (error) {
+			alert(error.message);
+		}
+	};
+
+	const handleDragOver = (e) => {
+		e.preventDefault();
+	};
+
+	const handleDrop = (e) => {
+		e.preventDefault();
+		const droppedFile = e.dataTransfer.files[0];
+		handleSelectFile(droppedFile);
+	};
+
+	const handleImageClick = () => {
+		document.getElementById('upload-photo').click();
+	};
+
+	return (
+		<div
+			onDragOver={handleDragOver}
+			onDrop={handleDrop}>
+			{image ? (
+				<div className='image-upload-profile-component'>
+					<img
+						className='image-profile-upload'
+						src={image}
+						alt='Uploaded Avatar'
+						onClick={handleImageClick}
+					/>
+					<label
+						htmlFor='upload-photo-instead'
+						className='edit-profile-photo-instead'>
+						Change Photo
+					</label>
+					<input
+						id='upload-photo-instead'
+						type='file'
+						accept='image/*'
+						multiple={false}
+						onChange={(e) => handleSelectFile(e.target.files[0])}
+					/>
+				</div>
+			) : (
+				<section className='upload-photo-layer'>
+					<label
+						htmlFor='upload-photo'
+						className='edit-profile-photo'>
+						<FaUpload />
+						Upload Photo <span>Drag & Drop</span>
+					</label>
+					<input
+						id='upload-photo'
+						type='file'
+						accept='image/*'
+						onChange={(e) => handleSelectFile(e.target.files[0])}
+						multiple={false}
+					/>
+				</section>
+			)}
+		</div>
+	);
+};
+
+export default ImageProfile;
