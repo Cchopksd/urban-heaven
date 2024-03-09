@@ -25,8 +25,8 @@ exports.registerController = async (req, res) => {
 		const userInfo = req.body;
 
 		const {
-			name,
-			surname,
+			first_name,
+			last_name,
 			username,
 			email,
 			password,
@@ -58,11 +58,11 @@ exports.registerController = async (req, res) => {
 			return res.status(400).json({ message: 'password not matched' });
 		}
 
-		if (name === '') {
+		if (first_name === '') {
 			return res.status(400).json({ message: 'First name not empty' });
 		}
 
-		if (surname === '') {
+		if (last_name === '') {
 			return res.status(400).json({ message: 'Last name not empty' });
 		}
 
@@ -91,6 +91,7 @@ exports.registerController = async (req, res) => {
 			let imgURI = 'data:' + req.file.mimetype + ';base64,' + b64;
 			const cloudResponse = await cloudinary.uploader.upload(imgURI, {
 				resource_type: 'auto',
+				folder: 'profile',
 			});
 
 			const payload = await registerModel({
@@ -198,41 +199,29 @@ exports.EditProfileController = async (req, res) => {
 		const decoded = jwtDecode(token);
 		const { user } = decoded;
 		const userInfo = req.body;
-
-		if (userInfo.name === '') {
-			return res.status(400).json({ message: 'First name not empty' });
+		if (req.file && req.file.buffer) {
+			const b64 = Buffer.from(req.file.buffer).toString('base64');
+			let imgURI = 'data:' + req.file.mimetype + ';base64,' + b64;
+			const cloudResponse = await cloudinary.uploader.upload(imgURI, {
+				resource_type: 'auto',
+				folder: 'profile',
+			});
+			const response = await EditProfileModel(user.user_uuid, {
+				...userInfo,
+				avatar_image: cloudResponse.url,
+			});
+			return res.status(200).json({
+				message: 'Data update successfully',
+				response,
+			});
 		}
 
-		if (userInfo.surname === '') {
-			return res.status(400).json({ message: 'Last name not empty' });
-		}
-		if (userInfo.username === '') {
-			return res.status(400).json({ message: 'Last name not empty' });
-		}
-		if (userInfo.email === '') {
-			return res.status(400).json({ message: 'Last name not empty' });
-		}
-		if (userInfo.phone === '') {
-			return res.status(400).json({ message: 'Last name not empty' });
-		}
-		if (userInfo.gender === '') {
-			return res.status(400).json({ message: 'Last name not empty' });
-		}
-		if (userInfo.date === '') {
-			return res.status(400).json({ message: 'Last name not empty' });
-		}
-		if (userInfo.month === '') {
-			return res.status(400).json({ message: 'Last name not empty' });
-		}
-		if (userInfo.year === '') {
-			return res.status(400).json({ message: 'Last name not empty' });
-		}
-
-		await EditProfileModel(user.user_uuid, {
+		const response = await EditProfileModel(user.user_uuid, {
 			...userInfo,
 		});
-		res.status(200).json({
+		return res.status(200).json({
 			message: 'Data update successfully',
+			response,
 		});
 	} catch (err) {
 		console.error(err);

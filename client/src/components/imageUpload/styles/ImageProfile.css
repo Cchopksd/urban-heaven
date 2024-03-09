@@ -13,16 +13,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-radius: 50%;
+    /* border-radius: 50%; */
+    cursor: pointer;
 }
 
 .edit-profile-photo {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    padding: 3rem;
     border-style: dashed;
     cursor: pointer;
+    width: 110px;
 }
 
 .edit-profile-photo-instead {
@@ -30,13 +32,16 @@
     cursor: pointer;
 }
 
+.upload-photo-layer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px;
+}
+
 #upload-photo,
 
 #upload-photo-instead {
     display: none;
     cursor: pointer;
-}
-
-.upload-photo-layer {
-    margin: auto -20px;
 }

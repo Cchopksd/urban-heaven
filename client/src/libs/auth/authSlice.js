@@ -93,10 +93,11 @@ export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 					username: response.data.payload.username,
 					role: response.data.payload.role,
 					is_verified: response.data.payload.is_verified,
+					avatar_image: response.data.payload.avatar_image,
 				},
 			}),
 		);
-		// console.log(response.data.payload.is_verified);
+		// console.log(response.data.payload.avatar_image);
 		return response.data;
 	} catch (err) {
 		console.error('Logout failed:', err);
@@ -158,6 +159,11 @@ export const logoutUser = createAsyncThunk(
 			sessionStorage.removeItem('user-data');
 			Cookies.remove('accessToken');
 			console.log('logout');
+			Swal.fire({
+				title: 'Message',
+				text: 'Logout Complete',
+				icon: 'success',
+			});
 		} catch (error) {
 			console.error('Logout failed:', error);
 			return error.response?.data;
@@ -187,7 +193,6 @@ const authSlice = createSlice({
 			})
 			.addCase(loginUser.rejected, (state, action) => {
 				state.status = 'failed';
-
 				state.error = action.error.message;
 			})
 			.addCase(getAuthUser.pending, (state) => {

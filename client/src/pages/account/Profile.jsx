@@ -4,11 +4,15 @@ import { Outlet } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import { isValid, parse } from 'date-fns';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import Swal from 'sweetalert2';
 
-import { getUserData } from '../../libs/accountSlice';
 import { getRefreshToken } from '../../libs/auth/authSlice';
+import {
+	editAccountDetails,
+	getUserData,
+	updateProfile,
+} from '../../libs/accountSlice';
+// import { getRefreshToken } from '../../libs/auth/authSlice';
 
 import ImageProfile from '../../components/imageUpload/imageProfile';
 import Footer from '../../components/Footer';
@@ -19,22 +23,70 @@ import BackButton from '../../components/BackButton';
 
 const Profile = () => {
 	const dispatch = useDispatch();
-	const { user, status } = useSelector((state) => state.account);
-	// const isEditAccount = useSelector(selectEdit);
 	const { t } = useTranslation();
-
-	useEffect(() => {
-		dispatch(getUserData());
-		// const refreshTimeout = setTimeout(() => {
-		dispatch(getRefreshToken());
-		// });
-		// return () => clearTimeout(refreshTimeout);
-	}, [dispatch]);
-
 	useEffect(() => {
 		document.title = t('profile');
 		sessionStorage.setItem('PAGE_URI', '/account/edit-profile');
-	}, [t]);
+		dispatch(getUserData());
+	}, [t, dispatch]);
+
+	const { status, updateProfileValue } = useSelector(
+		(state) => state.account,
+	);
+
+	useEffect(() => {
+		const refreshTimeout = setTimeout(() => {
+			dispatch(getRefreshToken());
+		}, 30 * 60 * 1000);
+		return () => clearTimeout(refreshTimeout);
+	});
+
+	const handleInputForm = (field, value) => {
+		dispatch(updateProfile({ [field]: value }));
+	};
+
+	const submitForm = async (e) => {
+		e.preventDefault();
+		console.log(updateProfileValue.avatar_image);
+		try {
+			const nameRegex = /^[a-zA-Z]+$/;
+			const thaiPhoneRegex = /(08|09|06)\d{8}/;
+			if (!thaiPhoneRegex.test(updateProfileValue.phone)) {
+				Swal.fire({
+					title: 'Error',
+					text: 'Invalid phone format (0912345678)',
+					icon: 'error',
+				});
+				return;
+			}
+			if (
+				!nameRegex.test(
+					updateProfileValue.first_name ||
+						updateProfileValue.last_name,
+				)
+			) {
+				Swal.fire({
+					title: 'Error',
+					text: 'Invalid name or surname format',
+					icon: 'error',
+				});
+				return;
+			}
+			if (!isDateValid()) {
+				Swal.fire({
+					title: 'Error',
+					text: 'Invalid Date',
+					icon: 'error',
+				});
+				console.log('not ok');
+				return;
+			}
+			console.log('ok');
+			dispatch(editAccountDetails({ updateProfileValue }));
+		} catch (err) {
+			throw new err();
+		}
+	};
 
 	const currentYear = new Date().getFullYear();
 	const years = Array.from(
@@ -43,8 +95,10 @@ const Profile = () => {
 	);
 
 	const isDateValid = () => {
+		const { year, month, date } = updateProfileValue;
+
 		const selectedDate = parse(
-			`${user?.payload.year}-${user?.payload.month}-${user?.payload.date}`,
+			`${updateProfileValue.year}-${updateProfileValue.month}-${updateProfileValue.date}`,
 			'yyyy-MM-dd',
 			new Date(),
 		);
@@ -94,9 +148,14 @@ const Profile = () => {
 													id='first-name'
 													type='text'
 													value={
-														user?.payload.first_name
+														updateProfileValue.first_name
 													}
-													// onChange={}
+													onChange={(e) =>
+														handleInputForm(
+															'first_name',
+															e.target.value,
+														)
+													}
 												/>
 												<input
 													className='edit-profile-input'
@@ -104,7 +163,13 @@ const Profile = () => {
 													id='lastName'
 													type='text'
 													value={
-														user?.payload.last_name
+														updateProfileValue.last_name
+													}
+													onChange={(e) =>
+														handleInputForm(
+															'last_name',
+															e.target.value,
+														)
 													}
 												/>
 											</section>
@@ -119,7 +184,16 @@ const Profile = () => {
 													name='phone'
 													id='phone'
 													type='text'
-													value={user?.payload.phone}
+													value={
+														updateProfileValue.phone
+													}
+													maxLength={10}
+													onChange={(e) =>
+														handleInputForm(
+															'phone',
+															e.target.value,
+														)
+													}
 												/>
 											</section>
 										</section>
@@ -135,11 +209,16 @@ const Profile = () => {
 														type='radio'
 														id='male'
 														name='gender'
-														value='male'
+														value={'male'}
 														checked={
-															user?.payload
-																.gender ===
+															updateProfileValue.gender ===
 															'male'
+														}
+														onChange={(e) =>
+															handleInputForm(
+																'gender',
+																e.target.value,
+															)
 														}
 													/>
 													male
@@ -151,11 +230,16 @@ const Profile = () => {
 														type='radio'
 														id='female'
 														name='gender'
-														value='female'
+														value={'female'}
 														checked={
-															user?.payload
-																.gender ===
+															updateProfileValue.gender ===
 															'female'
+														}
+														onChange={(e) =>
+															handleInputForm(
+																'gender',
+																e.target.value,
+															)
 														}
 													/>
 													female
@@ -165,11 +249,16 @@ const Profile = () => {
 														type='radio'
 														id='other'
 														name='gender'
-														value='other'
+														value={'other'}
 														checked={
-															user?.payload
-																.gender ===
+															updateProfileValue.gender ===
 															'other'
+														}
+														onChange={(e) =>
+															handleInputForm(
+																'gender',
+																e.target.value,
+															)
 														}
 													/>
 													other
@@ -183,7 +272,15 @@ const Profile = () => {
 											<section className='edit-profile-input-date'>
 												<select
 													name='date'
-													value={user?.payload.date}
+													value={
+														updateProfileValue.date
+													}
+													onChange={(e) =>
+														handleInputForm(
+															'date',
+															e.target.value,
+														)
+													}
 													className='edit-profile-input'>
 													<option
 														value=''
@@ -212,7 +309,15 @@ const Profile = () => {
 												<select
 													name='month'
 													className='edit-profile-input'
-													value={user?.payload.month}>
+													value={
+														updateProfileValue.month
+													}
+													onChange={(e) =>
+														handleInputForm(
+															'month',
+															e.target.value,
+														)
+													}>
 													<option
 														value=''
 														disabled
@@ -240,7 +345,15 @@ const Profile = () => {
 												<select
 													name='year'
 													className='edit-profile-input'
-													value={user?.payload.year}>
+													value={
+														updateProfileValue.year
+													}
+													onChange={(e) =>
+														handleInputForm(
+															'year',
+															e.target.value,
+														)
+													}>
 													<option
 														value=''
 														disabled
@@ -263,8 +376,7 @@ const Profile = () => {
 							<section className='edit-profile-button-layout'>
 								<button
 									className='edit-profile-button'
-									// onClick={(e) => handleSubmit(e)}
-								>
+									onClick={submitForm}>
 									Confirm
 								</button>
 							</section>

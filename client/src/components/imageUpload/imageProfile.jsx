@@ -1,70 +1,67 @@
-import { useState } from 'react';
-import { FaUpload } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
-
+import { getUserData, updateProfile } from '../../libs/accountSlice';
 import './styles/ImageProfile.css';
 
-const ImageProfile = (props) => {
-	const [file, setFile] = useState(null);
-	const [image, setImage] = useState();
-	const [res, setRes] = useState({});
-	const handleSelectFile = (e) => {
-		setFile(e.target.files[0]);
-		setImage(URL.createObjectURL(e.target.files[0]));
+const ImageProfile = () => {
+	const dispatch = useDispatch();
+	const { t } = useTranslation();
+	const { updateProfileValue } = useSelector((state) => state.account);
+
+	const [image, setImage] = useState(null);
+
+	const handleSelectFile = async (field, value) => {
+		setImage(URL.createObjectURL(value));
+		dispatch(updateProfile({ [field]: value }));
 	};
-	const handleUpload = async () => {
-		try {
-			const data = new FormData();
-			data.append('avatar', file);
-			const res = await axios.post(
-				'http://localhost:5500/api/send-image',
-				data,
-			);
-			setRes(res.data);
-		} catch (error) {
-			alert(error.message);
+
+
+	const handleDragOver = (e) => {
+		e.preventDefault();
+	};
+
+	const handleDrop = (e) => {
+		e.preventDefault();
+		const droppedFiles = e.dataTransfer.files;
+		if (droppedFiles.length > 0) {
+			handleSelectFile('avatar', {
+				target: { files: [droppedFiles[0]] },
+			});
 		}
 	};
 
-	return (
-		<div>
-			{file ? (
-				<div className='image-upload-profile-component'>
-					<img
-						className='image-profile-upload'
-						src={image}
-					/>
+	const handleImageClick = () => {
+		document.getElementById('upload-photo-instead').click();
+	};
 
-					<label
-						htmlFor='upload-photo-instead'
-						className='edit-profile-photo-instead'>
-						Change Photo
-					</label>
-					<input
-						id='upload-photo-instead'
-						type='file'
-						accept='image/*'
-						multiple={false}
-						onChange={handleSelectFile}
-					/>
-				</div>
-			) : (
-				<section className='upload-photo-layer'>
-					<label
-						htmlFor='upload-photo'
-						className='edit-profile-photo'>
-						<FaUpload />
-						Upload Photo
-					</label>
-					<input
-						id='upload-photo'
-						type='file'
-						accept='image/*'
-						onChange={handleSelectFile}
-						multiple={false}
-					/>
-				</section>
-			)}
+	return (
+		<div
+			onDragOver={handleDragOver}
+			onDrop={handleDrop}>
+			<div className='image-upload-profile-component'>
+				<img
+					className='image-profile-upload'
+					src={image ? image : updateProfileValue.avatar_image}
+					alt='Uploaded Avatar'
+					onClick={handleImageClick}
+				/>
+				<label
+					htmlFor='upload-photo-instead'
+					className='edit-profile-photo-instead'>
+					Change Photo
+				</label>
+				<input
+					id='upload-photo-instead'
+					type='file'
+					accept='image/*'
+					multiple={false}
+					onChange={(e) =>
+						handleSelectFile('avatar_image', e.target.files[0])
+					}
+				/>
+			</div>
 		</div>
 	);
 };

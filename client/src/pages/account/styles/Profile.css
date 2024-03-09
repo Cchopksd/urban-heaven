@@ -122,6 +122,54 @@
     cursor: pointer;
 }
 
+.image-upload-profile-component {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    align-items: center;
+
+}
+
+.image-profile-upload {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.edit-profile-photo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem;
+    border-style: dashed;
+    cursor: pointer;
+    width: 110px;
+}
+
+.edit-profile-photo-instead {
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.upload-photo-layer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 40px;
+}
+
+#upload-photo,
+
+#upload-photo-instead {
+    display: none;
+    cursor: pointer;
+}
+
 
 @media only screen and (max-width: 767px) {
 

@@ -83,35 +83,34 @@ exports.checkUserExists = async (field, value) => {
 
 exports.EditProfileModel = async (user_uuid, userInfo) => {
 	try {
-		await databaseConfig.query(
+		const result = await databaseConfig.query(
 			`UPDATE
 				users
             SET
-				first_name = $2,
-				last_name= $3,
-				username = $4,
-				email= $5,
-				phone = $6,
-				gender= $7,
-				date = $8,
-				month= $9,
-				year= $10
+				first_name = COALESCE(NULLIF($2, '')::VARCHAR, first_name),
+				last_name = COALESCE(NULLIF($3, '')::VARCHAR, last_name),
+				phone = COALESCE(NULLIF($4, '')::VARCHAR, phone),
+				gender = COALESCE(NULLIF($5, '')::VARCHAR, gender),
+				date = COALESCE(NULLIF($6, '')::INTEGER, date),
+				month = COALESCE(NULLIF($7, '')::INTEGER, month),
+				year = COALESCE(NULLIF($8, '')::INTEGER, year),
+				avatar_image = COALESCE(NULLIF($9, '')::VARCHAR, avatar_image)
             WHERE
 				user_uuid = $1
             RETURNING *`,
 			[
 				user_uuid,
-				userInfo.name,
-				userInfo.surname,
-				userInfo.username,
-				userInfo.email,
+				userInfo.first_name,
+				userInfo.last_name,
 				userInfo.phone,
 				userInfo.gender,
 				userInfo.date,
 				userInfo.month,
 				userInfo.year,
+				userInfo.avatar_image,
 			],
 		);
+		return result.rows[0];
 	} catch (err) {
 		throw err;
 	}
@@ -127,7 +126,8 @@ exports.getSingleUserModel = async (user_uuid) => {
 				phone, gender,
 				date,
 				month,
-				year
+				year,
+				avatar_image
 			FROM
 				users
 			WHERE

@@ -114,7 +114,6 @@ exports.getUserDataController = async (req, res) => {
 			return res.status(404).json({ error: 'Token Not Found' });
 		}
 		const payload = await getUserDataModel(user.user_uuid);
-
 		res.status(200).json({ payload });
 	} catch (err) {
 		console.error(err);

@@ -77,6 +77,7 @@ exports.getUserDataModel = async (user_uuid) => {
 			`SELECT
 				user_uuid,
 				username,
+				avatar_image,
 				role,
 				is_verified
 			FROM
