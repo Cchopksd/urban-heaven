@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { IoArrowForward } from 'react-icons/io5';
+import { useDispatch } from 'react-redux';
 
 import shipping from '../assets/images/icons/shipping-truck.png';
 import coupon from '../assets/images/icons/coupon.png';
@@ -12,13 +13,16 @@ import Banner from '../components/Banner';
 import { useTranslation } from 'react-i18next';
 import './styles/Dash.css';
 import Footer from '../components/Footer';
+import { getAuthUser } from '../libs/auth/authSlice';
 
 const Dash = () => {
+	const dispatch = useDispatch();
 	const { t } = useTranslation();
 	useEffect(() => {
 		document.title = t('homepage');
 		sessionStorage.setItem('PAGE_URI', '/');
-	}, [t]);
+		dispatch(getAuthUser());
+	}, [t, dispatch]);
 
 	return (
 		<div className='dash-screen'>

@@ -1,150 +1,147 @@
 .navbar-component {
-    display: flex;
-    width: 100%;
-    height: 90;
-    min-height: 90px;
-    position: relative;
-    background-color: #fff;
-    box-shadow: 10px 10px 20px #0000001a;
-    z-index: 1000;
-    font-size: calc(80% + 0.8vmin);
+	display: flex;
+	width: 100%;
+	height: 90px;
+	min-height: 90px;
+	position: relative;
+	background-color: #fff;
+	box-shadow: 10px 10px 20px #0000001a;
+	z-index: 1000;
+}
+
+.nav-logo {
+	font-size: 1.25rem;
 }
 
 .navbar-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    align-items: center;
-    padding: 0 2%;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	align-items: center;
+	padding: 0 2rem;
 }
 
 .nav-sec-1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    height: auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	height: auto;
 }
 
 .navbar-menu {
-    display: flex;
-    width: auto;
-    margin: auto;
-    list-style: none;
-    gap: 2rem;
-    text-decoration: none;
-    padding-left: 0.5rem;
+	display: flex;
+	width: auto;
+	margin: auto;
+	list-style: none;
+	gap: 2rem;
+	text-decoration: none;
+	padding-left: 0.5rem;
 }
 
 .hide {
-    visibility: hidden;
-    display: hidden;
+	visibility: hidden;
+	display: hidden;
 }
 
-
-
 .each-menu {
-    color: black;
-    text-decoration: none;
-    /* font-size: calc(16px + 0.5vw); */
+	color: black;
+	text-decoration: none;
+	/* font-size: calc(16px + 0.5vw); */
 }
 
 .each-menu:hover {
-    color: #2270E2;
-    transition: ease-out 0.3s;
+	color: #2270e2;
+	transition: ease-out 0.3s;
 }
 
 .navbar-dropdown {
-    width: 100%;
-    max-width: 6.625rem;
-
+	width: auto;
 }
 
 .link-login {
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 20px;
-    height: 40px;
-    width: 100%;
-    max-width: 6.625rem;
-    color: aliceblue;
-    background-color: black;
+	text-decoration: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 20px;
+	padding: 1.25rem;
+	height: 40px;
+	color: aliceblue;
+	background-color: black;
 }
 
 .nav-right {
-    display: flex;
+	display: flex;
 }
 
 .menu-icon {
-    display: none;
-    font-size: 1.5rem;
-    background: none;
-    border: none;
-    color: #000;
-    cursor: pointer;
+	display: none;
+	font-size: 1.5rem;
+	background: none;
+	border: none;
+	color: #000;
+	cursor: pointer;
 }
 
 .nav-reveal {
-    display: block;
+	display: block;
 }
 
 .nav-hide {
-    display: none;
+	display: none;
 }
 
-.nav-menu-home{
-    display: none;
+.nav-menu-home {
+	display: none;
 }
 
 @media only screen and (max-width: 767px) {
+	.nav-sec-1 {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		height: auto;
+		width: 100%;
+		background-color: #fff;
+		border-radius: 5px;
+		transform: translateY(-200%);
+		z-index: -1;
+		left: 0;
+		right: 0;
+		top: 61px;
+		padding: 20px 0;
+		/* box-shadow: 10px 10px 20px #0000001a; */
+	}
 
+	.each-menu {
+	}
 
-    .nav-sec-1 {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        height: auto;
-        width: 100%;
-        background-color: #fff;
-        border-radius: 5px;
-        transform: translateY(-200%);
-        z-index: -1;
-        left: 0;
-        right: 0;
-        top: 61px;
-        padding: 20px 0;
-        /* box-shadow: 10px 10px 20px #0000001a; */
-    }
+	.nav-sec-1.nav-slide {
+		transform: translateY(20%);
+		transition: transform 0.3s ease-out;
+		z-index: -1;
+	}
 
-    .each-menu {}
+	.menu-icon {
+		display: block;
+		padding: 0 20px;
+		cursor: pointer;
+	}
 
-    .nav-sec-1.nav-slide {
-        transform: translateY(20%);
-        transition: transform 0.3s ease-out;
-        z-index: -1
-    }
-
-    .menu-icon {
-        display: block;
-        padding: 0 20px;
-        cursor: pointer;
-    }
-
-    /* .nav-logo {
+	/* .nav-logo {
         display: none;
     } */
 
-    .nav-logo {
-        display: none;
-    }
+	.nav-logo {
+		display: none;
+	}
 
-    .nav-reveal {
-        display: block;
-    }
+	.nav-reveal {
+		display: block;
+	}
 
-    .nav-hide {
-        display: none;
-    }
+	.nav-hide {
+		display: none;
+	}
 }

@@ -57,8 +57,15 @@ const DropdownNav = () => {
 					setOpenDropdown(!openDropdown);
 				}}>
 				<label className='text-dropdown'>
-					{user?.payload?.username}
-					<RiArrowDropDownLine className='dropdown-icon' />
+					<img
+						src={user.payload.avatar_image}
+						alt='avatar'
+						className='nav-avatar'
+					/>
+					<div className='nav-user-details'>
+						{user?.payload?.username}
+						<RiArrowDropDownLine className='dropdown-icon' />
+					</div>
 				</label>
 			</section>
 
