@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,7 +7,8 @@ import { acceptAgreement } from '../../libs/vendorSlice';
 import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
 import './styles/AgreementForVendor.css';
-import { useState } from 'react';
+
+import { getAuthUser } from '../../libs/auth/authSlice';
 
 const AgreementForVendor = () => {
 	const dispatch = useDispatch();
@@ -19,7 +21,8 @@ const AgreementForVendor = () => {
 
 	const handleAccept = () => {
 		dispatch(acceptAgreement({ is_vendor_agreement }));
-		navigate('/create-vendor');
+		dispatch(getAuthUser());
+		navigate('/account/create-vendor');
 	};
 
 	return (

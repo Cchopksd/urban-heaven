@@ -14,11 +14,7 @@ const IsAcceptVendor = ({ children }) => {
 		dispatch(getUserAgreement());
 	}, [dispatch]);
 
-	if (status === 'loading') {
-		return null;
-	} else if (status === 'failed' || is_vendor_agreement === false) {
-		return children;
-	} else if (is_vendor_agreement === true) {
+	if (is_vendor_agreement === true) {
 		return (
 			<Navigate
 				to='/account/'
@@ -26,8 +22,7 @@ const IsAcceptVendor = ({ children }) => {
 			/>
 		);
 	}
-
-	return null;
+	return children;
 };
 
 export default IsAcceptVendor;
