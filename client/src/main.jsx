@@ -16,9 +16,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 			loading={null}
 			persistor={persistor}>
 			<I18nextProvider i18n={i18n}>
-				<React.StrictMode>
+				{/* <React.StrictMode false> */}
 					<App />
-				</React.StrictMode>
+				{/* </React.StrictMode> */}
 			</I18nextProvider>
 		</PersistGate>
 	</Provider>,
