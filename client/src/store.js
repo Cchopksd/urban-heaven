@@ -25,7 +25,7 @@ const store = configureStore({
 	reducer: rootReducer,
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({ serializableCheck: false }),
-	devTools: import.meta.env.APP_ENV === 'local',
+	devTools: import.meta.env.APP_ENV !== 'production',
 });
 
 const persistor = persistStore(store);
