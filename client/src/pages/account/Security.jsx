@@ -9,51 +9,38 @@ import Footer from '../../components/Footer';
 import Navbar from '../../components/Navbar';
 import './styles/Security.css';
 import BackButton from '../../components/BackButton';
-import {
-	resetPassword,
-	setInputPassword,
-	setInputConfirmPassword,
-	selectInputConfirmPassword,
-	selectInputPassword,
-} from '../../libs/accountSlice';
+import { resetPassword, updatePassword } from '../../libs/accountSlice';
 
 const Security = () => {
 	const { t } = useTranslation();
 	const dispatch = useDispatch();
-	const inputPassword = useSelector(selectInputPassword);
-	const inputConfirmPassword = useSelector(selectInputConfirmPassword);
-	console.log(inputConfirmPassword);
+	const { securityValue } = useSelector((state) => state.account);
 
 	const [onReset, setOnReset] = useState(false);
 	const handleChange = (checked) => {
 		setOnReset(checked);
 	};
 
-	const handleConfirmPasswordChange = (e) => {
-		dispatch(setInputConfirmPassword(e.target.value));
+	const handleInputForm = (field, value) => {
+		dispatch(updatePassword({ [field]: value }));
 	};
 
 	const handleReset = async () => {
-		if (!inputPassword || !inputConfirmPassword) {
+		if (!securityValue.password || !securityValue.confirmPassword) {
 			Swal.fire({
 				title: 'Error',
 				text: 'Password do not empty',
 				icon: 'error',
 			});
-		} else if (inputPassword !== inputConfirmPassword) {
+		} else if (securityValue.password !== securityValue.confirmPassword) {
 			Swal.fire({
 				title: 'Error',
 				text: 'Password do NOT match!',
 				icon: 'error',
 			});
 		} else {
-			dispatch(resetPassword({ inputPassword }));
-			await Swal.fire({
-				title: 'Success',
-				text: 'Password has changed',
-				icon: 'success',
-			});
-			window.location.reload();
+			dispatch(resetPassword({ securityValue }));
+			// window.location.reload();
 		}
 	};
 
@@ -94,25 +81,30 @@ const Security = () => {
 												type='password'
 												id='password'
 												name='password'
-												value='password'
+												value={securityValue.password}
 												onChange={(e) => {
-													setInputPassword(
+													handleInputForm(
+														'password',
 														e.target.value,
 													);
 												}}
 											/>
 										</p>
-										{/* <p>Input Data: {inputPassword}</p> */}
 										<p>
 											Confirm Password :
 											<input
-												type='text'
-												name='password'
+												type='password'
+												name='confirm-password'
 												id='confirm-password'
-												value={inputConfirmPassword}
-												onChange={
-													handleConfirmPasswordChange
+												value={
+													securityValue.confirmPassword
 												}
+												onChange={(e) => {
+													handleInputForm(
+														'confirmPassword',
+														e.target.value,
+													);
+												}}
 											/>
 										</p>
 										<button

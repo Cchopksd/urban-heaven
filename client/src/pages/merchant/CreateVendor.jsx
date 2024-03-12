@@ -21,7 +21,7 @@ const CreateVendor = () => {
 				<section className='create-vendor-content-layout'>
 					<section className='create-vendor-content'>
 						<section className='create-vendor-content-header'>
-							<BackButton />
+							<BackButton step='/account' />
 							<h1 className='create-vendor-text-header'>
 								Create vendor
 							</h1>

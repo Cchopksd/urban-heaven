@@ -12,6 +12,7 @@ const EmailVerification = () => {
 	const { params } = useParams();
 
 	const [isVerified, setIsVerified] = useState();
+	const [isUnauthorized, setIsUnauthorized] = useState();
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -24,11 +25,14 @@ const EmailVerification = () => {
 					},
 				);
 				setIsVerified(response.data.success);
+				console.log(response);
 				setLoading(true);
 				return;
 			} catch (err) {
-				console.error(err.message);
-				return err.response?.data.message;
+				console.error(err.response.data.message);
+				setIsUnauthorized(err.response.data.message);
+				setLoading(true);
+				return err.response;
 			}
 		};
 		verifyEmail();
@@ -40,25 +44,32 @@ const EmailVerification = () => {
 			className='email-verification-screen'>
 			{loading ? (
 				<div>
-					{isVerified ? (
-						<div>
-							<h1>Email Verification</h1>
-							<main className='email-verification-container'>
-								<section>
-									<h2>URBAN-HEAVEN</h2>
-									<img
-										src={mail}
-										alt='Email Verification'
-										className='email-verified-image'
-									/>
-									<p>
-										<b>Your email has verified</b>
-									</p>
-								</section>
-							</main>
-						</div>
+					{isUnauthorized ===
+					'Unauthorized - Token has expired' ? (
+						<h1>This email has expired</h1>
 					) : (
-						<EmailAlreadyVerify />
+						<div>
+							{isVerified ? (
+								<div>
+									<h1>Email Verification</h1>
+									<main className='email-verification-container'>
+										<section>
+											<h2>URBAN-HEAVEN</h2>
+											<img
+												src={mail}
+												alt='Email Verification'
+												className='email-verified-image'
+											/>
+											<p>
+												<b>Your email has verified</b>
+											</p>
+										</section>
+									</main>
+								</div>
+							) : (
+								<EmailAlreadyVerify />
+							)}
+						</div>
 					)}
 				</div>
 			) : (

@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
 import { IoLogoFacebook, IoLogoInstagram, IoLogoTiktok } from 'react-icons/io5';
+import { jwtDecode } from 'jwt-decode';
+import Cookie from 'js-cookie';
+import { useEffect } from 'react';
 
+import { getRefreshToken } from '../libs/auth/authSlice';
 import './styles/Footer.css';
 
 const Footer = () => {
+	
+
 	const { t } = useTranslation();
 	return (
 		<footer className='footer-component'>

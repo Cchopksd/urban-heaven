@@ -4,7 +4,7 @@ import PrivateRoute from './Routes/PrivateRoute';
 import NoMatchRoute from './Routes/NoMatchRoute';
 import IsLoggedIn from './Routes/IsLoggedIn';
 import IsAcceptVendor from './Routes/IsAcceptVendor';
-
+import IsTokenExpired from './Routes/isTokenExpired';
 
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -29,7 +29,11 @@ const App = () => {
 			<Routes>
 				<Route
 					index
-					element={<Dash />}
+					element={
+						<IsTokenExpired>
+							<Dash />
+						</IsTokenExpired>
+					}
 				/>
 				<Route
 					path='/chat'

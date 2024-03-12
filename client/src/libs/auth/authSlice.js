@@ -85,18 +85,6 @@ export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 				Authorization: `Bearer ${accessToken}`,
 			},
 		});
-		sessionStorage.setItem(
-			'user-data',
-			JSON.stringify({
-				payload: {
-					user_uuid: response.data.payload.user_uuid,
-					username: response.data.payload.username,
-					role: response.data.payload.role,
-					is_verified: response.data.payload.is_verified,
-					avatar_image: response.data.payload.avatar_image,
-				},
-			}),
-		);
 		// console.log(response.data.payload.avatar_image);
 		return response.data;
 	} catch (err) {
@@ -157,7 +145,9 @@ export const logoutUser = createAsyncThunk(
 	async (_, { dispatch }) => {
 		try {
 			sessionStorage.removeItem('user-data');
-			Cookies.remove('accessToken');
+			localStorage.clear();
+			// Cookies.remove('accessToken');
+			Cookies.remove('refreshToken');
 			console.log('logout');
 			Swal.fire({
 				title: 'Message',
@@ -175,9 +165,6 @@ const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
-		setUser: (state, action) => {
-			state.user = action.payload;
-		},
 		getRefreshToken: (state, action) => {
 			state.user = action.payload;
 		},

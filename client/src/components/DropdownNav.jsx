@@ -18,12 +18,6 @@ const DropdownNav = () => {
 
 	const [openDropdown, setOpenDropdown] = useState(false);
 
-	useEffect(() => {
-		const storedUser = sessionStorage.getItem('user-data');
-		if (storedUser) {
-			dispatch(setUser(JSON.parse(storedUser)));
-		}
-	}, [dispatch]);
 
 	useEffect(() => {
 		let handleDropdown = (e) => {
@@ -58,7 +52,7 @@ const DropdownNav = () => {
 				}}>
 				<label className='text-dropdown'>
 					<img
-						src={user.payload.avatar_image}
+						src={user?.payload?.avatar_image}
 						alt='avatar'
 						className='nav-avatar'
 					/>

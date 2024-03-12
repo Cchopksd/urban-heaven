@@ -1,17 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
-
+import { useSelector } from 'react-redux';
 // import thunk from 'redux-thunk'
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import authReducer from './libs/auth/authSlice';
 import accountSlice from './libs/accountSlice';
 import vendorSlice from './libs/vendorSlice';
+import { useEffect } from 'react';
 
 const persistConfig = {
-	key: 'root',
+	key: 'user',
 	storage,
+	whitelist: ['user'],
 };
-
 
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 

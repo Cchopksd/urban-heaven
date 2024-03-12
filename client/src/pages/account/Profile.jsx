@@ -6,13 +6,11 @@ import { TailSpin } from 'react-loader-spinner';
 import { isValid, parse } from 'date-fns';
 import Swal from 'sweetalert2';
 
-import { getRefreshToken } from '../../libs/auth/authSlice';
 import {
 	editAccountDetails,
 	getUserData,
 	updateProfile,
 } from '../../libs/accountSlice';
-// import { getRefreshToken } from '../../libs/auth/authSlice';
 
 import ImageProfile from '../../components/imageUpload/imageProfile';
 import Footer from '../../components/Footer';
@@ -33,13 +31,6 @@ const Profile = () => {
 	const { status, updateProfileValue } = useSelector(
 		(state) => state.account,
 	);
-
-	useEffect(() => {
-		const refreshTimeout = setTimeout(() => {
-			dispatch(getRefreshToken());
-		}, 30 * 60 * 1000);
-		return () => clearTimeout(refreshTimeout);
-	});
 
 	const handleInputForm = (field, value) => {
 		dispatch(updateProfile({ [field]: value }));
@@ -95,8 +86,6 @@ const Profile = () => {
 	);
 
 	const isDateValid = () => {
-		const { year, month, date } = updateProfileValue;
-
 		const selectedDate = parse(
 			`${updateProfileValue.year}-${updateProfileValue.month}-${updateProfileValue.date}`,
 			'yyyy-MM-dd',
@@ -272,9 +261,11 @@ const Profile = () => {
 											<section className='edit-profile-input-date'>
 												<select
 													name='date'
-													value={
+													value={String(
 														updateProfileValue.date
-													}
+															.toString()
+															.padStart(2, '0'),
+													)}
 													onChange={(e) =>
 														handleInputForm(
 															'date',
@@ -282,12 +273,6 @@ const Profile = () => {
 														)
 													}
 													className='edit-profile-input'>
-													<option
-														value=''
-														disabled
-														hidden>
-														Select Day
-													</option>
 													{Array.from(
 														{ length: 31 },
 														(_, index) => (
@@ -301,7 +286,12 @@ const Profile = () => {
 																		2,
 																		'0',
 																	)}>
-																{index + 1}
+																{(index + 1)
+																	.toString()
+																	.padStart(
+																		2,
+																		'0',
+																	)}
 															</option>
 														),
 													)}
@@ -309,21 +299,17 @@ const Profile = () => {
 												<select
 													name='month'
 													className='edit-profile-input'
-													value={
+													value={String(
 														updateProfileValue.month
-													}
+															.toString()
+															.padStart(2, '0'),
+													)}
 													onChange={(e) =>
 														handleInputForm(
 															'month',
 															e.target.value,
 														)
 													}>
-													<option
-														value=''
-														disabled
-														hidden>
-														Select Month
-													</option>
 													{Array.from(
 														{ length: 12 },
 														(_, index) => (
@@ -337,7 +323,12 @@ const Profile = () => {
 																		2,
 																		'0',
 																	)}>
-																{index + 1}
+																{(index + 1)
+																	.toString()
+																	.padStart(
+																		2,
+																		'0',
+																	)}
 															</option>
 														),
 													)}
@@ -354,12 +345,6 @@ const Profile = () => {
 															e.target.value,
 														)
 													}>
-													<option
-														value=''
-														disabled
-														hidden>
-														Select Year
-													</option>
 													{years.map((year) => (
 														<option
 															key={year}

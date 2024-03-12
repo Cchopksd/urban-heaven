@@ -21,7 +21,6 @@ const Dash = () => {
 	useEffect(() => {
 		document.title = t('homepage');
 		sessionStorage.setItem('PAGE_URI', '/');
-		dispatch(getAuthUser());
 	}, [t, dispatch]);
 
 	return (

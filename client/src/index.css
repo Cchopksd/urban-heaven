@@ -35,3 +35,7 @@ html {
     justify-content: center;
     margin: auto;
 }
+
+textarea {
+    resize: none;
+}

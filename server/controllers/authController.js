@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const ejs = require('ejs');
 const path = require('path');
+var cookie = require('cookie');
 
 const {
 	loginModel,
@@ -58,9 +59,10 @@ exports.loginController = async (req, res, next) => {
 		const expireTime = isChecked ? 2592000000 : 86400000;
 
 		const accessToken = jwtGenerate(user);
+
 		const refreshToken = jwtRefreshTokenGenerate(user, expireTime);
 
-		updateRefreshToken(userInfo.user_uuid, refreshToken, isChecked);
+		// updateRefreshToken(userInfo.user_uuid, refreshToken, isChecked);
 		res.status(200).json({
 			message: 'Login Successfully',
 			token: { accessToken, refreshToken },
@@ -164,7 +166,7 @@ exports.emailValidation = async (req, res) => {
 		transporter.sendMail(mailOptions);
 		// console.log(emailToken)
 		res.status(200).send({
-			message: 'Email sent successfully.'
+			message: 'Email sent successfully.',
 		});
 	} catch (error) {
 		console.log('Error sending email:', error);
@@ -180,7 +182,7 @@ exports.emailVerified = async (req, res) => {
 		const isExpired = new Date() > new Date(decoded.exp * 1000);
 		if (isExpired) {
 			console.log('JWT has expired');
-			res.status(401).json({
+			return res.status(401).json({
 				message: 'Unauthorized - Token has expired',
 			});
 		}

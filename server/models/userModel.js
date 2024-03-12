@@ -163,6 +163,7 @@ exports.getAgreement = async (user_uuid) => {
 };
 
 exports.editPassUserModel = async (userInfo) => {
+	console.log(userInfo);
 	const hashedPassword = await bcrypt.hash(userInfo.password, 10);
 	try {
 		const result = await databaseConfig.query(
@@ -183,18 +184,17 @@ exports.createAddressModel = async (address) => {
 	try {
 		const resultAddress = await databaseConfig.query(
 			`
-            INSERT INTO address (address_uuid, province, county, district, postal_code, address_line_1, address_line_2, address_default, address_label)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+            INSERT INTO address (address_uuid, province, district, subdistrict, postal_code, address_line_1, address_line_2, address_label)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
             RETURNING *`,
 			[
 				address.address_uuid,
 				address.province,
-				address.county,
 				address.district,
+				address.subdistrict,
 				address.postal_code,
 				address.address_line_1,
 				address.address_line_2,
-				address.address_default,
 				address.address_label,
 			],
 		);
@@ -221,8 +221,8 @@ exports.getUserAddressModel = async (user_uuid) => {
 			`SELECT
 				address.address_uuid,
 				address.province,
-				address.county,
 				address.district,
+				address.subdistrict,
 				address.postal_code,
 				address.address_line_1,
 				address.address_line_2,
@@ -243,3 +243,15 @@ exports.getUserAddressModel = async (user_uuid) => {
 		throw err;
 	}
 };
+
+
+exports.deleteAccountModel = async () => {
+	// try {
+	// 	const result = await databaseConfig.query(
+	// 		``
+	// 	)
+	// }
+	// catch (err) {
+	// 	throw new err
+	// }
+}

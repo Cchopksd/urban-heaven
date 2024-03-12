@@ -206,22 +206,20 @@ exports.EditProfileController = async (req, res) => {
 				resource_type: 'auto',
 				folder: 'profile',
 			});
-			const response = await EditProfileModel(user.user_uuid, {
+			await EditProfileModel(user.user_uuid, {
 				...userInfo,
 				avatar_image: cloudResponse.url,
 			});
 			return res.status(200).json({
 				message: 'Data update successfully',
-				response,
 			});
 		}
 
-		const response = await EditProfileModel(user.user_uuid, {
+		await EditProfileModel(user.user_uuid, {
 			...userInfo,
 		});
 		return res.status(200).json({
 			message: 'Data update successfully',
-			response,
 		});
 	} catch (err) {
 		console.error(err);
@@ -273,11 +271,15 @@ exports.editPassUserController = async (req, res) => {
 		const decoded = jwtDecode(token);
 		const { user } = decoded;
 		const userInfo = req.body;
+		// console.log(userInfo.password);
 		if (!userInfo.password) {
 			return res.status(400).json({ message: 'Enter your new password' });
 		}
-		await editPassUserModel({ ...user.user_uuid, ...userInfo });
-		res.status(200).json({ message: 'Update Data successfully' });
+		const payload = await editPassUserModel({
+			user_uuid: user.user_uuid,
+			password: userInfo.password,
+		});
+		res.status(200).json({ message: 'Update Data successfully', payload });
 	} catch (err) {
 		res.status(500).json({
 			message: err.message || 'Internal Server Error',
@@ -291,13 +293,12 @@ exports.createAddressController = async (req, res) => {
 		const token = await req.headers['authorization'].replace('Bearer ', '');
 		const decoded = jwtDecode(token);
 		const { user } = decoded;
-		// console.log(user);
 		const address_uuid = uuidv4();
 
 		if (
 			!addressInfo.province ||
-			!addressInfo.county ||
 			!addressInfo.district ||
+			!addressInfo.subdistrict ||
 			!addressInfo.postal_code ||
 			!addressInfo.address_line_1 ||
 			!addressInfo.address_label
@@ -326,6 +327,7 @@ exports.getUserAddressController = async (req, res) => {
 		const token = await req.headers['authorization'].replace('Bearer ', '');
 		const decoded = jwtDecode(token);
 		const { user } = decoded;
+		console.log(user.user_uuid);
 		const payload = await getUserAddressModel(user.user_uuid);
 		res.status(200).json({
 			message: 'Get user address successfully',

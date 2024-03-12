@@ -18,6 +18,7 @@ const authRoute = require('./routes/authRoute');
 const userRoute = require('./routes/userRoute');
 const merchantRoute = require('./routes/merchantRoute');
 const imageRoute = require('./routes/imageRoute');
+const addressRoute = require('./routes/addressRoute');
 const { createTables } = require('./configs/createTables');
 
 PORT = process.env.PORT || 5500;
@@ -90,6 +91,7 @@ app.use('/api', authRoute);
 app.use('/api', userRoute);
 app.use('/api', merchantRoute);
 app.use('/api', imageRoute);
+app.use('/api', addressRoute);
 
 app.get('/', (req, res) => {
 	res.send('Hey this is my API running 🥳');

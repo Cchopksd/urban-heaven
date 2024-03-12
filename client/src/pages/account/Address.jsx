@@ -11,7 +11,6 @@ import Footer from '../../components/Footer';
 import './styles/Address.css';
 import { Link } from 'react-router-dom';
 import BackButton from '../../components/BackButton';
-import { getRefreshToken } from '../../libs/auth/authSlice';
 
 const Address = () => {
 	const dispatch = useDispatch();
@@ -24,13 +23,7 @@ const Address = () => {
 	}, [t]);
 
 	useEffect(() => {
-		// Dispatch getUserAddress immediately
 		dispatch(getUserAddress());
-
-		const refreshTimeout = setTimeout(() => {
-			dispatch(getRefreshToken());
-		}, 2000);
-		return () => clearTimeout(refreshTimeout);
 	}, [dispatch]);
 
 	return (
