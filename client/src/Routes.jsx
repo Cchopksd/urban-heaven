@@ -22,6 +22,7 @@ import CreateVendor from './pages/merchant/CreateVendor';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AgreementForVendor from './pages/merchant/AgreementForVendor';
+import Product from './pages/product/Product';
 
 const App = () => {
 	return (
@@ -150,6 +151,10 @@ const App = () => {
 				<Route
 					path='*'
 					element={<NoMatchRoute />}
+				/>
+				<Route
+					path='/product'
+					element={<Product />}
 				/>
 			</Routes>
 		</BrowserRouter>
