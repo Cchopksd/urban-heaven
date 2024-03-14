@@ -1,18 +1,13 @@
 const express = require('express');
-const http = require('http');
-const https = require('https');
+const { createServer } = require('https');
 const fs = require('fs');
-const { createServer } = require('node:http');
-const { Server } = require('socket.io');
+const { createServer: createHTTPServer } = require('http');
 const cors = require('cors');
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
-// const Multer = require('multer');
 require('dotenv').config();
 
 const { databaseConfig } = require('./configs/connectDB');
-// const { sessionConfig } = require('./configs/sessionConfig');
 const adminRoute = require('./routes/adminRoute');
 const authRoute = require('./routes/authRoute');
 const userRoute = require('./routes/userRoute');
@@ -21,19 +16,12 @@ const imageRoute = require('./routes/imageRoute');
 const addressRoute = require('./routes/addressRoute');
 const { createTables } = require('./configs/createTables');
 
-PORT = process.env.PORT || 5500;
-
 const app = express();
-// const httpsOptions = {
-// 	cert: fs.readFileSync('./private/ssl/urban-heaven_me.crt'),
-// 	key: fs.readFileSync('./private/ssl/urban-heaven_me.key'),
-// 	ca: fs.readFileSync('./private/ssl/urban-heaven_me.ca-bundle'),
-// };
-
-// const server = https.createServer(httpsOptions, (req, res) => {
-// 	res.writeHead(200);
-// 	res.end('Hello, HTTPS World!');
-// });
+const httpsOptions = {
+	cert: fs.readFileSync('./private/ssl/urban-heaven_me.crt'),
+	ca: fs.readFileSync('./private/ssl/urban-heaven_me.ca-bundle'),
+	key: fs.readFileSync('./private/ssl/private-key.key'),
+};
 
 if (process.env.APP_ENV === 'production') {
 	app.set('trust proxy', 1);
@@ -44,20 +32,14 @@ const corsOptions = {
 	credentials: true,
 };
 
-// const storage = new Multer.memoryStorage();
-// const upload = Multer({
-// 	storage,
-// });
-
-// app.use(sessionConfig);
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
-// app.use(upload.single('my_file'));
 
-const server = createServer(app);
+const httpServer = createHTTPServer(app);
+const httpsServer = createServer(httpsOptions, app);
 
 databaseConfig.query('SELECT NOW()', (err) => {
 	if (err) {
@@ -69,22 +51,22 @@ databaseConfig.query('SELECT NOW()', (err) => {
 
 createTables();
 
-const io = new Server(server, {
-	cors: {
-		origin: '*',
-		methods: ['GET', 'POST'],
-	},
-});
+// const io = new Server(server, {
+// 	cors: {
+// 		origin: '*',
+// 		methods: ['GET', 'POST'],
+// 	},
+// });
 
-io.on('connection', (socket) => {
-	console.log(`⚡: ${socket.id} user just connected!`);
-	socket.on('send_message', (data) => {
-		socket.broadcast.emit('receive_message', data);
-	});
-	socket.on('disconnect', () => {
-		console.log('🔥: A user disconnected');
-	});
-});
+// io.on('connection', (socket) => {
+// 	console.log(`⚡: ${socket.id} user just connected!`);
+// 	socket.on('send_message', (data) => {
+// 		socket.broadcast.emit('receive_message', data);
+// 	});
+// 	socket.on('disconnect', () => {
+// 		console.log('🔥: A user disconnected');
+// 	});
+// });
 
 app.use('/api', adminRoute);
 app.use('/api', authRoute);
@@ -97,6 +79,12 @@ app.get('/', (req, res) => {
 	res.send('Hey this is my API running 🥳');
 });
 
-server.listen(PORT, () => {
-	console.log(`listening on port ${PORT}`);
+// httpServer.listen(process.env.PORT, () => {
+// 	console.log(`HTTP server listening on port ${process.env.PORT}`);
+// });
+
+const httpsPort = 8080;
+
+httpsServer.listen(process.env.PORT, () => {
+	console.log(`HTTPS server listening on port ${process.env.PORT}`);
 });
