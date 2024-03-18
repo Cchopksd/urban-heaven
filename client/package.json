@@ -12,9 +12,11 @@
   "dependencies": {
     "@redux-devtools/extension": "^3.3.0",
     "@reduxjs/toolkit": "^2.0.1",
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
     "axios": "^1.6.2",
     "cloudinary": "^2.0.0",
     "date-fns": "^3.0.6",
+    "fs-extra": "^11.2.0",
     "i18next": "^23.7.18",
     "i18next-browser-languagedetector": "^7.2.0",
     "i18next-http-backend": "^2.4.2",
@@ -22,11 +24,13 @@
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "luxon": "^3.4.4",
+    "omise": "^0.12.0",
     "react": "^18.2.0",
     "react-cookie": "^7.0.1",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.0.1",
     "react-icons": "^4.12.0",
+    "react-load-script": "^0.0.6",
     "react-loader-spinner": "^6.1.6",
     "react-loading": "^2.0.3",
     "react-modal": "^3.16.1",
@@ -50,6 +54,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
-    "vite": "^5.0.0"
+    "vite": "^5.0.0",
+    "vite-plugin-mkcert": "^1.17.4"
   }
 }
