@@ -4,7 +4,6 @@ const nodemailer = require('nodemailer');
 const fs = require('fs');
 const ejs = require('ejs');
 const path = require('path');
-var cookie = require('cookie');
 
 const {
 	loginModel,
@@ -34,7 +33,6 @@ exports.loginController = async (req, res, next) => {
 		}
 
 		const userInfo = await loginModel(email);
-
 		if (!userInfo) {
 			return res
 				.status(401)
@@ -42,7 +40,6 @@ exports.loginController = async (req, res, next) => {
 		}
 
 		const isPasswordMatch = bcrypt.compareSync(password, userInfo.password);
-
 		if (!isPasswordMatch) {
 			return res
 				.status(401)
