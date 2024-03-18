@@ -22,7 +22,7 @@ import CreateVendor from './pages/merchant/CreateVendor';
 
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AgreementForVendor from './pages/merchant/AgreementForVendor';
-import Product from './pages/product/Product';
+import Product from './pages/payment/creditCard';
 
 const App = () => {
 	return (
