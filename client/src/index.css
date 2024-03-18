@@ -38,4 +38,9 @@ html {
 
 textarea {
     resize: none;
+    box-sizing: border-box;
+}
+
+input{
+    box-sizing: border-box;
 }
