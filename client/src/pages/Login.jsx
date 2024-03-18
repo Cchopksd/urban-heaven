@@ -94,7 +94,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 							/>
-							<button
+							{/* <button
 								className='btn-eye-login'
 								onClick={togglePassword}>
 								{showPassword ? (
@@ -102,7 +102,7 @@ const Login = ({ modalIsOpen, closeModal }) => {
 								) : (
 									<IoEyeOffOutline />
 								)}
-							</button>
+							</button> */}
 						</section>
 					</section>
 				</section>
