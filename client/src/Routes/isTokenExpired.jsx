@@ -2,23 +2,30 @@ import { useDispatch } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
 import Cookie from 'js-cookie';
 import { getRefreshToken } from '../libs/auth/authSlice';
+import { useEffect } from 'react';
 
 const IsTokenExpired = ({ children }) => {
 	const dispatch = useDispatch();
+	const refreshToken = Cookie.get('refreshToken');
+	var accessToken = Cookie.get('accessToken');
 
-	const accessToken = Cookie.get('accessToken');
-	if (accessToken) {
-		if (jwtDecode(accessToken).exp < Date.now() / 1000) {
+	const refresh = () => {
+		if (accessToken) {
+			try {
+				const decodedAccessToken = jwtDecode(accessToken);
+				if (decodedAccessToken.exp < Date.now() / 1000) {
+					dispatch(getRefreshToken());
+				}
+			} catch (error) {
+				console.error('Error decoding access token:', error);
+			}
+		} else {
 			dispatch(getRefreshToken());
 		}
-	}
+	};
 
-	const refreshToken = Cookie.get('refreshToken');
-	if (refreshToken) {
-		if (jwtDecode(refreshToken).exp < Date.now() / 1000) {
-			localStorage.clear();
-		}
-	}
+		refresh();
+
 	return children;
 };
 

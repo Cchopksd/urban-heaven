@@ -1,7 +1,8 @@
 const {
 	acceptAgreementVendorModel,
 	createMerchantModel,
-	checkShopExists,
+	checkShopNameExists,
+	checkShopRequestExists,
 } = require('../models/merchantModels');
 
 const { jwtDecode } = require('jwt-decode');
@@ -38,10 +39,10 @@ exports.createMerchantController = async (req, res) => {
 		const decoded = jwtDecode(token);
 		const { user_uuid } = decoded.user;
 		const nameRegex = /^[a-zA-Z]+(?:\s[a-zA-Z]+)?$/;
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		const id_card = req.files['id_card'];
 		const person_image = req.files['person_image'];
 		var keyCount = Object.keys(requestInfo).length;
-
 		if (!requestInfo.shop_name) {
 			return res.status(400).json({ message: 'Name is not empty' });
 		}
@@ -50,7 +51,7 @@ exports.createMerchantController = async (req, res) => {
 			res.status(400).json({ message: 'Invalid name format' });
 		}
 
-		const shopExists = await checkShopExists(requestInfo.shop_name);
+		const shopExists = await checkShopNameExists(requestInfo.shop_name);
 
 		if (shopExists) {
 			return res
@@ -58,11 +59,15 @@ exports.createMerchantController = async (req, res) => {
 				.json({ message: 'This name is already used', success: false });
 		}
 
-		if (!requestInfo.contact_email) {
+		if (!requestInfo.shop_email) {
 			return res.status(400).json({ message: 'Email is not empty' });
 		}
 
-		if (!requestInfo.contact_phone) {
+		if (!emailRegex.test(requestInfo.shop_email)) {
+			res.status(400).json({ message: 'Invalid email format' });
+		}
+
+		if (!requestInfo.shop_tel) {
 			return res.status(400).json({ message: 'Phone is not empty' });
 		}
 
@@ -72,7 +77,7 @@ exports.createMerchantController = async (req, res) => {
 				.json({ message: 'Description is not empty' });
 		}
 
-		if (!requestInfo.id_number) {
+		if (!requestInfo.personal_id) {
 			return res
 				.status(400)
 				.json({ message: 'Personal ID is not empty' });
@@ -93,7 +98,9 @@ exports.createMerchantController = async (req, res) => {
 		const fileFields = ['id_card', 'person_image'];
 		const uploadedFiles = {};
 
+		//Pronise เป็นฟังก์ชันที่จะรอ item ที่อยู่ใน promise มีการคืนต่าออกมาทั้งหทด
 		await Promise.all(
+			//map object => array
 			fileFields.map(async (field) => {
 				const files = req.files[field];
 				uploadedFiles[field] = files[0];
@@ -101,6 +108,8 @@ exports.createMerchantController = async (req, res) => {
 		);
 
 		const cloudResults = await Promise.all(
+			//Object.entries() เพื่อดึงค่าและคีย์จาก Object แล้วใช้ map() เพื่อทำการ loop
+			//จะแปลง uploadedFiles เป็น array คู่คีย์และค่าที่แต่ละคู่ป็น array
 			Object.entries(uploadedFiles).map(async ([fieldName, file]) => {
 				const fileBase64 = file.buffer.toString('base64');
 				const fileURI = `data:${file.mimetype};base64,${fileBase64}`;
@@ -109,7 +118,7 @@ exports.createMerchantController = async (req, res) => {
 					fileURI,
 					{
 						resource_type: 'auto',
-						folder: 'Shop Require',
+						folder: 'Shop Request',
 					},
 				);
 				return { [fieldName]: cloudResponse.url };
@@ -125,7 +134,8 @@ exports.createMerchantController = async (req, res) => {
 		});
 
 		res.status(200).json({
-			message: 'Registration Successful',
+			message:
+				'Requirement form been sent to admin please wait for 3-7 days',
 			success: true,
 		});
 	} catch (err) {
@@ -133,5 +143,17 @@ exports.createMerchantController = async (req, res) => {
 			message: 'Internal Server Error' || err.message,
 		});
 		console.log(err);
+	}
+};
+
+exports.shopCheckRequestController = async (req, res) => {
+	try {
+		const token = await req.headers['authorization'].replace('Bearer ', '');
+		const decoded = jwtDecode(token);
+		const { user_uuid } = decoded.user;
+		const result = await checkShopRequestExists(user_uuid);
+		res.status(200).json({ message: result });
+	} catch (err) {
+		res.status(500).json({ message: err });
 	}
 };

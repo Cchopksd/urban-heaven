@@ -6,6 +6,7 @@ const { accessToken } = require('../middlewares/authMiddleware');
 const {
 	createMerchantController,
 	acceptAgreementVendorController,
+	shopCheckRequestController,
 } = require('../controllers/merchantController');
 
 const store = new Multer.memoryStorage();
@@ -18,21 +19,14 @@ router.patch(
 	acceptAgreementVendorController,
 );
 router.post(
-	'/create-shop',
+	'/request-shop',
 	upload.fields([
-		{ name: 'shop_name' },
-		{ name: 'contact_email' },
-		{ name: 'contact_phone' },
-		{ name: 'description' },
-		{ name: 'promptpay' },
-		{ name: 'cash' },
-		{ name: 'google_pay' },
-		{ name: 'credit_card' },
-		{ name: 'id_number' },
 		{ name: 'id_card', maxCount: 1 },
 		{ name: 'person_image', maxCount: 1 },
 	]),
 	createMerchantController,
 );
+
+router.get('/is-request-shop', shopCheckRequestController);
 
 module.exports = router;

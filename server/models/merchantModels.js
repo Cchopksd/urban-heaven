@@ -18,7 +18,9 @@ exports.acceptAgreementVendorModel = async (vendorInfo) => {
 };
 
 exports.createMerchantModel = async (requestInfo) => {
-	console.log(requestInfo);
+	// console.log({ ...requestInfo });
+	// const paymentMethodObject = JSON.parse(requestInfo.payment_method);
+	// console.log(paymentMethodObject);
 	try {
 		const result = await databaseConfig.query(
 			`INSERT INTO shop_request_form
@@ -42,14 +44,14 @@ exports.createMerchantModel = async (requestInfo) => {
 			[
 				requestInfo.user_uuid,
 				requestInfo.shop_name,
-				requestInfo.contact_email,
-				requestInfo.contact_phone,
+				requestInfo.shop_email,
+				requestInfo.shop_tel,
 				requestInfo.description,
 				requestInfo.promptpay,
 				requestInfo.cash,
 				requestInfo.google_pay,
-				requestInfo.credit_card,
-				requestInfo.id_number,
+				requestInfo.card,
+				requestInfo.personal_id,
 				requestInfo.id_card,
 				requestInfo.person_image,
 			],
@@ -60,13 +62,35 @@ exports.createMerchantModel = async (requestInfo) => {
 	}
 };
 
-exports.checkShopExists = async (value) => {
+exports.checkShopNameExists = async (value) => {
 	try {
 		const result = await databaseConfig.query(
 			`
 			SELECT COUNT(*) AS count
 			FROM shop
 			WHERE name = $1
+			`,
+			[value],
+		);
+		return parseInt(result.rows[0].count) > 0;
+	} catch (err) {
+		throw err;
+	}
+};
+
+exports.checkShopRequestExists = async (value) => {
+	try {
+		const result = await databaseConfig.query(
+			`
+			SELECT COUNT(*) AS count
+			FROM
+				users
+			RIGHT JOIN
+				shop_request_form
+			ON
+				users.user_uuid = shop_request_form .user_uuid
+			WHERE
+				users.user_uuid = $1
 			`,
 			[value],
 		);

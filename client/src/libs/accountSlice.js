@@ -14,7 +14,9 @@ import {
 	URL_GET_SUBDISTRICT,
 	URL_CREATE_ADDRESS,
 } from '../api/userAPI';
-import { getAuthUser } from './auth/authSlice';
+import { getAuthUser, getRefreshToken } from './auth/authSlice';
+import { useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 const initialState = {
 	user: null,
@@ -51,7 +53,6 @@ const initialState = {
 		subdistrict: [],
 	},
 };
-
 
 export const getUserData = createAsyncThunk(
 	'account/getData',
@@ -115,8 +116,22 @@ export const editAccountDetails = createAsyncThunk(
 	'account/editAccountDetails',
 	async ({ updateProfileValue }, { dispatch }) => {
 		try {
-			const formData = new FormData();
+			const accessToken = Cookies.get('accessToken');
 
+			if (accessToken === undefined) {
+				try {
+					dispatch(getRefreshToken());
+				} catch (error) {
+					console.error('Error decoding access token:', error);
+				}
+			} else {
+				const decodedAccessToken = await jwtDecode(accessToken);
+				if (decodedAccessToken.exp < Date.now() / 1000) {
+					dispatch(getRefreshToken());
+				}
+			}
+
+			const formData = new FormData();
 			formData.append('first_name', updateProfileValue.first_name);
 			formData.append('last_name', updateProfileValue.last_name);
 			formData.append('phone', updateProfileValue.phone);
@@ -125,7 +140,6 @@ export const editAccountDetails = createAsyncThunk(
 			formData.append('month', updateProfileValue.month);
 			formData.append('year', updateProfileValue.year);
 			formData.append('avatar', updateProfileValue.avatar_image);
-			const accessToken = Cookies.get('accessToken');
 			const response = await axios.patch(
 				URL_EDIT_ACCOUNT_DETAILS,
 				formData,
@@ -137,7 +151,6 @@ export const editAccountDetails = createAsyncThunk(
 					},
 				},
 			);
-			console.log(response.data);
 			dispatch(getUserData());
 			dispatch(getAuthUser());
 			return response.data;

@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import axios from 'axios';
-import { getUserData, updateProfile } from '../../libs/accountSlice';
+// import { useTranslation } from 'react-i18next';
+
+import { updateProfile } from '../../libs/accountSlice';
 import './styles/ImageProfile.css';
 
 const ImageProfile = () => {
 	const dispatch = useDispatch();
-	const { t } = useTranslation();
+	// const { t } = useTranslation();
 	const { updateProfileValue } = useSelector((state) => state.account);
 
 	const [image, setImage] = useState(null);
@@ -16,7 +16,6 @@ const ImageProfile = () => {
 		setImage(URL.createObjectURL(value));
 		dispatch(updateProfile({ [field]: value }));
 	};
-
 
 	const handleDragOver = (e) => {
 		e.preventDefault();
@@ -35,6 +34,8 @@ const ImageProfile = () => {
 	const handleImageClick = () => {
 		document.getElementById('upload-photo-instead').click();
 	};
+
+
 
 	return (
 		<div

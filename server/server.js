@@ -1,20 +1,23 @@
 const express = require('express');
+const { createServer: createHTTPServer } = require('http');
 const { createServer } = require('https');
 const fs = require('fs');
-const { createServer: createHTTPServer } = require('http');
+const WebSocket = require('ws');
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const helmet = require('helmet');
 require('dotenv').config();
 
 const { databaseConfig } = require('./configs/connectDB');
+const { createTables } = require('./configs/createTables');
 const adminRoute = require('./routes/adminRoute');
 const authRoute = require('./routes/authRoute');
 const userRoute = require('./routes/userRoute');
 const merchantRoute = require('./routes/merchantRoute');
 const imageRoute = require('./routes/imageRoute');
 const addressRoute = require('./routes/addressRoute');
-const { createTables } = require('./configs/createTables');
+const getOmiseTokenRoute = require('./routes/getOmiseTokenRoute');
 
 const app = express();
 const httpsOptions = {
@@ -32,14 +35,12 @@ const corsOptions = {
 	credentials: true,
 };
 
-app.use(cors(corsOptions));
-app.use(express.json());
-app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors(corsOptions));
+app.use(bodyParser.json());
+app.use(morgan('dev'));
 app.use(helmet());
-
-const httpServer = createHTTPServer(app);
-const httpsServer = createServer(httpsOptions, app);
 
 databaseConfig.query('SELECT NOW()', (err) => {
 	if (err) {
@@ -51,22 +52,25 @@ databaseConfig.query('SELECT NOW()', (err) => {
 
 createTables();
 
-// const io = new Server(server, {
-// 	cors: {
-// 		origin: '*',
-// 		methods: ['GET', 'POST'],
-// 	},
-// });
+const HTTPServer = createHTTPServer(httpsOptions, app);
 
-// io.on('connection', (socket) => {
-// 	console.log(`⚡: ${socket.id} user just connected!`);
-// 	socket.on('send_message', (data) => {
-// 		socket.broadcast.emit('receive_message', data);
-// 	});
-// 	socket.on('disconnect', () => {
-// 		console.log('🔥: A user disconnected');
-// 	});
-// });
+const wss = new WebSocket.Server({ server: HTTPServer });
+
+wss.on('connection', (ws) => {
+	console.log('Client connected to WebSocket.');
+
+	// WebSocket message handler
+	ws.on('message', (message) => {
+		console.log(`Received message from client: ${message}`);
+		// Handle message from client
+	});
+
+	// WebSocket close handler
+	ws.on('close', () => {
+		console.log('Client disconnected from WebSocket.');
+	});
+});
+
 
 app.use('/api', adminRoute);
 app.use('/api', authRoute);
@@ -74,17 +78,12 @@ app.use('/api', userRoute);
 app.use('/api', merchantRoute);
 app.use('/api', imageRoute);
 app.use('/api', addressRoute);
+app.use('/api', getOmiseTokenRoute);
 
 app.get('/', (req, res) => {
 	res.send('Hey this is my API running 🥳');
 });
 
-// httpServer.listen(process.env.PORT, () => {
-// 	console.log(`HTTP server listening on port ${process.env.PORT}`);
-// });
-
-const httpsPort = 8080;
-
-httpsServer.listen(process.env.PORT, () => {
-	console.log(`HTTPS server listening on port ${process.env.PORT}`);
+HTTPServer.listen(process.env.PORT, () => {
+	console.log(`HTTP server listening on port ${process.env.PORT}`);
 });

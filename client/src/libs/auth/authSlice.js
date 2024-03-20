@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 
@@ -8,7 +8,6 @@ import {
 	URL_LOGIN,
 	URL_GET_AUTH_DATA,
 	URL_REFRESH_TOKEN,
-	URL_VERIFY_EMAIL,
 	URL_SEND_EMAIL_VERIFY,
 } from '../../api/userAPI';
 
@@ -19,6 +18,7 @@ const initialState = {
 	isUserLoggedIn: false,
 	emailVerify: null,
 };
+
 
 export const loginUser = createAsyncThunk(
 	'auth/loginUser',
@@ -140,26 +140,23 @@ export const sendEmailVerify = createAsyncThunk(
 	},
 );
 
-export const logoutUser = createAsyncThunk(
-	'auth/logoutUser',
-	async (_, { dispatch }) => {
-		try {
-			sessionStorage.removeItem('user-data');
-			localStorage.clear();
-			// Cookies.remove('accessToken');
-			Cookies.remove('refreshToken');
-			console.log('logout');
-			Swal.fire({
-				title: 'Message',
-				text: 'Logout Complete',
-				icon: 'success',
-			});
-		} catch (error) {
-			console.error('Logout failed:', error);
-			return error.response?.data;
-		}
-	},
-);
+export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
+	try {
+		sessionStorage.removeItem('user-data');
+		localStorage.clear();
+		// Cookies.remove('accessToken');
+		Cookies.remove('refreshToken');
+		console.log('logout');
+		Swal.fire({
+			title: 'Message',
+			text: 'Logout Complete',
+			icon: 'success',
+		});
+	} catch (error) {
+		console.error('Logout failed:', error);
+		return error.response?.data;
+	}
+});
 
 const authSlice = createSlice({
 	name: 'auth',

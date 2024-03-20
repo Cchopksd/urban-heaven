@@ -23,6 +23,8 @@ import CreateVendor from './pages/merchant/CreateVendor';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AgreementForVendor from './pages/merchant/AgreementForVendor';
 import Product from './pages/payment/creditCard';
+import IsShopRequest from './Routes/isShopRequest';
+import ShopWaitApprove from './pages/merchant/ShopWaitApprove';
 
 const App = () => {
 	return (
@@ -49,10 +51,6 @@ const App = () => {
 					}
 				/>
 				<Route
-					path='/login'
-					element={<Login />}
-				/>
-				<Route
 					path='/verify-account/:params'
 					element={<EmailVerification />}
 				/>
@@ -62,10 +60,12 @@ const App = () => {
 					exact
 					element={
 						<PrivateRoute>
-							<Navigate
-								to={'/account/overview'}
-								replace
-							/>
+							<IsTokenExpired>
+								<Navigate
+									to={'/account/overview'}
+									replace
+								/>
+							</IsTokenExpired>
 						</PrivateRoute>
 					}
 				/>
@@ -74,7 +74,9 @@ const App = () => {
 					exact
 					element={
 						<PrivateRoute>
-							<Overview />
+							<IsTokenExpired>
+								<Overview />
+							</IsTokenExpired>
 						</PrivateRoute>
 					}
 				/>
@@ -83,7 +85,9 @@ const App = () => {
 					exact
 					element={
 						<PrivateRoute>
-							<Profile />
+							<IsTokenExpired>
+								<Profile />
+							</IsTokenExpired>
 						</PrivateRoute>
 					}
 				/>
@@ -91,7 +95,9 @@ const App = () => {
 					path='/account/security'
 					element={
 						<PrivateRoute>
-							<Security />
+							<IsTokenExpired>
+								<Security />
+							</IsTokenExpired>
 						</PrivateRoute>
 					}
 				/>
@@ -99,7 +105,9 @@ const App = () => {
 					path='/account/address'
 					element={
 						<PrivateRoute>
-							<Address />
+							<IsTokenExpired>
+								<Address />
+							</IsTokenExpired>
 						</PrivateRoute>
 					}
 				/>
@@ -107,7 +115,9 @@ const App = () => {
 					path='/account/address/increase'
 					element={
 						<PrivateRoute>
-							<IncreaseAddress />
+							<IsTokenExpired>
+								<IncreaseAddress />
+							</IsTokenExpired>
 						</PrivateRoute>
 					}
 				/>
@@ -115,7 +125,9 @@ const App = () => {
 					path='/account/payment'
 					element={
 						<PrivateRoute>
-							<Payment />
+							<IsTokenExpired>
+								<Payment />
+							</IsTokenExpired>
 						</PrivateRoute>
 					}
 				/>
@@ -124,9 +136,11 @@ const App = () => {
 					path='/account/agreement-for-vendor'
 					element={
 						<PrivateRoute>
-							<IsAcceptVendor>
-								<AgreementForVendor />
-							</IsAcceptVendor>
+							<IsTokenExpired>
+								<IsAcceptVendor>
+									<AgreementForVendor />
+								</IsAcceptVendor>
+							</IsTokenExpired>
 						</PrivateRoute>
 					}
 				/>
@@ -134,7 +148,22 @@ const App = () => {
 					path='/account/create-vendor'
 					element={
 						<PrivateRoute>
-							<CreateVendor />
+							<IsTokenExpired>
+								<IsShopRequest>
+									<CreateVendor />
+								</IsShopRequest>
+							</IsTokenExpired>
+						</PrivateRoute>
+					}
+				/>
+
+				<Route
+					path='/account/shop/wait-for-approve'
+					element={
+						<PrivateRoute>
+							<IsTokenExpired>
+								<ShopWaitApprove />
+							</IsTokenExpired>
 						</PrivateRoute>
 					}
 				/>
@@ -143,7 +172,9 @@ const App = () => {
 					path='/admin'
 					element={
 						<PrivateRoute role='admin'>
-							<AdminDashboard />
+							<IsTokenExpired>
+								<AdminDashboard />
+							</IsTokenExpired>
 						</PrivateRoute>
 					}
 				/>

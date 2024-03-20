@@ -15,6 +15,7 @@ const Overview = () => {
 	const dispatch = useDispatch();
 	const { user } = useSelector((state) => state.auth);
 	const { isVendorAgreement } = useSelector((state) => state.account);
+	const { isRequest } = useSelector((state) => state.merchant);
 	const { t } = useTranslation();
 	const memoizedDispatch = useCallback(() => {
 		dispatch(getUserAgreement());
@@ -93,7 +94,9 @@ const Overview = () => {
 							<Link
 								to={
 									isVendorAgreement
-										? '/account/create-vendor'
+										? isRequest
+											? '/account/create-vendor'
+											: '/account/create-vendor'
 										: '/account/agreement-for-vendor'
 								}
 								className='overview-sec-profile-per-group-link'>

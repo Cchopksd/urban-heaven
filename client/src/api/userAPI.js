@@ -13,3 +13,5 @@ export const URL_GET_PROVINCE = `${import.meta.env.VITE_BASE_URL}/province`;
 export const URL_GET_DISTRICT = (id) => `${import.meta.env.VITE_BASE_URL}/province/${id}/district`;
 export const URL_GET_SUBDISTRICT = (id) => `${import.meta.env.VITE_BASE_URL}/district/${id}/subdistrict`;
 export const URL_CREATE_ADDRESS = `${import.meta.env.VITE_BASE_URL}/create-address`;
+export const URL_REQUEST_SHOP = `${import.meta.env.VITE_BASE_URL}/request-shop`;
+export const URL_IS_REQUEST_SHOP = `${import.meta.env.VITE_BASE_URL}/is-request-shop`;

@@ -38,7 +38,6 @@ const Profile = () => {
 
 	const submitForm = async (e) => {
 		e.preventDefault();
-		console.log(updateProfileValue.avatar_image);
 		try {
 			const nameRegex = /^[a-zA-Z]+$/;
 			const thaiPhoneRegex = /(08|09|06)\d{8}/;
@@ -69,10 +68,8 @@ const Profile = () => {
 					text: 'Invalid Date',
 					icon: 'error',
 				});
-				console.log('not ok');
 				return;
 			}
-			console.log('ok');
 			dispatch(editAccountDetails({ updateProfileValue }));
 		} catch (err) {
 			throw new err();
