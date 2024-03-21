@@ -76,6 +76,14 @@ exports.createMerchantController = async (req, res) => {
 				.status(400)
 				.json({ message: 'Description is not empty' });
 		}
+		const descLength = requestInfo.description.length;
+		console.log(descLength);
+
+		if (descLength >= 1024) {
+			return res
+				.status(413)
+				.json({ message: 'max character limit is 1024' });
+		}
 
 		if (!requestInfo.personal_id) {
 			return res
@@ -92,6 +100,12 @@ exports.createMerchantController = async (req, res) => {
 		if (!person_image) {
 			return res.status(400).json({
 				message: 'Please upload you paired with ID card',
+			});
+		}
+		const result = await checkShopRequestExists(user_uuid);
+		if (result) {
+			return res.status(303).json({
+				message: 'user has submitted form',
 			});
 		}
 

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { jwtDecode } = require('jwt-decode');
 
 exports.accessToken = async (req, res, next) => {
 	try {
@@ -38,6 +39,28 @@ exports.verifyRefreshToken = async (req, res, next) => {
 
 			next();
 		});
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ message: 'Internal Server Error' });
+	}
+};
+
+exports.isAdmin = async (req, res, next) => {
+	try {
+		const token = req.headers['authorization'].replace('Bearer ', '');
+		if (!token) {
+			return res.status(401).json({ message: 'Unauthorized' });
+		}
+		const decoded = jwtDecode(token);
+		const { role } = decoded.user;
+		if (role !== 'admin') {
+			return res
+				.status(403)
+				.json({
+					message: 'Access to this resource on the server is denied!',
+				});
+		}
+		next();
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({ message: 'Internal Server Error' });

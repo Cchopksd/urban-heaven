@@ -3,6 +3,7 @@ import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 import {
 	URL_LOGIN,
@@ -18,7 +19,6 @@ const initialState = {
 	isUserLoggedIn: false,
 	emailVerify: null,
 };
-
 
 export const loginUser = createAsyncThunk(
 	'auth/loginUser',
@@ -85,7 +85,6 @@ export const getAuthUser = createAsyncThunk('auth/getAuthUser', async () => {
 				Authorization: `Bearer ${accessToken}`,
 			},
 		});
-		// console.log(response.data.payload.avatar_image);
 		return response.data;
 	} catch (err) {
 		console.error('Logout failed:', err);
@@ -209,6 +208,9 @@ const authSlice = createSlice({
 				state.status = 'idle';
 				state.isUserLoggedIn = false;
 				state.user = null;
+				setTimeout(() => {
+					window.location.reload();
+				}, 1000);
 			})
 			.addCase(logoutUser.rejected, (state, action) => {
 				state.status = 'failed';

@@ -14,7 +14,7 @@ import './styles/Login.css';
 const Login = ({ modalIsOpen, closeModal }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { status } = useSelector((state) => state.auth);
+	const { status, user } = useSelector((state) => state.auth);
 	const { t } = useTranslation();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -27,6 +27,9 @@ const Login = ({ modalIsOpen, closeModal }) => {
 			document.body.style.overflow = 'hidden';
 		} else {
 			document.body.style.overflow = 'auto';
+		}
+		if (status === 'succeeded' && user && user.payload.role === 'admin') {
+			navigate('/admin');
 		}
 	});
 
@@ -45,9 +48,6 @@ const Login = ({ modalIsOpen, closeModal }) => {
 	const handleLogin = async () => {
 		if (status !== 'loading') {
 			dispatch(loginUser({ password, email, closeModal, isChecked }));
-			if (params === '/register') {
-				navigate('/');
-			}
 		}
 	};
 

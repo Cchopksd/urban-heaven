@@ -12,6 +12,7 @@ import {
 const initialState = {
 	merchant: null,
 	status: 'idle',
+	requestStatus: 'idle',
 	error: null,
 	isRequest: false,
 	createShopValue: {
@@ -123,17 +124,17 @@ const merchantSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addCase(requestShop.pending, (state) => {
-				state.status = 'loading';
+				state.requestStatus = 'loading';
 			})
 			.addCase(requestShop.fulfilled, (state, action) => {
-				state.status = 'succeeded';
+				state.requestStatus = 'succeeded';
 				action.payload;
 				setTimeout(() => {
 					window.location.reload();
 				}, 3000);
 			})
 			.addCase(requestShop.rejected, (state, action) => {
-				state.status = 'failed';
+				state.requestStatus = 'failed';
 				state.error = action.error;
 			})
 			.addCase(isRequestShop.pending, (state) => {

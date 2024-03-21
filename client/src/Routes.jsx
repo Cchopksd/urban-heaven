@@ -25,6 +25,7 @@ import AgreementForVendor from './pages/merchant/AgreementForVendor';
 import Product from './pages/payment/creditCard';
 import IsShopRequest from './Routes/isShopRequest';
 import ShopWaitApprove from './pages/merchant/ShopWaitApprove';
+import AdminRoute from './Routes/AdminRoute';
 
 const App = () => {
 	return (
@@ -34,7 +35,7 @@ const App = () => {
 					index
 					element={
 						<IsTokenExpired>
-							<Dash />
+								<Dash />
 						</IsTokenExpired>
 					}
 				/>

@@ -7,7 +7,9 @@ import './styles/SubmitButton.css';
 
 const SubmitButton = () => {
 	const dispatch = useDispatch();
-	const { status, createShopValue } = useSelector((state) => state.merchant);
+	const { requestStatus, createShopValue } = useSelector(
+		(state) => state.merchant,
+	);
 
 
 	const handleSubmitForm = () => {
@@ -19,12 +21,12 @@ const SubmitButton = () => {
 			<button
 				className='button-submit-animated'
 				onClick={handleSubmitForm}>
-				{status === 'loading' ? (
+				{requestStatus === 'loading' ? (
 					<ReactLoading
 						type={'cylon'}
 						color={'#ffffff'}
 					/>
-				) : status === 'succeeded' ? (
+				) : requestStatus === 'succeeded' ? (
 					<div className='wrapper'>
 						<svg
 							className='animated-check'
