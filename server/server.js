@@ -20,11 +20,7 @@ const addressRoute = require('./routes/addressRoute');
 const getOmiseTokenRoute = require('./routes/getOmiseTokenRoute');
 
 const app = express();
-const httpsOptions = {
-	cert: fs.readFileSync('./private/ssl/urban-heaven_me.crt'),
-	ca: fs.readFileSync('./private/ssl/urban-heaven_me.ca-bundle'),
-	key: fs.readFileSync('./private/ssl/private-key.key'),
-};
+
 
 if (process.env.APP_ENV === 'production') {
 	app.set('trust proxy', 1);
